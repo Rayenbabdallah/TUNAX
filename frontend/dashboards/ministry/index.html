@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ministry Admin Dashboard</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f5f7fa; }
+        .navbar { background: linear-gradient(135deg, #d4af37 0%, #b8860b 100%); color: white; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; }
+        .navbar h1 { font-size: 1.5em; }
+        .logout-btn { background: rgba(255,255,255,0.2); color: white; border: 1px solid white; padding: 8px 16px; border-radius: 5px; cursor: pointer; }
+        .logout-btn:hover { background: rgba(255,255,255,0.3); }
+        .container { display: grid; grid-template-columns: 250px 1fr; min-height: calc(100vh - 70px); }
+        .sidebar { background: white; padding: 2rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .sidebar a { display: block; padding: 12px; margin-bottom: 10px; color: #333; text-decoration: none; border-radius: 5px; transition: background 0.3s; }
+        .sidebar a:hover, .sidebar a.active { background: linear-gradient(135deg, #d4af37 0%, #b8860b 100%); color: white; }
+        .content { padding: 2rem; }
+        .card { background: white; border-radius: 8px; padding: 2rem; margin-bottom: 2rem; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        .card h2 { margin-bottom: 1rem; color: #333; }
+        .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2rem; }
+        .stat-box { background: white; padding: 1.5rem; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); border-left: 4px solid #d4af37; }
+        .stat-label { color: #666; font-size: 0.9em; margin-bottom: 8px; }
+        .stat-value { font-size: 1.8em; font-weight: bold; color: #333; }
+        table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #ddd; }
+        th { background: #f8f9fa; font-weight: 600; color: #333; }
+        .button { background: linear-gradient(135deg, #d4af37 0%, #b8860b 100%); color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; transition: opacity 0.3s; }
+        .button:hover { opacity: 0.9; }
+        .status-badge { padding: 5px 10px; border-radius: 20px; font-size: 0.85em; }
+        .status-approved { background: #d4edda; color: #155724; }
+        .status-rejected { background: #f8d7da; color: #721c24; }
+        .section { display: none; }
+        .error { color: #721c24; background: #f8d7da; padding: 10px; border-radius: 5px; margin-bottom: 15px; }
+        .success { color: #155724; background: #d4edda; padding: 10px; border-radius: 5px; margin-bottom: 15px; }
+        input, select, textarea { width: 100%; padding: 8px; margin-top: 5px; border: 1px solid #ddd; border-radius: 4px; font-family: inherit; }
+        form > div { margin-bottom: 15px; }
+        label { display: block; font-weight: 500; margin-bottom: 5px; }
+        .modal { position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); }
+        .modal-content { background-color: white; margin: 5% auto; padding: 2rem; border-radius: 10px; width: 90%; max-width: 600px; max-height: 85vh; overflow-y: auto; }
+        .close-btn { position: absolute; top: 10px; right: 10px; background: none; border: none; font-size: 20px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <h1>Ministry Admin Dashboard</h1>
+        <button class="logout-btn" onclick="logout()">Logout</button>
+    </div>
+
+    <div class="container">
+        <div class="sidebar">
+            <a class="nav-link active" onclick="showSection('overview', this)">Overview</a>
+            <a class="nav-link" onclick="showSection('municipalities', this)">Municipalities</a>
+            <a class="nav-link" onclick="showSection('admins', this)">Municipal Admins</a>
+            <a class="nav-link" onclick="showSection('create-admin', this)">Create Admin</a>
+            <a class="nav-link" onclick="showSection('statistics', this)">Statistics</a>
+            <a class="nav-link" onclick="showSection('audit', this)">Audit Log</a>
+        </div>
+
+        <div class="content">
+            <!-- Overview Section -->
+            <div id="overview" class="section" style="display: block;">
+                <div class="stats">
+                    <div class="stat-box">
+                        <div class="stat-label">Total Properties</div>
+                        <div class="stat-value" id="total-properties">0</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-label">Total Lands</div>
+                        <div class="stat-value" id="total-lands">0</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-label">Total Taxes</div>
+                        <div class="stat-value" id="total-taxes">0</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-label">Paid Taxes</div>
+                        <div class="stat-value" id="paid-taxes">0</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-label">Payment Rate</div>
+                        <div class="stat-value" id="payment-rate">0%</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-label">Municipalities</div>
+                        <div class="stat-value" id="municipality-count">0</div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h2>National Overview</h2>
+                    <p>Welcome to the Ministry Administration Dashboard. From here you can:</p>
+                    <ul style="margin-left: 2rem; margin-top: 0.5rem;">
+                        <li>View nation-wide tax statistics and revenue</li>
+                        <li>Manage all municipalities across Tunisia</li>
+                        <li>Create and manage municipal administrators</li>
+                        <li>Monitor system-wide performance</li>
+                        <li>Review administrative audit logs</li>
+                        <li>Access comprehensive national reports</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Municipalities Section -->
+            <div id="municipalities" class="section">
+                <div class="card">
+                    <h2>All Municipalities</h2>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Municipality Name</th>
+                                <th>Wilaya</th>
+                                <th>Properties</th>
+                                <th>Lands</th>
+                                <th>Taxes</th>
+                                <th>Admin</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="municipalities-body">
+                            <tr><td colspan="7">Loading...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Municipal Admins Section -->
+            <div id="admins" class="section">
+                <div class="card">
+                    <h2>Municipal Administrators</h2>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Username</th>
+                                <th>Email</th>
+                                <th>Municipality</th>
+                                <th>Status</th>
+                                <th>Created</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="admins-body">
+                            <tr><td colspan="6">Loading...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Create Admin Section -->
+            <div id="create-admin" class="section">
+                <div class="card">
+                    <h2>Create New Municipal Administrator</h2>
+                    <div id="create-message"></div>
+                    <form onsubmit="handleCreateAdmin(event)">
+                        <div>
+                            <label>Username:</label>
+                            <input type="text" id="admin-username" required placeholder="e.g., fatima_tunis">
+                        </div>
+                        <div>
+                            <label>Email:</label>
+                            <input type="email" id="admin-email" required placeholder="e.g., fatima@tunis.gov.tn">
+                        </div>
+                        <div>
+                            <label>First Name:</label>
+                            <input type="text" id="admin-first-name" required placeholder="Fatima">
+                        </div>
+                        <div>
+                            <label>Last Name:</label>
+                            <input type="text" id="admin-last-name" required placeholder="Ben Ali">
+                        </div>
+                        <div>
+                            <label>Password:</label>
+                            <input type="password" id="admin-password" required placeholder="Minimum 8 characters">
+                        </div>
+                        <div>
+                            <label>Municipality:</label>
+                            <select id="admin-commune" required>
+                                <option value="">-- Select Municipality --</option>
+                            </select>
+                        </div>
+                        <div style="margin-top: 20px;">
+                            <button type="submit" class="button">Create Administrator</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Statistics Section -->
+            <div id="statistics" class="section">
+                <div class="card">
+                    <h2>National Statistics by Municipality</h2>
+                    <div id="stats-content">Loading...</div>
+                </div>
+            </div>
+
+            <!-- Audit Log Section -->
+            <div id="audit" class="section">
+                <div class="card">
+                    <h2>Audit Log</h2>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Timestamp</th>
+                                <th>User</th>
+                                <th>Action</th>
+                                <th>Details</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="audit-body">
+                            <tr><td colspan="5">Loading...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../../common/two-factor.js"></script>
+    <script src="enhanced.js"></script>
+</body>
+</html>

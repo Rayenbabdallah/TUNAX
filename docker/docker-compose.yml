@@ -1,0 +1,70 @@
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: tunax_postgres
+    environment:
+      POSTGRES_USER: tunax_user
+      POSTGRES_PASSWORD: tunax_password
+      POSTGRES_DB: tunax_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U tunax_user"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - tunax_network
+
+  backend:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    container_name: tunax_backend
+    environment:
+      DATABASE_URL: postgresql://tunax_user:tunax_password@postgres:5432/tunax_db
+      JWT_SECRET_KEY: ${JWT_SECRET_KEY:-change-me-in-production}
+      FLASK_ENV: ${FLASK_ENV:-development}
+      CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:3000,http://localhost}
+      REDIS_URL: ${REDIS_URL:-redis://redis:6379}
+    ports:
+      - "5000:5000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      - ../backend:/app
+      - ../data:/data
+    networks:
+      - tunax_network
+    command: python app.py
+
+  frontend:
+    image: nginx:alpine
+    container_name: tunax_frontend
+    ports:
+      - "3000:80"
+    volumes:
+      - ../frontend:/usr/share/nginx/html
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - backend
+    networks:
+      - tunax_network
+
+  redis:
+    image: redis:7-alpine
+    container_name: tunax_redis
+    ports:
+      - "6379:6379"
+    networks:
+      - tunax_network
+
+volumes:
+  postgres_data:
+
+networks:
+  tunax_network:
+    driver: bridge

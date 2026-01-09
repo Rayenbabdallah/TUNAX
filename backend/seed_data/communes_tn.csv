@@ -1,0 +1,99 @@
+code_municipalite,nom_municipalite_fr,code_gouvernorat,nom_gouvernorat_fr,type_mun_fr
+7101,Tunis,71,Tunis,Commune urbaine
+7102,Ariana,71,Tunis,Commune urbaine
+7103,Ben Arous,71,Tunis,Commune urbaine
+7104,La Marsa,71,Tunis,Commune urbaine
+7105,La Soukra,71,Tunis,Commune urbaine
+7106,Sidi Thabet,71,Tunis,Commune urbaine
+7107,Sidi Bousaid,71,Tunis,Commune urbaine
+7108,Ezzahra,71,Tunis,Commune urbaine
+7109,Manouba,71,Tunis,Commune urbaine
+7110,Douar Hicher,71,Tunis,Commune urbaine
+7201,Sfax,72,Sfax,Commune urbaine
+7202,Sakiet Ezzit,72,Sfax,Commune rurale
+7203,Thyna,72,Sfax,Commune rurale
+7204,Skhira,72,Sfax,Commune rurale
+7205,Mahdia,72,Sfax,Commune rurale
+7206,Gremda,72,Sfax,Commune rurale
+7207,Ghardimaou,72,Sfax,Commune rurale
+7301,Sousse,73,Sousse,Commune urbaine
+7302,Akouda,73,Sousse,Commune urbaine
+7303,Hammam Sousse,73,Sousse,Commune urbaine
+7304,Kalaa Kebira,73,Sousse,Commune rurale
+7305,Msaken,73,Sousse,Commune urbaine
+7306,Skhira,73,Sousse,Commune rurale
+7401,Gabes,74,Gafsa,Commune urbaine
+7402,Chenini,74,Gafsa,Commune rurale
+7403,Matmata,74,Gafsa,Commune rurale
+7404,Medenine,74,Gafsa,Commune rurale
+7501,Jerba,75,Djerba,Commune urbaine
+7502,Ajim,75,Djerba,Commune urbaine
+7503,Midoun,75,Djerba,Commune urbaine
+7601,Kairouan,76,Kairouan,Commune urbaine
+7602,Oueslatia,76,Kairouan,Commune rurale
+7603,Hadjeb El Aioun,76,Kairouan,Commune rurale
+7604,Sbiba,76,Kairouan,Commune rurale
+7701,Kasserine,77,Kasserine,Commune urbaine
+7702,Sbeitla,77,Kasserine,Commune rurale
+7703,Feriana,77,Kasserine,Commune rurale
+7704,Foussana,77,Kasserine,Commune rurale
+7801,Sidi Bouzid,78,Sidi Bouzid,Commune urbaine
+7802,Meknassy,78,Sidi Bouzid,Commune rurale
+7803,Rouhia,78,Sidi Bouzid,Commune rurale
+7901,Tozeur,79,Tozeur,Commune urbaine
+7902,Degache,79,Tozeur,Commune rurale
+7903,Naftah,79,Tozeur,Commune rurale
+8001,Tataouine,80,Tataouine,Commune urbaine
+8002,Remada,80,Tataouine,Commune rurale
+8003,Ghomrassen,80,Tataouine,Commune rurale
+8004,Dehiba,80,Tataouine,Commune rurale
+8101,Kébili,81,Kébili,Commune urbaine
+8102,Douz,81,Kébili,Commune urbaine
+8103,Souk Jedid,81,Kébili,Commune rurale
+8201,Gafsa,82,Gafsa,Commune urbaine
+8202,Metlaoui,82,Gafsa,Commune urbaine
+8203,Mdhilla,82,Gafsa,Commune rurale
+8204,Belkhir,82,Gafsa,Commune rurale
+8301,Aryanah,83,Ariana,Commune urbaine
+8302,Kalaat El Andalous,83,Ariana,Commune urbaine
+8303,Raoued,83,Ariana,Commune urbaine
+8304,Mnihla,83,Ariana,Commune urbaine
+8401,Zaghouan,84,Zaghouan,Commune urbaine
+8402,Nadhour,84,Zaghouan,Commune rurale
+8403,El Fahs,84,Zaghouan,Commune rurale
+8501,Bizerte,85,Bizerte,Commune urbaine
+8502,Menzel Bourguiba,85,Bizerte,Commune urbaine
+8503,Raf Raf,85,Bizerte,Commune rurale
+8504,Ghar El Melh,85,Bizerte,Commune rurale
+8505,Menzel Jemil,85,Bizerte,Commune rurale
+8601,Nabeul,86,Nabeul,Commune urbaine
+8602,Hammamet,86,Nabeul,Commune urbaine
+8603,Kelibia,86,Nabeul,Commune urbaine
+8604,El Haouaria,86,Nabeul,Commune rurale
+8605,Korba,86,Nabeul,Commune rurale
+8701,Beja,87,Béja,Commune urbaine
+8702,Nefza,87,Béja,Commune rurale
+8703,Tabarka,87,Béja,Commune rurale
+8704,Amdoun,87,Béja,Commune rurale
+8801,Mahdia,88,Mahdia,Commune urbaine
+8802,Ksour Essaf,88,Mahdia,Commune urbaine
+8803,Hiboun,88,Mahdia,Commune rurale
+8804,Essouira,88,Mahdia,Commune rurale
+8901,Siliana,89,Siliana,Commune urbaine
+8902,Rouhia,89,Siliana,Commune rurale
+8903,Skhira,89,Siliana,Commune rurale
+8904,Jerissa,89,Siliana,Commune rurale
+9001,Manouba,90,Manouba,Commune urbaine
+9002,Jedaida,90,Manouba,Commune urbaine
+9003,Oued Ellil,90,Manouba,Commune urbaine
+9004,Tebourba,90,Manouba,Commune rurale
+9101,Ben Arous,91,Ben Arous,Commune urbaine
+9102,Hammam Lif,91,Ben Arous,Commune urbaine
+9103,Fouchana,91,Ben Arous,Commune urbaine
+9104,Mohamedia,91,Ben Arous,Commune urbaine
+9105,Rades,91,Ben Arous,Commune urbaine
+9106,El Mourouj,91,Ben Arous,Commune urbaine
+9201,Djerba Midoun,92,Djerba,Commune urbaine
+9202,Djerba Ajim,92,Djerba,Commune urbaine
+9301,Sfax Ville,93,Sfax,Commune urbaine
+9302,Sfax Gare,93,Sfax,Commune urbaine

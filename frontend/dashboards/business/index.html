@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Business Dashboard</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f5f7fa; }
+        .navbar { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; }
+        .navbar h1 { font-size: 1.5em; }
+        .logout-btn { background: rgba(255,255,255,0.2); color: white; border: 1px solid white; padding: 8px 16px; border-radius: 5px; cursor: pointer; }
+        .container { display: grid; grid-template-columns: 250px 1fr; min-height: calc(100vh - 70px); }
+        .sidebar { background: white; padding: 2rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .sidebar a { display: block; padding: 12px; margin-bottom: 10px; color: #333; text-decoration: none; border-radius: 5px; transition: background 0.3s; }
+        .sidebar a:hover, .sidebar a.active { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; }
+        .content { padding: 2rem; }
+        .card { background: white; border-radius: 8px; padding: 2rem; margin-bottom: 2rem; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        .card h2 { margin-bottom: 1rem; color: #333; }
+        .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2rem; }
+        .stat-box { background: white; padding: 1.5rem; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); border-left: 4px solid #667eea; }
+        .stat-label { color: #666; font-size: 0.9em; margin-bottom: 8px; }
+        .stat-value { font-size: 1.8em; font-weight: bold; color: #333; }
+        table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #ddd; }
+        th { background: #f8f9fa; font-weight: 600; color: #333; }
+        .button { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; margin-bottom: 5px; font-weight: 500; }
+        .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; }
+        .status-paid { color: green; font-weight: bold; }
+        .status-unpaid { color: red; font-weight: bold; }
+        .alert { padding: 15px; border-radius: 4px; margin-bottom: 1rem; }
+        .alert-info { background: #d1ecf1; color: #0c5460; }
+        .alert-warning { background: #fff3cd; color: #856404; }
+        .reclamation-form { margin: 1rem 0 0; }
+        .reclamation-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px 16px; align-items: flex-end; }
+        .reclamation-grid label { font-weight: 600; margin-bottom: 6px; display: block; }
+        .reclamation-grid input, .reclamation-grid select, .reclamation-grid textarea { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; font-size: 14px; }
+        .reclamation-grid textarea { min-height: 96px; }
+        .reclamation-grid .full-row { grid-column: 1 / -1; }
+        .reclamation-actions { display: flex; gap: 10px; align-items: center; }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <h1>Business Dashboard (Entreprise)</h1>
+        <button class="logout-btn" onclick="logout()">Logout</button>
+    </div>
+
+    <div class="container">
+        <div class="sidebar">
+            <a class="nav-link active" onclick="showSection('overview', this)">Overview</a>
+            <a class="nav-link" onclick="showSection('properties', this)">TTNB Declarations</a>
+            <a class="nav-link" onclick="showSection('tib', this)">TIB Declarations</a>
+            <a class="nav-link" onclick="showSection('taxes', this)">Tax Summary</a>
+            <a class="nav-link" onclick="showSection('payments', this)">Payments</a>
+            <a class="nav-link" onclick="showSection('permits', this)">Permits</a>
+            <a class="nav-link" onclick="showSection('disputes', this)">Disputes</a>
+            <a class="nav-link" onclick="showSection('budget', this)">Budget Voting</a>
+            <a class="nav-link" onclick="showSection('reclamations', this)">Service Complaints</a>
+        </div>
+
+        <div class="content">
+            <div id="overview" class="section">
+                <div class="stats">
+                    <div class="stat-box">
+                        <div class="stat-label">Properties/Lands</div>
+                        <div class="stat-value" id="prop-count">0</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-label">Total Due</div>
+                        <div class="stat-value" id="total-due">0 TND</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-label">Paid</div>
+                        <div class="stat-value" id="total-paid">0 TND</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-label">Pending Permits</div>
+                        <div class="stat-value" id="permits-count">0</div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h2>Business Account Overview</h2>
+                    <div class="alert alert-info">
+                        <strong>Important:</strong> Businesses (TTNB) must declare and pay taxes on non-built land. Article 13 requires all taxes to be paid before building permits can be issued.
+                    </div>
+                    <p>From this dashboard you can:</p>
+                    <ul style="margin-left: 2rem; margin-top: 0.5rem;">
+                        <li>Declare non-built land parcels (TTNB)</li>
+                        <li>View calculated taxes based on land value (0.3% of vénale value)</li>
+                        <li>Pay taxes online (simulated)</li>
+                        <li>Request building permits</li>
+                        <li>Track disputes and appeals</li>
+                        <li>Participate in municipal budget voting</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div id="properties" class="section" style="display: none;">
+                <div class="card">
+                    <h2>TTNB Declarations (Non-Built Land)</h2>
+
+                    <h3>Declare New Land Parcel</h3>
+                    <form onsubmit="handleDeclareProperty(event)">
+                        <div class="form-row" style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
+                            <div class="form-group">
+                                <label>Municipality</label>
+                                <select id="biz_land_commune" required></select>
+                                <input id="biz_land_commune_other" placeholder="Type municipality" style="display:none; margin-top:6px;" />
+                            </div>
+                               <div class="form-group">
+                                   <label>Delegation</label>
+                                   <select id="biz_land_delegation"></select>
+                               </div>
+                            <div class="form-group">
+                                <label>Locality</label>
+                                <select id="biz_land_locality"></select>
+                                <input id="biz_land_locality_other" placeholder="Type locality" style="display:none; margin-top:6px;" />
+                            </div>
+                        </div>
+                        <div class="form-row" style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
+                            <div class="form-group">
+                                <label>Address Mode</label>
+                                <select id="biz_land_address_mode">
+                                    <option value="villa">Plot/Parcel (number)</option>
+                                    <option value="residence">Block/Lot</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Street Name</label>
+                                <input id="biz_land_street_name" required>
+                            </div>
+                        </div>
+                        <div class="form-row" style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
+                            <div class="form-group" id="biz_land_villa_group">
+                                <label>Plot/Parcel Number</label>
+                                <input id="biz_land_villa_number" placeholder="e.g. Parcel 42">
+                            </div>
+                            <div class="form-group" id="biz_land_residence_group" style="display:none;">
+                                <label>Block / Lot</label>
+                                <div class="form-row" style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
+                                    <input id="biz_land_residence_name" placeholder="Block">
+                                    <input id="biz_land_apartment_number" placeholder="Lot">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Drop a pin (optional)</label>
+                            <div id="bizLandMap" style="height: 250px; border-radius: 6px; border: 1px solid #ddd;"></div>
+                            <input type="hidden" id="biz_land_lat">
+                            <input type="hidden" id="biz_land_lng">
+                        </div>
+                        <div class="form-row" style="display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;">
+                            <div class="form-group">
+                                <label>Area (m²):</label>
+                                <input type="number" id="biz_area" step="0.01" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Land Type</label>
+                                <select id="biz_land_type" required>
+                                    <option value="urban">Urban</option>
+                                    <option value="agricultural">Agricultural</option>
+                                    <option value="industrial">Industrial</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Urban Zone</label>
+                                <select id="biz_urban_zone" required>
+                                    <option value="haute_densite">Haute densité</option>
+                                    <option value="densite_moyenne">Densité moyenne</option>
+                                    <option value="faible_densite">Faible densité</option>
+                                    <option value="peripherique">Périphérique</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Nature</label>
+                                <select id="biz_nature" required>
+                                    <option value="built">Built</option>
+                                    <option value="non_built">Non Built</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group" style="background: #f8f9ff; border: 1px solid #e0e7ff; padding: 12px; border-radius: 6px; margin-bottom: 12px;">
+                            <label style="font-weight: 600; color: #4b5563;">Required Documents</label>
+                            <div id="biz_land_required_docs" style="margin-top: 8px; color: #374151; font-size: 14px;">
+                                <em>Select a municipality to load required documents.</em>
+                            </div>
+                        </div>
+                        <button type="submit" class="button">Declare Land</button>
+                        <div id="declare-message" style="margin-top: 15px;"></div>
+                    </form>
+
+                    <h3 style="margin-top: 2rem;">My Land Parcels (TTNB)</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Location</th>
+                                <th>Area</th>
+                                <th>Vénale Value</th>
+                                <th>Tax Amount</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="properties-body">
+                            <tr><td colspan="6">Loading...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="tib" class="section" style="display: none;">
+                <div class="card">
+                    <h2>TIB Declarations (Built Properties)</h2>
+                    <div class="alert alert-info">
+                        <strong>Article 4:</strong> Built properties are taxed based on their reference price and surface category.
+                    </div>
+
+                    <h3>Declare New Property</h3>
+                    <form id="tib-form" onsubmit="handleDeclareTibProperty(event)">
+                        <div class="form-row" style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
+                            <div class="form-group">
+                                <label>Municipality</label>
+                                <select id="biz_tib_commune" required></select>
+                                <input id="biz_tib_commune_other" placeholder="Type municipality" style="display:none; margin-top:6px;" />
+                            </div>
+                               <div class="form-group">
+                                   <label>Delegation</label>
+                                   <select id="biz_tib_delegation"></select>
+                               </div>
+                            <div class="form-group">
+                                <label>Locality</label>
+                                <select id="biz_tib_locality"></select>
+                                <input id="biz_tib_locality_other" placeholder="Type locality" style="display:none; margin-top:6px;" />
+                            </div>
+                        </div>
+                        <div class="form-row" style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
+                            <div class="form-group">
+                                <label>Address Mode</label>
+                                <select id="biz_tib_address_mode">
+                                    <option value="villa">Villa</option>
+                                    <option value="residence">Residence/Apartment</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Street Name</label>
+                                <input id="biz_tib_street_name" required>
+                            </div>
+                        </div>
+                        <div class="form-row" style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
+                            <div class="form-group" id="biz_tib_villa_group">
+                                <label>Villa Number</label>
+                                <input id="biz_tib_villa_number" placeholder="e.g. 12A">
+                            </div>
+                            <div class="form-group" id="biz_tib_residence_group" style="display:none;">
+                                <label>Residence / Apt</label>
+                                <div class="form-row" style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
+                                    <input id="biz_tib_residence_name" placeholder="Residence Name">
+                                    <input id="biz_tib_apartment_number" placeholder="Apt/Unit">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Drop a pin (optional)</label>
+                            <div id="bizTibMap" style="height: 250px; border-radius: 6px; border: 1px solid #ddd;"></div>
+                            <input type="hidden" id="biz_tib_lat">
+                            <input type="hidden" id="biz_tib_lng">
+                        </div>
+                        <div class="form-row" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                            <div class="form-group">
+                                <label>Surface Couverte (m²)</label>
+                                <input type="number" id="tib-surface" step="0.01" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Affectation</label>
+                                <select id="tib-affectation" required>
+                                    <option value="residential">Residential</option>
+                                    <option value="commercial">Commercial</option>
+                                    <option value="industrial">Industrial</option>
+                                    <option value="administrative">Administrative</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Reference Price per m² (TND)</label>
+                                <input type="number" id="tib-reference-price" step="0.01" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Municipal Services Connected</label>
+                                <select id="tib-service-rate" required>
+                                    <option value="0">0 - No services</option>
+                                    <option value="1">1 service</option>
+                                    <option value="2">2 services</option>
+                                    <option value="3">3 services</option>
+                                    <option value="4">4+ services</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group" style="background: #f8f9ff; border: 1px solid #e0e7ff; padding: 12px; border-radius: 6px; margin-bottom: 12px;">
+                            <label style="font-weight: 600; color: #4b5563;">Required Documents</label>
+                            <div id="biz_tib_required_docs" style="margin-top: 8px; color: #374151; font-size: 14px;">
+                                <em>Select a municipality to load required documents.</em>
+                            </div>
+                        </div>
+                        <button type="submit" class="button">Declare Property</button>
+                        <div id="tib-declare-message" style="margin-top: 15px;"></div>
+                    </form>
+
+                    <h3 style="margin-top: 2rem;">My Properties</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Address</th>
+                                <th>Surface</th>
+                                <th>Affectation</th>
+                                <th>Reference Price</th>
+                                <th>Tax Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tib-properties-body">
+                            <tr><td colspan="6">Loading...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="reclamations" class="section" style="display:none;">
+                <div class="card">
+                    <h2>Service Complaints</h2>
+                    <form id="biz_reclamation_form" class="reclamation-form" onsubmit="submitReclamation(event)">
+                        <div class="reclamation-grid">
+                            <div>
+                                <label>Type</label>
+                                <select id="biz_reclamation_type" required>
+                                    <option value="">Select…</option>
+                                    <option value="lighting">Lighting</option>
+                                    <option value="road_maintenance">Road maintenance</option>
+                                    <option value="drainage">Drainage</option>
+                                    <option value="waste_collection">Waste collection</option>
+                                    <option value="water">Water</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label>Street Address</label>
+                                <input id="biz_reclamation_street" required placeholder="Street and number">
+                            </div>
+                            <div>
+                                <label>City / Municipality</label>
+                                <select id="biz_reclamation_city" required>
+                                    <option value="">Select…</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label>Priority</label>
+                                <select id="biz_reclamation_priority">
+                                    <option value="">(optional)</option>
+                                    <option value="low">Low</option>
+                                    <option value="medium">Medium</option>
+                                    <option value="high">High</option>
+                                </select>
+                            </div>
+                            <div class="full-row">
+                                <label>Description</label>
+                                <textarea id="biz_reclamation_description" rows="3" required placeholder="Describe the issue"></textarea>
+                            </div>
+                            <div class="full-row reclamation-actions">
+                                <button type="submit" class="button">Submit Complaint</button>
+                                <span id="biz_reclamation_status" class="small-text"></span>
+                            </div>
+                        </div>
+                    </form>
+                    <table style="margin-top:1rem;">
+                        <thead>
+                            <tr>
+                                <th>Type</th>
+                                <th>Location</th>
+                                <th>Status</th>
+                                <th>Priority</th>
+                            </tr>
+                        </thead>
+                        <tbody id="reclamations-body">
+                            <tr><td colspan="4">Loading...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="taxes" class="section" style="display: none;">
+                <div class="card">
+                    <h2>Tax Summary (TTNB - 0.3% Tax)</h2>
+                    <p><strong>Tax Formula:</strong> Annual Tax = 0.3% × Vénale Value (Article 33)</p>
+
+                    <div style="margin: 20px 0; padding: 15px; background: #f8f9fa; border-radius: 4px;">
+                        <p><strong>Total Tax Due:</strong> <span id="summary-due" style="font-size: 1.5em; color: #667eea;">0 TND</span></p>
+                        <p><strong>Total Paid:</strong> <span id="summary-paid" style="font-size: 1.5em; color: green;">0 TND</span></p>
+                        <p><strong>Outstanding:</strong> <span id="summary-outstanding" style="font-size: 1.5em; color: red;">0 TND</span></p>
+                    </div>
+
+                    <h3>Tax Details by Land Parcel</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Land ID</th>
+                                <th>Location</th>
+                                <th>Vénale Value</th>
+                                <th>Tax Rate</th>
+                                <th>Annual Tax</th>
+                                <th>Paid</th>
+                                <th>Outstanding</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="taxes-body">
+                            <tr><td colspan="8">Loading...</td></tr>
+                        </tbody>
+                    </table>
+
+                    <div class="alert alert-warning" style="margin-top: 2rem;">
+                        <strong>Payment Requirement (Article 13):</strong> All outstanding taxes must be paid before building permits can be approved.
+                    </div>
+                </div>
+            </div>
+
+            <div id="payments" class="section" style="display: none;">
+                <div class="card">
+                    <h2>Payments & Attestations</h2>
+
+                    <h3>Make a Payment</h3>
+                    <form onsubmit="handlePayment(event)">
+                        <div class="form-group">
+                            <label>Amount (TND):</label>
+                            <input type="number" id="pay-amount" placeholder="0.00" step="0.01" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Payment Method:</label>
+                            <select id="pay-method" required>
+                                <option value="">-- Select --</option>
+                                <option value="bank_transfer">Bank Transfer</option>
+                                <option value="check">Check</option>
+                                <option value="cash">Cash</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="button">Record Payment</button>
+                        <div id="payment-message" style="margin-top: 15px;"></div>
+                    </form>
+
+                    <h3 style="margin-top: 2rem;">Payment Attestation (For Permits)</h3>
+                    <p>Download attestation proving all taxes are paid (required for Article 13 permit requests):</p>
+                    <button onclick="getAttestationStatus()" class="button" style="margin-top: 10px;">Check Attestation Status</button>
+                    <div id="attestation-status" style="margin-top: 15px;"></div>
+
+                    <h3 style="margin-top: 2rem;">Payment History</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Amount</th>
+                                <th>Reference</th>
+                                <th>Method</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="payments-body">
+                            <tr><td colspan="5">Loading...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="permits" class="section" style="display: none;">
+                <div class="card">
+                    <h2>Building Permits (Article 13)</h2>
+                    <div class="alert alert-info">
+                        <strong>Important:</strong> Permits require proof of tax payment. A permit can only be approved if all TTNB taxes are paid (Article 13).
+                    </div>
+
+                    <h3>Request New Permit</h3>
+                    <form onsubmit="handlePermitRequest(event)">
+                        <div class="form-group">
+                            <label>Land Parcel ID:</label>
+                            <input type="text" id="permit-land-id" placeholder="ID of land to build on" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Permit Type:</label>
+                            <select id="permit-type" required>
+                                <option value="">-- Select --</option>
+                                <option value="construction">Construction Permit</option>
+                                <option value="renovation">Renovation Permit</option>
+                                <option value="demolition">Demolition Permit</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Description:</label>
+                            <textarea id="permit-description" placeholder="Describe the planned work..." required></textarea>
+                        </div>
+                        <button type="submit" class="button">Request Permit</button>
+                        <div id="permit-message" style="margin-top: 15px;"></div>
+                    </form>
+
+                    <h3 style="margin-top: 2rem;">My Permit Requests</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Permit ID</th>
+                                <th>Type</th>
+                                <th>Status</th>
+                                <th>Request Date</th>
+                                <th>Decision Date</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="permits-body">
+                            <tr><td colspan="6">Loading...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="disputes" class="section" style="display: none;">
+                <div class="card">
+                    <h2>Dispute a Tax Assessment (Article 23)</h2>
+
+                    <form onsubmit="handleDispute(event)">
+                        <div class="form-group">
+                            <label>Land/Tax ID to Dispute:</label>
+                            <input type="text" id="dispute-tax-id" placeholder="ID of tax being disputed" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Claimed Amount (What you believe you owe):</label>
+                            <input type="number" id="dispute-amount" placeholder="0.00" step="0.01" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Reason for Dispute:</label>
+                            <textarea id="dispute-reason" placeholder="Explain your dispute, provide supporting evidence..." required></textarea>
+                        </div>
+                        <button type="submit" class="button">Submit Dispute</button>
+                        <div id="dispute-message" style="margin-top: 15px;"></div>
+                    </form>
+
+                    <h3 style="margin-top: 2rem;">My Disputes (Articles 23-26)</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Dispute ID</th>
+                                <th>Original Amount</th>
+                                <th>Claimed Amount</th>
+                                <th>Status</th>
+                                <th>Final Decision</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="disputes-body">
+                            <tr><td colspan="6">Loading...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="budget" class="section" style="display: none;">
+                <div class="card">
+                    <h2>Municipal Budget Voting</h2>
+                    <p>Participate in participatory budgeting. Vote on how municipal funds should be allocated:</p>
+
+                    <h3 style="margin-top: 2rem;">Current Budget Projects</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Project ID</th>
+                                <th>Project Name</th>
+                                <th>Budget</th>
+                                <th>Status</th>
+                                <th>Votes</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="budget-body">
+                            <tr><td colspan="6">Loading...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script src="../../common/two-factor.js"></script>
+    <script src="enhanced.js"></script>
+</body>
+</html>

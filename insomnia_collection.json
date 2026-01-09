@@ -1,0 +1,1230 @@
+{
+  "_type": "export",
+  "__export_format": 4,
+  "__export_date": "2026-01-09T20:00:00.000Z",
+  "__export_source": "insomnia.desktop:9.0.0",
+  "resources": [
+    {
+      "_id": "wrk_tunax_main",
+      "parentId": null,
+      "modified": 1704816600000,
+      "created": 1704816600000,
+      "name": "TUNAX - Complete API Collection + Video Demo",
+      "description": "Complete 175+ endpoint API collection + 12-endpoint Video Demo folder with hardcoded IDs for live presentations",
+      "scope": "workspace",
+      "_type": "workspace"
+    },
+    {
+      "_id": "env_production",
+      "parentId": "wrk_tunax_main",
+      "modified": 1704816600000,
+      "created": 1704816600000,
+      "name": "Production",
+      "data": {
+        "base_url": "http://localhost:5000/api/v1",
+        "citizen_token": "{{ _.citizen_token }}",
+        "business_token": "{{ _.business_token }}",
+        "admin_token": "{{ _.admin_token }}",
+        "inspector_token": "{{ _.inspector_token }}",
+        "finance_token": "{{ _.finance_token }}",
+        "contentieux_token": "{{ _.contentieux_token }}",
+        "urbanism_token": "{{ _.urbanism_token }}",
+        "ministry_token": "{{ _.ministry_token }}",
+        "agent_token": "{{ _.agent_token }}"
+      },
+      "_type": "environment"
+    },
+    {
+      "_id": "fld_auth",
+      "parentId": "wrk_tunax_main",
+      "modified": 1704816600000,
+      "created": 1704816600000,
+      "name": "1. Authentication",
+      "_type": "request_group"
+    },
+    {
+      "_id": "fld_video_demo_main",
+      "parentId": "wrk_tunax_main",
+      "modified": 1704816600000,
+      "created": 1704816600000,
+      "name": " VIDEO DEMO (Live Presentation - 12 Endpoints)",
+      "_type": "request_group"
+    },
+    {
+      "_id": "req_register_citizen",
+      "parentId": "fld_auth",
+      "modified": 1704816600000,
+      "created": 1704816600000,
+      "name": "Register Citizen",
+      "method": "POST",
+      "url": "{{ base_url }}/auth/register-citizen",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\"username\": \"newcitizen\", \"email\": \"newcitizen@test.tn\", \"password\": \"Pass123!\", \"first_name\": \"Test\", \"last_name\": \"Citizen\"}"
+      },
+      "_type": "request"
+    },
+    {
+      "_id": "req_register_business",
+      "parentId": "fld_auth",
+      "modified": 1704816600000,
+      "created": 1704816600000,
+      "name": "Register Business",
+      "method": "POST",
+      "url": "{{ base_url }}/auth/register-business",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\"username\": \"newbusiness\", \"email\": \"newbiz@test.tn\", \"password\": \"Pass123!\", \"business_name\": \"New Business\"}"
+      },
+      "_type": "request"
+    },
+    {
+      "_id": "req_login",
+      "parentId": "fld_auth",
+      "modified": 1704816600000,
+      "created": 1704816600000,
+      "name": "Login",
+      "method": "POST",
+      "url": "{{ base_url }}/auth/login",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\"username\": \"demo_citizen\", \"password\": \"TunaxDemo123!\"}"
+      },
+      "_type": "request"
+    },
+    {
+      "_id": "req_refresh_token",
+      "parentId": "fld_auth",
+      "modified": 1704816600000,
+      "created": 1704816600000,
+      "name": "Refresh Token",
+      "method": "POST",
+      "url": "{{ base_url }}/auth/refresh",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ citizen_token }}"
+        }
+      ],
+      "_type": "request"
+    },
+    {
+      "_id": "req_logout",
+      "parentId": "fld_auth",
+      "modified": 1704816600000,
+      "created": 1704816600000,
+      "name": "Logout",
+      "method": "POST",
+      "url": "{{ base_url }}/auth/logout",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ citizen_token }}"
+        }
+      ],
+      "_type": "request"
+    },
+    {
+      "_id": "req_get_me",
+      "parentId": "fld_auth",
+      "modified": 1704816600000,
+      "created": 1704816600000,
+      "name": "Get Current User",
+      "method": "GET",
+      "url": "{{ base_url }}/auth/me",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ citizen_token }}"
+        }
+      ],
+      "_type": "request"
+    },
+    {
+      "_id": "req_update_profile",
+      "parentId": "fld_auth",
+      "modified": 1704816600000,
+      "created": 1704816600000,
+      "name": "Update Profile",
+      "method": "PATCH",
+      "url": "{{ base_url }}/auth/profile",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ citizen_token }}"
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\"first_name\": \"Updated\", \"last_name\": \"User\"}"
+      },
+      "_type": "request"
+    },
+    {
+      "_id": "fld_tib",
+      "parentId": "wrk_tunax_main",
+      "modified": 1704816600000,
+      "created": 1704816600000,
+      "name": "2. TIB - Properties",
+      "_type": "request_group"
+    },
+    {
+      "_id": "req_create_property",
+      "parentId": "fld_tib",
+      "modified": 1704816600000,
+      "created": 1704816600000,
+      "name": "Create Property",
+      "method": "POST",
+      "url": "{{ base_url }}/tib/properties",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ citizen_token }}"
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\"commune_id\": 1, \"street_address\": \"123 Main Street\", \"city\": \"Tunis\", \"latitude\": 36.8, \"longitude\": 10.2, \"surface_couverte\": 150, \"construction_year\": 2010, \"affectation\": \"residential\"}"
+      },
+      "_type": "request"
+    },
+    {
+      "_id": "req_list_properties",
+      "parentId": "fld_tib",
+      "modified": 1704816600000,
+      "created": 1704816600000,
+      "name": "List My Properties",
+      "method": "GET",
+      "url": "{{ base_url }}/tib/properties",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ citizen_token }}"
+        }
+      ],
+      "_type": "request"
+    },
+    {
+      "_id": "req_get_property",
+      "parentId": "fld_tib",
+      "modified": 1704816600000,
+      "created": 1704816600000,
+      "name": "Get Property Details",
+      "method": "GET",
+      "url": "{{ base_url }}/tib/properties/1",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ citizen_token }}"
+        }
+      ],
+      "_type": "request"
+    },
+    {
+      "_id": "req_update_property",
+      "parentId": "fld_tib",
+      "modified": 1704816600000,
+      "created": 1704816600000,
+      "name": "Update Property",
+      "method": "PUT",
+      "url": "{{ base_url }}/tib/properties/1",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ citizen_token }}"
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\"surface_couverte\": 200}"
+      },
+      "_type": "request"
+    },
+    {
+      "_id": "req_property_taxes",
+      "parentId": "fld_tib",
+      "modified": 1704816600000,
+      "created": 1704816600000,
+      "name": "Get Property Taxes",
+      "method": "GET",
+      "url": "{{ base_url }}/tib/properties/1/taxes",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ citizen_token }}"
+        }
+      ],
+      "_type": "request"
+    },
+    {
+      "_id": "req_my_taxes",
+      "parentId": "fld_tib",
+      "modified": 1704816600000,
+      "created": 1704816600000,
+      "name": "Get My All Taxes",
+      "method": "GET",
+      "url": "{{ base_url }}/tib/my-taxes",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ citizen_token }}"
+        }
+      ],
+      "_type": "request"
+    },
+    {
+      "_id": "fld_ttnb",
+      "parentId": "wrk_tunax_main",
+      "modified": 1704816600000,
+      "created": 1704816600000,
+      "name": "3. TTNB - Lands",
+      "_type": "request_group"
+    },
+    {
+      "_id": "req_create_land",
+      "parentId": "fld_ttnb",
+      "modified": 1704816600000,
+      "created": 1704816600000,
+      "name": "Create Land",
+      "method": "POST",
+      "url": "{{ base_url }}/ttnb/lands",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ business_token }}"
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\"commune_id\": 1, \"street_address\": \"Field Lane\", \"city\": \"Sfax\", \"latitude\": 34.7, \"longitude\": 10.7, \"surface\": 5000, \"land_type\": \"agricultural\"}"
+      },
+      "_type": "request"
+    },
+    {
+      "_id": "req_list_lands",
+      "parentId": "fld_ttnb",
+      "modified": 1704816600000,
+      "created": 1704816600000,
+      "name": "List My Lands",
+      "method": "GET",
+      "url": "{{ base_url }}/ttnb/lands",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ business_token }}"
+        }
+      ],
+      "_type": "request"
+    },
+    {
+      "_id": "req_get_land",
+      "parentId": "fld_ttnb",
+      "modified": 1704816600000,
+      "created": 1704816600000,
+      "name": "Get Land Details",
+      "method": "GET",
+      "url": "{{ base_url }}/ttnb/lands/1",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ business_token }}"
+        }
+      ],
+      "_type": "request"
+    },
+    {
+      "_id": "req_land_taxes",
+      "parentId": "fld_ttnb",
+      "modified": 1704816600000,
+      "created": 1704816600000,
+      "name": "Get Land Taxes",
+      "method": "GET",
+      "url": "{{ base_url }}/ttnb/lands/1/taxes",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ business_token }}"
+        }
+      ],
+      "_type": "request"
+    },
+    {
+      "_id": "fld_permits",
+      "parentId": "wrk_tunax_main",
+      "modified": 1704816600000,
+      "created": 1704816600000,
+      "name": "4. Permits",
+      "_type": "request_group"
+    },
+    {
+      "_id": "req_request_permit",
+      "parentId": "fld_permits",
+      "modified": 1704816600000,
+      "created": 1704816600000,
+      "name": "Request Permit",
+      "method": "POST",
+      "url": "{{ base_url }}/permits/request",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ citizen_token }}"
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\"permit_type\": \"construction\", \"property_id\": 1, \"description\": \"Building renovation\"}"
+      },
+      "_type": "request"
+    },
+    {
+      "_id": "req_my_permits",
+      "parentId": "fld_permits",
+      "modified": 1704816600000,
+      "created": 1704816600000,
+      "name": "Get My Permits",
+      "method": "GET",
+      "url": "{{ base_url }}/permits/my-requests",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ citizen_token }}"
+        }
+      ],
+      "_type": "request"
+    },
+    {
+      "_id": "req_pending_permits",
+      "parentId": "fld_permits",
+      "modified": 1704816600000,
+      "created": 1704816600000,
+      "name": "Get Pending Permits (Urbanism)",
+      "method": "GET",
+      "url": "{{ base_url }}/permits/pending",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ urbanism_token }}"
+        }
+      ],
+      "_type": "request"
+    },
+    {
+      "_id": "req_decide_permit",
+      "parentId": "fld_permits",
+      "modified": 1704816600000,
+      "created": 1704816600000,
+      "name": "Approve/Reject Permit",
+      "method": "PATCH",
+      "url": "{{ base_url }}/permits/1/decide",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ urbanism_token }}"
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\"status\": \"approved\", \"notes\": \"All documents verified\"}"
+      },
+      "_type": "request"
+    },
+    {
+      "_id": "fld_payments",
+      "parentId": "wrk_tunax_main",
+      "modified": 1704816600000,
+      "created": 1704816600000,
+      "name": "5. Payments",
+      "_type": "request_group"
+    },
+    {
+      "_id": "req_make_payment",
+      "parentId": "fld_payments",
+      "modified": 1704816600000,
+      "created": 1704816600000,
+      "name": "Make Payment",
+      "method": "POST",
+      "url": "{{ base_url }}/payments/pay",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ citizen_token }}"
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\"tax_id\": 1, \"amount\": 50, \"method\": \"bank_transfer\"}"
+      },
+      "_type": "request"
+    },
+    {
+      "_id": "req_my_payments",
+      "parentId": "fld_payments",
+      "modified": 1704816600000,
+      "created": 1704816600000,
+      "name": "Get My Payments",
+      "method": "GET",
+      "url": "{{ base_url }}/payments/my-payments",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ citizen_token }}"
+        }
+      ],
+      "_type": "request"
+    },
+    {
+      "_id": "fld_disputes",
+      "parentId": "wrk_tunax_main",
+      "modified": 1704816600000,
+      "created": 1704816600000,
+      "name": "6. Disputes",
+      "_type": "request_group"
+    },
+    {
+      "_id": "req_create_dispute",
+      "parentId": "fld_disputes",
+      "modified": 1704816600000,
+      "created": 1704816600000,
+      "name": "Create Dispute",
+      "method": "POST",
+      "url": "{{ base_url }}/disputes",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ citizen_token }}"
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\"dispute_type\": \"tax_calculation\", \"subject\": \"Incorrect Tax Amount\", \"description\": \"My tax was calculated incorrectly\"}"
+      },
+      "_type": "request"
+    },
+    {
+      "_id": "req_list_disputes",
+      "parentId": "fld_disputes",
+      "modified": 1704816600000,
+      "created": 1704816600000,
+      "name": "Get My Disputes",
+      "method": "GET",
+      "url": "{{ base_url }}/disputes",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ citizen_token }}"
+        }
+      ],
+      "_type": "request"
+    },
+    {
+      "_id": "req_office_disputes",
+      "parentId": "fld_disputes",
+      "modified": 1704816600000,
+      "created": 1704816600000,
+      "name": "Get Office Disputes (Contentieux)",
+      "method": "GET",
+      "url": "{{ base_url }}/disputes/office",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ contentieux_token }}"
+        }
+      ],
+      "_type": "request"
+    },
+    {
+      "_id": "fld_dashboard",
+      "parentId": "wrk_tunax_main",
+      "modified": 1704816600000,
+      "created": 1704816600000,
+      "name": "7. Dashboards",
+      "_type": "request_group"
+    },
+    {
+      "_id": "req_citizen_dashboard",
+      "parentId": "fld_dashboard",
+      "modified": 1704816600000,
+      "created": 1704816600000,
+      "name": "Citizen Dashboard",
+      "method": "GET",
+      "url": "{{ base_url }}/dashboard/citizen-summary",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ citizen_token }}"
+        }
+      ],
+      "_type": "request"
+    },
+    {
+      "_id": "req_admin_dashboard",
+      "parentId": "fld_dashboard",
+      "modified": 1704816600000,
+      "created": 1704816600000,
+      "name": "Admin Dashboard",
+      "method": "GET",
+      "url": "{{ base_url }}/dashboard/admin-overview",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ admin_token }}"
+        }
+      ],
+      "_type": "request"
+    },
+    {
+      "_id": "req_inspector_dashboard",
+      "parentId": "fld_dashboard",
+      "modified": 1704816600000,
+      "created": 1704816600000,
+      "name": "Inspector Dashboard",
+      "method": "GET",
+      "url": "{{ base_url }}/dashboard/inspector-workload",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ inspector_token }}"
+        }
+      ],
+      "_type": "request"
+    },
+    {
+      "_id": "fld_public",
+      "parentId": "wrk_tunax_main",
+      "modified": 1704816600000,
+      "created": 1704816600000,
+      "name": "8. Public APIs",
+      "_type": "request_group"
+    },
+    {
+      "_id": "req_tax_rates",
+      "parentId": "fld_public",
+      "modified": 1704816600000,
+      "created": 1704816600000,
+      "name": "Get Tax Rates",
+      "method": "GET",
+      "url": "{{ base_url }}/public/tax-rates",
+      "_type": "request"
+    },
+    {
+      "_id": "req_communes",
+      "parentId": "fld_public",
+      "modified": 1704816600000,
+      "created": 1704816600000,
+      "name": "Get Communes",
+      "method": "GET",
+      "url": "{{ base_url }}/public/communes",
+      "_type": "request"
+    },
+    {
+      "_id": "req_calculator",
+      "parentId": "fld_public",
+      "modified": 1704816600000,
+      "created": 1704816600000,
+      "name": "Tax Calculator",
+      "method": "POST",
+      "url": "{{ base_url }}/public/calculator",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\"tax_type\": \"tib\", \"surface_couverte\": 100, \"commune_id\": 1}"
+      },
+      "_type": "request"
+    },
+    {
+      "_id": "fld_admin",
+      "parentId": "wrk_tunax_main",
+      "modified": 1704816600000,
+      "created": 1704816600000,
+      "name": "9. Municipal Admin",
+      "_type": "request_group"
+    },
+    {
+      "_id": "req_municipal_dashboard",
+      "parentId": "fld_admin",
+      "modified": 1704816600000,
+      "created": 1704816600000,
+      "name": "Municipal Dashboard",
+      "method": "GET",
+      "url": "{{ base_url }}/municipal/dashboard",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ admin_token }}"
+        }
+      ],
+      "_type": "request"
+    },
+    {
+      "_id": "req_reference_prices",
+      "parentId": "fld_admin",
+      "modified": 1704816600000,
+      "created": 1704816600000,
+      "name": "Get Reference Prices",
+      "method": "GET",
+      "url": "{{ base_url }}/municipal/reference-prices",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ admin_token }}"
+        }
+      ],
+      "_type": "request"
+    },
+    {
+      "_id": "req_municipal_services",
+      "parentId": "fld_admin",
+      "modified": 1704816600000,
+      "created": 1704816600000,
+      "name": "Get Services",
+      "method": "GET",
+      "url": "{{ base_url }}/municipal/services",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ admin_token }}"
+        }
+      ],
+      "_type": "request"
+    },
+    {
+      "_id": "req_municipal_staff",
+      "parentId": "fld_admin",
+      "modified": 1704816600000,
+      "created": 1704816600000,
+      "name": "Get Staff",
+      "method": "GET",
+      "url": "{{ base_url }}/municipal/staff",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ admin_token }}"
+        }
+      ],
+      "_type": "request"
+    },
+    {
+      "_id": "req_taxes_summary",
+      "parentId": "fld_admin",
+      "modified": 1704816600000,
+      "created": 1704816600000,
+      "name": "Taxes Summary",
+      "method": "GET",
+      "url": "{{ base_url }}/municipal/taxes/summary",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ admin_token }}"
+        }
+      ],
+      "_type": "request"
+    },
+    {
+      "_id": "fld_ministry",
+      "parentId": "wrk_tunax_main",
+      "modified": 1704816600000,
+      "created": 1704816600000,
+      "name": "10. Ministry",
+      "_type": "request_group"
+    },
+    {
+      "_id": "req_ministry_dashboard",
+      "parentId": "fld_ministry",
+      "modified": 1704816600000,
+      "created": 1704816600000,
+      "name": "Ministry Dashboard",
+      "method": "GET",
+      "url": "{{ base_url }}/ministry/dashboard",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ ministry_token }}"
+        }
+      ],
+      "_type": "request"
+    },
+    {
+      "_id": "req_municipalities",
+      "parentId": "fld_ministry",
+      "modified": 1704816600000,
+      "created": 1704816600000,
+      "name": "Get Municipalities",
+      "method": "GET",
+      "url": "{{ base_url }}/ministry/municipalities",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ ministry_token }}"
+        }
+      ],
+      "_type": "request"
+    },
+    {
+      "_id": "req_ministry_admins",
+      "parentId": "fld_ministry",
+      "modified": 1704816600000,
+      "created": 1704816600000,
+      "name": "Get Municipal Admins",
+      "method": "GET",
+      "url": "{{ base_url }}/ministry/municipal-admins",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ ministry_token }}"
+        }
+      ],
+      "_type": "request"
+    },
+    {
+      "_id": "req_ministry_revenue",
+      "parentId": "fld_ministry",
+      "modified": 1704816600000,
+      "created": 1704816600000,
+      "name": "Revenue Report",
+      "method": "GET",
+      "url": "{{ base_url }}/ministry/reports/revenue",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ ministry_token }}"
+        }
+      ],
+      "_type": "request"
+    },
+    {
+      "_id": "fld_inspector",
+      "parentId": "wrk_tunax_main",
+      "modified": 1704816600000,
+      "created": 1704816600000,
+      "name": "11. Inspector",
+      "_type": "request_group"
+    },
+    {
+      "_id": "req_properties_inspect",
+      "parentId": "fld_inspector",
+      "modified": 1704816600000,
+      "created": 1704816600000,
+      "name": "Properties to Inspect",
+      "method": "GET",
+      "url": "{{ base_url }}/inspector/properties/to-inspect",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ inspector_token }}"
+        }
+      ],
+      "_type": "request"
+    },
+    {
+      "_id": "req_lands_inspect",
+      "parentId": "fld_inspector",
+      "modified": 1704816600000,
+      "created": 1704816600000,
+      "name": "Lands to Inspect",
+      "method": "GET",
+      "url": "{{ base_url }}/inspector/lands/to-inspect",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ inspector_token }}"
+        }
+      ],
+      "_type": "request"
+    },
+    {
+      "_id": "req_inspector_reports",
+      "parentId": "fld_inspector",
+      "modified": 1704816600000,
+      "created": 1704816600000,
+      "name": "My Inspection Reports",
+      "method": "GET",
+      "url": "{{ base_url }}/inspector/my-reports",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ inspector_token }}"
+        }
+      ],
+      "_type": "request"
+    },
+    {
+      "_id": "fld_search",
+      "parentId": "wrk_tunax_main",
+      "modified": 1704816600000,
+      "created": 1704816600000,
+      "name": "12. Search",
+      "_type": "request_group"
+    },
+    {
+      "_id": "req_search_properties",
+      "parentId": "fld_search",
+      "modified": 1704816600000,
+      "created": 1704816600000,
+      "name": "Search Properties",
+      "method": "GET",
+      "url": "{{ base_url }}/search/properties?city=Tunis&surface_min=50&surface_max=500",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ agent_token }}"
+        }
+      ],
+      "_type": "request"
+    },
+    {
+      "_id": "req_search_lands",
+      "parentId": "fld_search",
+      "modified": 1704816600000,
+      "created": 1704816600000,
+      "name": "Search Lands",
+      "method": "GET",
+      "url": "{{ base_url }}/search/lands?city=Sfax&surface_min=1000&surface_max=10000",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ agent_token }}"
+        }
+      ],
+      "_type": "request"
+    },
+    {
+      "_id": "fld_budget",
+      "parentId": "wrk_tunax_main",
+      "modified": 1704816600000,
+      "created": 1704816600000,
+      "name": "13. Budget & Voting",
+      "_type": "request_group"
+    },
+    {
+      "_id": "req_budget_projects",
+      "parentId": "fld_budget",
+      "modified": 1704816600000,
+      "created": 1704816600000,
+      "name": "Get Budget Projects",
+      "method": "GET",
+      "url": "{{ base_url }}/budget/projects",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ citizen_token }}"
+        }
+      ],
+      "_type": "request"
+    },
+    {
+      "_id": "req_create_budget",
+      "parentId": "fld_budget",
+      "modified": 1704816600000,
+      "created": 1704816600000,
+      "name": "Create Budget Project",
+      "method": "POST",
+      "url": "{{ base_url }}/budget/projects",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ admin_token }}"
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\"project_name\": \"Community Park\", \"description\": \"New recreational park\", \"budget\": 50000}"
+      },
+      "_type": "request"
+    },
+    {
+      "_id": "req_vote_project",
+      "parentId": "fld_budget",
+      "modified": 1704816600000,
+      "created": 1704816600000,
+      "name": "Vote on Project",
+      "method": "POST",
+      "url": "{{ base_url }}/budget/projects/1/vote",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ citizen_token }}"
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\"vote\": true}"
+      },
+      "_type": "request"
+    },
+    {
+      "_id": "fld_notifications",
+      "parentId": "wrk_tunax_main",
+      "modified": 1704816600000,
+      "created": 1704816600000,
+      "name": "14. Notifications",
+      "_type": "request_group"
+    },
+    {
+      "_id": "req_list_notifications",
+      "parentId": "fld_notifications",
+      "modified": 1704816600000,
+      "created": 1704816600000,
+      "name": "Get Notifications",
+      "method": "GET",
+      "url": "{{ base_url }}/notifications",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ citizen_token }}"
+        }
+      ],
+      "_type": "request"
+    },
+    {
+      "_id": "req_mark_read",
+      "parentId": "fld_notifications",
+      "modified": 1704816600000,
+      "created": 1704816600000,
+      "name": "Mark All as Read",
+      "method": "PATCH",
+      "url": "{{ base_url }}/notifications/mark-all-read",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ citizen_token }}"
+        }
+      ],
+      "_type": "request"
+    },
+    {
+      "_id": "fld_demo_1",
+      "parentId": "fld_video_demo_main",
+      "modified": 1704816600000,
+      "created": 1704816600000,
+      "name": "Demo 1: Authentication Flow",
+      "_type": "request_group"
+    },
+    {
+      "_id": "req_demo_login",
+      "parentId": "fld_demo_1",
+      "modified": 1704816600000,
+      "created": 1704816600000,
+      "name": "1. Login as Citizen",
+      "method": "POST",
+      "url": "{{ base_url }}/auth/login",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\"username\": \"{{ citizen_user }}\", \"password\": \"{{ citizen_pass }}\"}"
+      },
+      "_type": "request"
+    },
+    {
+      "_id": "req_demo_me",
+      "parentId": "fld_demo_1",
+      "modified": 1704816600000,
+      "created": 1704816600000,
+      "name": "2. Get Current User Profile",
+      "method": "GET",
+      "url": "{{ base_url }}/auth/me",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkZW1vX2NpdGl6ZW4iLCJleHAiOjk5OTk5OTk5OTksInVzZXJfaWQiOjIsInJvbGUiOiJDSVRJWkVOIn0.fake"
+        }
+      ],
+      "_type": "request"
+    },
+    {
+      "_id": "fld_demo_2",
+      "parentId": "fld_video_demo_main",
+      "modified": 1704816600000,
+      "created": 1704816600000,
+      "name": "Demo 2: Property Tax Management",
+      "_type": "request_group"
+    },
+    {
+      "_id": "req_demo_list_props",
+      "parentId": "fld_demo_2",
+      "modified": 1704816600000,
+      "created": 1704816600000,
+      "name": "3. View My Properties",
+      "method": "GET",
+      "url": "{{ base_url }}/tib/properties",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkZW1vX2NpdGl6ZW4iLCJleHAiOjk5OTk5OTk5OTksInVzZXJfaWQiOjIsInJvbGUiOiJDSVRJWkVOIn0.fake"
+        }
+      ],
+      "_type": "request"
+    },
+    {
+      "_id": "req_demo_property_detail",
+      "parentId": "fld_demo_2",
+      "modified": 1704816600000,
+      "created": 1704816600000,
+      "name": "4. View Property #1 Details",
+      "method": "GET",
+      "url": "{{ base_url }}/tib/properties/{{ property_id }}",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkZW1vX2NpdGl6ZW4iLCJleHAiOjk5OTk5OTk5OTksInVzZXJfaWQiOjIsInJvbGUiOiJDSVRJWkVOIn0.fake"
+        }
+      ],
+      "_type": "request"
+    },
+    {
+      "_id": "req_demo_my_taxes",
+      "parentId": "fld_demo_2",
+      "modified": 1704816600000,
+      "created": 1704816600000,
+      "name": "5. View My All Taxes (with penalties)",
+      "method": "GET",
+      "url": "{{ base_url }}/tib/my-taxes",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkZW1vX2NpdGl6ZW4iLCJleHAiOjk5OTk5OTk5OTksInVzZXJfaWQiOjIsInJvbGUiOiJDSVRJWkVOIn0.fake"
+        }
+      ],
+      "_type": "request"
+    },
+    {
+      "_id": "req_demo_property_taxes",
+      "parentId": "fld_demo_2",
+      "modified": 1704816600000,
+      "created": 1704816600000,
+      "name": "6. View Taxes for Property #1",
+      "method": "GET",
+      "url": "{{ base_url }}/tib/properties/{{ property_id }}/taxes",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkZW1vX2NpdGl6ZW4iLCJleHAiOjk5OTk5OTk5OTksInVzZXJfaWQiOjIsInJvbGUiOiJDSVRJWkVOIn0.fake"
+        }
+      ],
+      "_type": "request"
+    },
+    {
+      "_id": "fld_demo_3",
+      "parentId": "fld_video_demo_main",
+      "modified": 1704816600000,
+      "created": 1704816600000,
+      "name": "Demo 3: Tax Payment & Permits",
+      "_type": "request_group"
+    },
+    {
+      "_id": "req_demo_make_payment",
+      "parentId": "fld_demo_3",
+      "modified": 1704816600000,
+      "created": 1704816600000,
+      "name": "7. Pay Tax #1",
+      "method": "POST",
+      "url": "{{ base_url }}/payments/pay",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkZW1vX2NpdGl6ZW4iLCJleHAiOjk5OTk5OTk5OTksInVzZXJfaWQiOjIsInJvbGUiOiJDSVRJWkVOIn0.fake"
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\"tax_id\": {{ tax_id }}, \"amount\": 100, \"method\": \"bank_transfer\"}"
+      },
+      "_type": "request"
+    },
+    {
+      "_id": "req_demo_request_permit",
+      "parentId": "fld_demo_3",
+      "modified": 1704816600000,
+      "created": 1704816600000,
+      "name": "8. Request Construction Permit",
+      "method": "POST",
+      "url": "{{ base_url }}/permits/request",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkZW1vX2NpdGl6ZW4iLCJleHAiOjk5OTk5OTk5OTksInVzZXJfaWQiOjIsInJvbGUiOiJDSVRJWkVOIn0.fake"
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\"permit_type\": \"construction\", \"property_id\": {{ property_id }}, \"description\": \"Building extension\"}"
+      },
+      "_type": "request"
+    },
+    {
+      "_id": "fld_demo_4",
+      "parentId": "fld_video_demo_main",
+      "modified": 1704816600000,
+      "created": 1704816600000,
+      "name": "Demo 4: Admin Dashboard",
+      "_type": "request_group"
+    },
+    {
+      "_id": "req_demo_admin_dash",
+      "parentId": "fld_demo_4",
+      "modified": 1704816600000,
+      "created": 1704816600000,
+      "name": "9. Admin Overview Dashboard",
+      "method": "GET",
+      "url": "{{ base_url }}/dashboard/admin-overview",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkZW1vX2FkbWluIiwiZXhwIjo5OTk5OTk5OTk5LCJ1c2VyX2lkIjo0LCJyb2xlIjoiQURNSU4ifQ.fake"
+        }
+      ],
+      "_type": "request"
+    },
+    {
+      "_id": "req_demo_taxes_summary",
+      "parentId": "fld_demo_4",
+      "modified": 1704816600000,
+      "created": 1704816600000,
+      "name": "10. Municipal Taxes Summary",
+      "method": "GET",
+      "url": "{{ base_url }}/municipal/taxes/summary",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkZW1vX2FkbWluIiwiZXhwIjo5OTk5OTk5OTk5LCJ1c2VyX2lkIjo0LCJyb2xlIjoiQURNSU4ifQ.fake"
+        }
+      ],
+      "_type": "request"
+    },
+    {
+      "_id": "req_demo_reference_prices",
+      "parentId": "fld_demo_4",
+      "modified": 1704816600000,
+      "created": 1704816600000,
+      "name": "11. View Reference Prices by Category",
+      "method": "GET",
+      "url": "{{ base_url }}/municipal/reference-prices",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkZW1vX2FkbWluIiwiZXhwIjo5OTk5OTk5OTk5LCJ1c2VyX2lkIjo0LCJyb2xlIjoiQURNSU4ifQ.fake"
+        }
+      ],
+      "_type": "request"
+    },
+    {
+      "_id": "fld_demo_5",
+      "parentId": "fld_video_demo_main",
+      "modified": 1704816600000,
+      "created": 1704816600000,
+      "name": "Demo 5: Public APIs",
+      "_type": "request_group"
+    },
+    {
+      "_id": "req_demo_tax_calc",
+      "parentId": "fld_demo_5",
+      "modified": 1704816600000,
+      "created": 1704816600000,
+      "name": "12. Tax Calculator (Public)",
+      "method": "POST",
+      "url": "{{ base_url }}/public/calculator",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\"tax_type\": \"tib\", \"surface_couverte\": 150, \"commune_id\": {{ commune_id }}}"
+      },
+      "_type": "request"
+    }
+  ]
+}

@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Municipal Admin Dashboard</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f5f7fa; }
+        .navbar { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; }
+        .navbar h1 { font-size: 1.5em; }
+        .logout-btn { background: rgba(255,255,255,0.2); color: white; border: 1px solid white; padding: 8px 16px; border-radius: 5px; cursor: pointer; }
+        .container { display: grid; grid-template-columns: 250px 1fr; min-height: calc(100vh - 70px); }
+        .sidebar { background: white; padding: 2rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .sidebar a { display: block; padding: 12px; margin-bottom: 10px; color: #333; text-decoration: none; border-radius: 5px; transition: background 0.3s; }
+        .sidebar a:hover, .sidebar a.active { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; }
+        .content { padding: 2rem; }
+        .card { background: white; border-radius: 8px; padding: 2rem; margin-bottom: 2rem; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        .card h2 { margin-bottom: 1rem; color: #333; }
+        .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2rem; }
+        .stat-box { background: white; padding: 1.5rem; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); border-left: 4px solid #667eea; }
+        .stat-label { color: #666; font-size: 0.9em; margin-bottom: 8px; }
+        .stat-value { font-size: 1.8em; font-weight: bold; color: #333; }
+        table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #ddd; }
+        th { background: #f8f9fa; font-weight: 600; color: #333; }
+        .button { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; }
+        .status-badge { padding: 4px 12px; border-radius: 12px; font-size: 0.85em; font-weight: 600; }
+        .status-approved { background: #d4edda; color: #155724; }
+        .status-rejected { background: #f8d7da; color: #721c24; }
+        .status-pending { background: #fff3cd; color: #856404; }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <h1>Municipal Administrator Dashboard</h1>
+        <button class="logout-btn" onclick="logout()">Logout</button>
+    </div>
+
+    <div class="container">
+        <div class="sidebar">
+            <a class="nav-link active" onclick="showSection('overview', this)">Overview</a>
+            <a class="nav-link" onclick="showSection('staff', this)">Staff Management</a>
+            <a class="nav-link" onclick="showSection('create-staff', this)">Add Staff</a>
+            <a class="nav-link" onclick="showSection('doc-requirements', this)">Document Requirements</a>
+            <a class="nav-link" onclick="showSection('budget', this)">Budget Projects</a>
+            <a class="nav-link" onclick="showSection('statistics', this)">Statistics</a>
+            <a class="nav-link" onclick="showSection('system', this)">System Status</a>
+        </div>
+
+        <div class="content">
+            <div id="overview" class="section">
+                <div class="stats">
+                    <div class="stat-box">
+                        <div class="stat-label">Properties</div>
+                        <div class="stat-value" id="total-properties">0</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-label">Lands</div>
+                        <div class="stat-value" id="total-lands">0</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-label">Taxes</div>
+                        <div class="stat-value" id="total-taxes">0</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-label">Revenue</div>
+                        <div class="stat-value" id="revenue">0 TND</div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h2>Your Municipality Overview</h2>
+                    <p>Welcome to your Municipality Administration Dashboard. From here you can:</p>
+                    <ul style="margin-left: 2rem; margin-top: 0.5rem;">
+                        <li>View statistics for your municipality</li>
+                        <li>Create and manage municipal staff</li>
+                        <li>Monitor properties and tax collection</li>
+                        <li>Manage system performance</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div id="staff" class="section" style="display: none;">
+                <div class="card">
+                    <h2>Staff Management</h2>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Username</th>
+                                <th>Email</th>
+                                <th>Role</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="staff-body">
+                            <tr><td colspan="5">Loading...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="create-staff" class="section" style="display: none;">
+                <div class="card">
+                    <h2>Add New Staff Member</h2>
+                    <form onsubmit="handleCreateStaff(event)">
+                        <div style="margin-bottom: 15px;">
+                            <label>Username:</label>
+                            <input type="text" id="username" required style="width: 100%; padding: 8px; margin-top: 5px; border: 1px solid #ddd; border-radius: 4px;">
+                        </div>
+                        <div style="margin-bottom: 15px;">
+                            <label>Email:</label>
+                            <input type="email" id="email" required style="width: 100%; padding: 8px; margin-top: 5px; border: 1px solid #ddd; border-radius: 4px;">
+                        </div>
+                        <div style="margin-bottom: 15px;">
+                            <label>Role:</label>
+                            <select id="role" required style="width: 100%; padding: 8px; margin-top: 5px; border: 1px solid #ddd; border-radius: 4px;">
+                                <option value="">-- Select Role --</option>
+                                <option value="municipal_agent">Municipal Agent</option>
+                                <option value="inspector">Inspector</option>
+                                <option value="finance_officer">Finance Officer</option>
+                                <option value="contentieux_officer">Contentieux Officer</option>
+                                <option value="urbanism_officer">Urbanism Officer</option>
+                            </select>
+                        </div>
+                        <div style="margin-bottom: 15px;">
+                            <label>Password:</label>
+                            <input type="password" id="password" required style="width: 100%; padding: 8px; margin-top: 5px; border: 1px solid #ddd; border-radius: 4px;">
+                        </div>
+                        <button type="submit" class="button">Create Staff Member</button>
+                        <div id="create-message" style="margin-top: 15px;"></div>
+                    </form>
+                </div>
+            </div>
+
+            <div id="doc-requirements" class="section" style="display: none;">
+                <div class="card">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                        <h2>Document Requirements</h2>
+                        <button class="button" onclick="openDocReqModal()">+ Add Requirement</button>
+                    </div>
+                    
+                    <div style="margin-bottom: 2rem;">
+                        <h3>Property Declarations</h3>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Document Name</th>
+                                    <th>Document Code</th>
+                                    <th>Mandatory</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="property-reqs-body">
+                                <tr><td colspan="4">Loading...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div>
+                        <h3>Land Declarations</h3>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Document Name</th>
+                                    <th>Document Code</th>
+                                    <th>Mandatory</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="land-reqs-body">
+                                <tr><td colspan="4">Loading...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div id="budget" class="section" style="display: none;">
+                <div class="card">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                        <h2>Budget Projects</h2>
+                        <button class="button" onclick="openBudgetModal()">+ Create Project</button>
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Budget</th>
+                                <th>Status</th>
+                                <th>Votes</th>
+                                <th>Created</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="budget-projects-body">
+                            <tr><td colspan="6">Loading...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="statistics" class="section" style="display: none;">
+                <div class="card">
+                    <h2>Municipality Statistics</h2>
+                    <div id="stats-content">Loading...</div>
+                </div>
+            </div>
+
+            <div id="system" class="section" style="display: none;">
+                <div class="card">
+                    <h2>System Status</h2>
+                    <p>API Status: <span id="api-status" style="color: green; font-weight: bold;">✓ Online</span></p>
+                    <p>Database: <span id="db-status" style="color: green; font-weight: bold;">✓ Connected</span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Document Requirements Modal -->
+    <div id="docReqModal" class="modal" style="display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5);" onclick="if(event.target===this) closeDocReqModal()">
+        <div style="background-color: white; margin: 5% auto; padding: 2rem; border-radius: 10px; width: 90%; max-width: 600px; max-height: 85vh; overflow-y: auto;">
+            <button style="position: absolute; top: 10px; right: 10px; background: none; border: none; font-size: 20px; cursor: pointer;" onclick="closeDocReqModal()">&times;</button>
+            <h3>Add Document Requirement</h3>
+            <div id="docReqAlert"></div>
+            <form id="docReqForm" onsubmit="submitDocumentRequirement(event)">
+                <div style="margin-bottom: 1.5rem;">
+                    <label>Declaration Type</label>
+                    <select name="declaration_type" required style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; margin-top: 0.5rem;">
+                        <option value="">-- Select Type --</option>
+                        <option value="property">Property</option>
+                        <option value="land">Land</option>
+                        <option value="all">Both Property & Land</option>
+                    </select>
+                </div>
+                <div style="margin-bottom: 1.5rem;">
+                    <label>Document Name</label>
+                    <input type="text" name="document_name" required placeholder="e.g., Property Title Deed" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; margin-top: 0.5rem;">
+                </div>
+                <div style="margin-bottom: 1.5rem;">
+                    <label>Document Code</label>
+                    <input type="text" name="document_code" required placeholder="e.g., title_deed" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; margin-top: 0.5rem;">
+                </div>
+                <div style="margin-bottom: 1.5rem;">
+                    <label>Description (Optional)</label>
+                    <textarea name="description" rows="3" placeholder="Brief description for citizens" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; margin-top: 0.5rem;"></textarea>
+                </div>
+                <div style="margin-bottom: 1.5rem;">
+                    <label>
+                        <input type="checkbox" name="is_mandatory" checked> This document is mandatory
+                    </label>
+                </div>
+                <div style="display: flex; gap: 10px; justify-content: flex-end;">
+                    <button type="button" class="button" onclick="closeDocReqModal()" style="background: #6c757d;">Cancel</button>
+                    <button type="submit" class="button">Add Requirement</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Budget Project Modal -->
+    <div id="budgetModal" class="modal" style="display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5);" onclick="if(event.target===this) closeBudgetModal()">
+        <div style="background-color: white; margin: 5% auto; padding: 2rem; border-radius: 10px; width: 90%; max-width: 600px; max-height: 85vh; overflow-y: auto;">
+            <button style="position: absolute; top: 10px; right: 10px; background: none; border: none; font-size: 20px; cursor: pointer;" onclick="closeBudgetModal()">&times;</button>
+            <h3>Create Budget Project</h3>
+            <div id="budgetAlert"></div>
+            <form id="budgetForm" onsubmit="submitBudgetProject(event)">
+                <div style="margin-bottom: 1.5rem;">
+                    <label>Project Title</label>
+                    <input type="text" name="title" required style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; margin-top: 0.5rem;">
+                </div>
+                <div style="margin-bottom: 1.5rem;">
+                    <label>Description</label>
+                    <textarea name="description" rows="4" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; margin-top: 0.5rem;"></textarea>
+                </div>
+                <div style="margin-bottom: 1.5rem;">
+                    <label>Budget Amount (TND)</label>
+                    <input type="number" name="budget_amount" step="0.01" required style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; margin-top: 0.5rem;">
+                </div>
+                <div style="display: flex; gap: 10px; justify-content: flex-end;">
+                    <button type="button" class="button" onclick="closeBudgetModal()" style="background: #6c757d;">Cancel</button>
+                    <button type="submit" class="button">Create Project</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="../../common/two-factor.js"></script>
+    <script src="enhanced.js"></script>
+</body>
+</html>

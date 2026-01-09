@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Finance Officer Dashboard</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f5f7fa; }
+        .navbar { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; }
+        .container { display: grid; grid-template-columns: 250px 1fr; min-height: calc(100vh - 70px); }
+        .sidebar { background: white; padding: 2rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .sidebar a { display: block; padding: 12px; margin-bottom: 10px; color: #333; text-decoration: none; border-radius: 5px; transition: background 0.3s; }
+        .sidebar a:hover, .sidebar a.active { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; }
+        .content { padding: 2rem; }
+        .card { background: white; border-radius: 8px; padding: 2rem; margin-bottom: 2rem; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2rem; }
+        .stat-box { background: white; padding: 1.5rem; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); border-left: 4px solid #667eea; }
+        .stat-value { font-size: 1.8em; font-weight: bold; color: #333; }
+        table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #ddd; }
+        th { background: #f8f9fa; font-weight: 600; }
+        .button { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <h1>Finance Officer Dashboard (Receveur des Finances)</h1>
+        <button style="background: rgba(255,255,255,0.2); color: white; border: 1px solid white; padding: 8px 16px; border-radius: 5px; cursor: pointer;" onclick="logout()">Logout</button>
+    </div>
+
+    <div class="container">
+        <div class="sidebar">
+            <a class="nav-link active" onclick="showSection('overview', this)">Overview</a>
+            <a class="nav-link" onclick="showSection('debtors', this)">Tax Debtors</a>
+            <a class="nav-link" onclick="showSection('attestations', this)">Attestations</a>
+            <a class="nav-link" onclick="showSection('receipts', this)">Payment Receipts</a>
+            <a class="nav-link" onclick="showSection('revenue', this)">Revenue Report</a>
+        </div>
+
+        <div class="content">
+            <div id="overview" class="section">
+                <div class="stats">
+                    <div class="stat-box">
+                        <div style="color: #666; font-size: 0.9em; margin-bottom: 8px;">Total Revenue</div>
+                        <div class="stat-value" id="total-revenue">0 TND</div>
+                    </div>
+                    <div class="stat-box">
+                        <div style="color: #666; font-size: 0.9em; margin-bottom: 8px;">Total Debtors</div>
+                        <div class="stat-value" id="debtor-count">0</div>
+                    </div>
+                    <div class="stat-box">
+                        <div style="color: #666; font-size: 0.9em; margin-bottom: 8px;">Outstanding Amount</div>
+                        <div class="stat-value" id="outstanding">0 TND</div>
+                    </div>
+                    <div class="stat-box">
+                        <div style="color: #666; font-size: 0.9em; margin-bottom: 8px;">Attestations Issued</div>
+                        <div class="stat-value" id="attestation-count">0</div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h2>Finance Officer Functions</h2>
+                    <p>Key responsibilities:</p>
+                    <ul style="margin-left: 2rem; margin-top: 0.5rem;">
+                        <li>Monitor tax collection and revenue (Article 13)</li>
+                        <li>Identify and manage tax debtors</li>
+                        <li>Issue payment attestations for permit requests</li>
+                        <li>Generate revenue reports</li>
+                        <li>Enforce tax payment requirements for permits</li>
+                        <li>Maintain payment records and receipts</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div id="debtors" class="section" style="display: none;">
+                <div class="card">
+                    <h2>Tax Debtors (Outstanding Obligations)</h2>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>User</th>
+                                <th>Outstanding Amount</th>
+                                <th>Tax Count</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="debtors-body">
+                            <tr><td colspan="4">Loading...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="attestations" class="section" style="display: none;">
+                <div class="card">
+                    <h2>Issue Payment Attestation</h2>
+                    <p>Issue attestation proving all taxes are paid (required for permits per Article 13)</p>
+                    <div style="margin: 20px 0;">
+                        <input type="text" id="user-id-input" placeholder="Enter User ID" style="padding: 10px; border: 1px solid #ddd; border-radius: 4px; margin-right: 10px;">
+                        <button onclick="issueAttestation()" class="button">Issue Attestation</button>
+                    </div>
+                    <div id="attestation-result" style="margin-top: 20px;"></div>
+                </div>
+            </div>
+
+            <div id="receipts" class="section" style="display: none;">
+                <div class="card">
+                    <h2>Payment Receipts</h2>
+                    <input type="text" id="user-id-receipts" placeholder="Enter User ID to view receipts" style="padding: 10px; border: 1px solid #ddd; border-radius: 4px; margin-right: 10px;">
+                    <button onclick="getReceipts()" class="button">View Receipts</button>
+                    <table id="receipts-table" style="margin-top: 20px; display: none;">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Amount</th>
+                                <th>Reference</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="receipts-body"></tbody>
+                    </table>
+                    <div id="receipts-message" style="margin-top: 20px;"></div>
+                </div>
+            </div>
+
+            <div id="revenue" class="section" style="display: none;">
+                <div class="card">
+                    <h2>Revenue Report</h2>
+                    <button onclick="loadRevenueReport()" class="button">Load Revenue Report</button>
+                    <div id="revenue-content" style="margin-top: 20px;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../../common/two-factor.js"></script>
+    <script src="enhanced.js"></script>
+</body>
+</html>

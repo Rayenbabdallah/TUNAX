@@ -1,0 +1,3447 @@
+{
+  "_type": "export",
+  "__export_format": 4,
+  "__export_date": "2026-01-09T01:35:00Z",
+  "__export_source": "TUNAX",
+  "resources": [
+    {
+      "_id": "wrk_tunax_full",
+      "_type": "workspace",
+      "name": "TUNAX API - Complete",
+      "description": "Tunisian Tax System - All Endpoints | Demo Password: TunaxDemo123! | TIB Categories: 1(≤100m²), 2(101-200m²), 3(201-400m²), 4(>400m²) | Service Rates: 1-2→8%, 3-4→10%, 5-6→12%, 7+→14%",
+      "scope": "collection"
+    },
+    {
+      "_id": "req_video_tt_nb",
+      "_type": "request",
+      "parentId": "grp_video",
+      "name": "My TTNB Taxes",
+      "method": "GET",
+      "url": "{{ base_url }}/api/v1/ttnb/my-taxes",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_video_payability_tib",
+      "_type": "request",
+      "parentId": "grp_seed_quick",
+      "name": "Payability: TIB (flags)",
+      "method": "GET",
+      "url": "{{ base_url }}/api/v1/tib/my-taxes",
+      "headers": [
+        { "name": "Authorization", "value": "Bearer {{ token }}" }
+      ]
+    },
+    {
+      "_id": "req_video_pay_current",
+      "_type": "request",
+      "parentId": "grp_video",
+      "name": "Attempt Pay Current-Year (expect 400)",
+      "method": "POST",
+      "url": "{{ base_url }}/api/v1/payments/pay",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\"tax_id\": {{ tax_id_current_year }}, \"amount\": 10, \"method\": \"bank_transfer\"}"
+      },
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" },
+        { "name": "Authorization", "value": "Bearer {{ token }}" }
+      ]
+    },
+    {
+      "_id": "req_video_pay_prior",
+      "_type": "request",
+      "parentId": "grp_video",
+      "name": "Pay Prior-Year (expect 201)",
+      "method": "POST",
+      "url": "{{ base_url }}/api/v1/payments/pay",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\"tax_id\": {{ tax_id_prior_year }}, \"amount\": 10, \"method\": \"bank_transfer\"}"
+      },
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" },
+        { "name": "Authorization", "value": "Bearer {{ token }}" }
+      ]
+    },
+    {
+      "_id": "req_video_eligibility",
+      "_type": "request",
+      "parentId": "grp_video",
+      "name": "Permit Eligibility",
+      "method": "GET",
+      "url": "{{ base_url }}/api/v1/payments/check-permit-eligibility/{{ user_id }}",
+      "headers": [
+        { "name": "Authorization", "value": "Bearer {{ token }}" }
+      ]
+    },
+    {
+      "_id": "req_video_taxes_property",
+      "_type": "request",
+      "parentId": "grp_video",
+      "name": "Property Taxes (flags)",
+      "method": "GET",
+      "url": "{{ base_url }}/api/v1/tib/properties/{{ property_id_demo }}/taxes",
+      "headers": [
+        { "name": "Authorization", "value": "Bearer {{ token }}" }
+      ]
+    },
+    {
+      "_id": "req_inspector_satellite_verify",
+      "_type": "request",
+      "parentId": "grp_inspector",
+      "name": "Submit Satellite Verification",
+      "method": "POST",
+      "url": "{{ base_url }}/api/v1/external-integrations/inspector/satellite-verification",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\"property_id\": 1, \"land_id\": null, \"image_url\": \"https://example.com/satellite.jpg\", \"image_source\": \"NASA\", \"verification_status\": \"verified\", \"discrepancy_severity\": \"none\", \"notes\": \"Property verified via satellite imagery\"}"
+      },
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" },
+        { "name": "Authorization", "value": "Bearer {{ token }}" }
+      ]
+    },
+    {
+      "_id": "req_video_taxes_land",
+      "_type": "request",
+      "parentId": "grp_video",
+      "name": "Land Taxes (flags)",
+      "method": "GET",
+      "url": "{{ base_url }}/api/v1/ttnb/lands/{{ land_id_demo }}/taxes",
+      "headers": [
+        { "name": "Authorization", "value": "Bearer {{ token }}" }
+      ]
+    },
+    {
+      "_id": "req_penalty_tib",
+      "_type": "request",
+      "parentId": "grp_seed_quick",
+      "name": "Penalty: TIB (Dynamic)",
+      "method": "GET",
+      "url": "{{ base_url }}/api/v1/tib/my-taxes",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_penalty_ttnb",
+      "_type": "request",
+      "parentId": "grp_seed_quick",
+      "name": "Penalty: TTNB (Dynamic)",
+      "method": "GET",
+      "url": "{{ base_url }}/api/v1/ttnb/my-taxes",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "grp_video",
+      "_type": "request_group",
+      "parentId": "wrk_tunax_full",
+      "name": "Video Demo (5 min)",
+      "metaSortKey": 75
+    },
+    {
+      "_id": "req_video_login",
+      "_type": "request",
+      "parentId": "grp_video",
+      "name": "Login (demo_citizen)",
+      "method": "POST",
+      "url": "{{ base_url }}/api/v1/auth/login",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\"username\":\"demo_citizen\",\"password\":\"TunaxDemo123!\"}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "tests": "if (response.code === 200) {\n  const body = JSON.parse(response.body);\n  environment.set('token', body.access_token);\n}"
+    },
+    {
+      "_id": "req_video_me",
+      "_type": "request",
+      "parentId": "grp_video",
+      "name": "Me",
+      "method": "GET",
+      "url": "{{ base_url }}/api/v1/auth/me",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ],
+      "tests": "if (response.code === 200) {\n  const body = JSON.parse(response.body);\n  environment.set('user_id', body.id);\n}\n"
+    },
+    {
+      "_id": "req_video_dashboard",
+      "_type": "request",
+      "parentId": "grp_video",
+      "name": "Dashboard Summary",
+      "method": "GET",
+      "url": "{{ base_url }}/api/v1/dashboard/citizen-summary",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_video_props",
+      "_type": "request",
+      "parentId": "grp_video",
+      "name": "My Properties",
+      "method": "GET",
+      "url": "{{ base_url }}/api/v1/tib/properties",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ],
+      "tests": "if (response.code === 200) {\n  const body = JSON.parse(response.body);\n  if (body.properties && body.properties.length > 0) {\n    environment.set('property_id_demo', body.properties[0].id);\n    if (body.properties[0].declaration_id) {\n      environment.set('declaration_id', body.properties[0].declaration_id);\n    }\n  }\n}\n"
+    },
+    {
+      "_id": "req_video_lands",
+      "_type": "request",
+      "parentId": "grp_video",
+      "name": "My Lands",
+      "method": "GET",
+      "url": "{{ base_url }}/api/v1/ttnb/lands",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ],
+      "tests": "if (response.code === 200) {\n  const body = JSON.parse(response.body);\n  if (body.lands && body.lands.length > 0) {\n    environment.set('land_id_demo', body.lands[0].id);\n  }\n}\n"
+    },
+    {
+      "_id": "req_video_tib",
+      "_type": "request",
+      "parentId": "grp_video",
+      "name": "My TIB Taxes",
+      "method": "GET",
+      "url": "{{ base_url }}/api/v1/tib/my-taxes",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ],
+      "tests": "if (response.code === 200) {\n  const body = JSON.parse(response.body);\n  if (body.taxes && body.taxes.length > 0) {\n    const current = body.taxes.find(t => t.tax_year === 2025);\n    const prior = body.taxes.find(t => t.tax_year === 2024);\n    if (current) environment.set('tax_id_current_year', current.id);\n    if (prior) environment.set('tax_id_prior_year', prior.id);\n  }\n}\n"
+    },
+    {
+      "_id": "req_video_pay",
+      "_type": "request",
+      "parentId": "grp_seed_quick",
+      "name": "Make Payment (example)",
+      "method": "POST",
+      "url": "{{ base_url }}/api/v1/payments/pay",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\"tax_id\":1,\"amount\":50,\"method\":\"bank_transfer\"}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_video_my_payments",
+      "_type": "request",
+      "parentId": "grp_video",
+      "name": "My Payments",
+      "method": "GET",
+      "url": "{{ base_url }}/api/v1/payments/my-payments",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_video_docs",
+      "_type": "request",
+      "parentId": "grp_video",
+      "name": "Declaration Documents",
+      "method": "GET",
+      "url": "{{ base_url }}/api/v1/documents/declarations/{{ declaration_id }}/documents",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_video_budget",
+      "_type": "request",
+      "parentId": "grp_video",
+      "name": "Budget Projects",
+      "method": "GET",
+      "url": "{{ base_url }}/api/v1/budget/projects",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "env_dev",
+      "_type": "environment",
+      "parentId": "wrk_tunax_full",
+      "name": "Development",
+      "data": {
+        "base_url": "http://localhost:5000",
+        "token": "",
+        "declaration_id": "1",
+        "document_id": "1",
+        "user_id": "",
+        "tax_id_current_year": "",
+        "tax_id_prior_year": "",
+        "property_id_demo": "",
+        "land_id_demo": ""
+      }
+    },
+    {
+      "_id": "grp_0",
+      "_type": "request_group",
+      "parentId": "wrk_tunax_full",
+      "name": "Public Endpoints",
+      "metaSortKey": 100
+    },
+    {
+      "_id": "grp_external",
+      "_type": "request_group",
+      "parentId": "wrk_tunax_full",
+      "name": "External Integrations",
+      "metaSortKey": 90
+    },
+    {
+      "_id": "req_ext_geocode",
+      "_type": "request",
+      "parentId": "grp_external",
+      "name": "Geocode Address (Nominatim)",
+      "method": "GET",
+      "url": "{{ base_url }}/api/v1/external/geocode",
+      "parameters": [
+        { "name": "q", "value": "Avenue Habib Bourguiba, Tunis" },
+        { "name": "limit", "value": "1" }
+      ]
+    },
+    {
+      "_id": "req_ext_reverse",
+      "_type": "request",
+      "parentId": "grp_external",
+      "name": "Reverse Geocode (Nominatim)",
+      "method": "GET",
+      "url": "{{ base_url }}/api/v1/external/reverse-geocode",
+      "parameters": [
+        { "name": "lat", "value": "36.8065" },
+        { "name": "lon", "value": "10.1815" }
+      ]
+    },
+    {
+      "_id": "req_ext_nasa_imagery",
+      "_type": "request",
+      "parentId": "grp_external",
+      "name": "NASA Imagery Search",
+      "method": "GET",
+      "url": "{{ base_url }}/api/v1/external/nasa/imagery",
+      "parameters": [
+        { "name": "q", "value": "Tunisia earth" },
+        { "name": "page", "value": "1" },
+        { "name": "page_size", "value": "5" },
+        { "name": "media_type", "value": "image" }
+      ]
+    },
+    {
+      "_id": "req_ext_nasa_events",
+      "_type": "request",
+      "parentId": "grp_external",
+      "name": "NASA EONET Events",
+      "method": "GET",
+      "url": "{{ base_url }}/api/v1/external/nasa/events",
+      "parameters": [
+        { "name": "limit", "value": "5" }
+      ]
+    },
+    {
+      "_id": "req_0",
+      "_type": "request",
+      "parentId": "grp_0",
+      "name": "Health Check",
+      "method": "GET",
+      "url": "{{ base_url }}/health"
+    },
+    {
+      "_id": "req_1",
+      "_type": "request",
+      "parentId": "grp_0",
+      "name": "Swagger UI",
+      "method": "GET",
+      "url": "{{ base_url }}/api/v1/docs/swagger-ui"
+    },
+    {
+      "_id": "req_2",
+      "_type": "request",
+      "parentId": "grp_0",
+      "name": "List Communes",
+      "method": "GET",
+      "url": "{{ base_url }}/api/v1/public/communes"
+    },
+    {
+      "_id": "req_public_delegations",
+      "_type": "request",
+      "parentId": "grp_0",
+      "name": "List Delegations",
+      "method": "GET",
+      "url": "{{ base_url }}/api/v1/public/delegations",
+      "parameters": [
+        {
+          "name": "commune_id",
+          "value": "1"
+        }
+      ]
+    },
+    {
+      "_id": "req_3",
+      "_type": "request",
+      "parentId": "grp_0",
+      "name": "List Localities",
+      "method": "GET",
+      "url": "{{ base_url }}/api/v1/public/localities",
+      "parameters": [
+        {
+          "name": "commune_id",
+          "value": "1"
+        },
+        {
+          "name": "delegation",
+          "value": "Tunis"
+        }
+      ]
+    },
+    {
+      "_id": "req_public_doc_requirements",
+      "_type": "request",
+      "parentId": "grp_0",
+      "name": "Document Requirements (Public)",
+      "method": "GET",
+      "url": "{{ base_url }}/api/v1/public/document-requirements",
+      "parameters": [
+        {
+          "name": "declaration_type",
+          "value": "property"
+        },
+        {
+          "name": "commune_id",
+          "value": "1"
+        },
+        {
+          "name": "include_optional",
+          "value": "false"
+        }
+      ]
+    },
+    {
+      "_id": "req_4",
+      "_type": "request",
+      "parentId": "grp_0",
+      "name": "Get Tax Rates",
+      "method": "GET",
+      "url": "{{ base_url }}/api/v1/public/tax-rates"
+    },
+    {
+      "_id": "req_5",
+      "_type": "request",
+      "parentId": "grp_0",
+      "name": "Estimate Tax (TIB)",
+      "description": "Estimate TIB for a property. System auto-determines category from covered surface (≤100→Cat1, ≤200→Cat2, ≤400→Cat3, >400→Cat4) and service rate from available services (1-2→8%, 3-4→10%, 5-6→12%, 7+→14%)",
+      "method": "POST",
+      "url": "{{ base_url }}/api/v1/public/calculator",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\"tax_type\":\"tib\",\"surface_couverte\":201,\"reference_price_per_m2\":217,\"commune_id\":1,\"delegation\":\"Tunis\"}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ]
+    },
+    {
+      "_id": "req_5b",
+      "_type": "request",
+      "parentId": "grp_0",
+      "name": "Estimate Tax (TTNB - Land)",
+      "description": "Estimate TTNB (land tax) for agricultural or non-agricultural land",
+      "method": "POST",
+      "url": "{{ base_url }}/api/v1/public/calculator",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\"tax_type\":\"ttnb\",\"surface\":5000,\"land_type\":\"agricultural\",\"vénale_value\":150000}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ]
+    },
+    {
+      "_id": "grp_1",
+      "_type": "request_group",
+      "parentId": "wrk_tunax_full",
+      "name": "Authentication",
+      "metaSortKey": 200
+    },
+    {
+      "_id": "req_6",
+      "_type": "request",
+      "parentId": "grp_1",
+      "name": "Register Citizen",
+      "method": "POST",
+      "url": "{{ base_url }}/api/v1/auth/register-citizen",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\"username\":\"new_citizen\",\"email\":\"citizen@test.tn\",\"password\":\"Pass123!\",\"first_name\":\"Ahmed\",\"last_name\":\"Ben\"}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ]
+    },
+    {
+      "_id": "req_7",
+      "_type": "request",
+      "parentId": "grp_1",
+      "name": "Register Business",
+      "method": "POST",
+      "url": "{{ base_url }}/api/v1/auth/register-business",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\"username\":\"new_business\",\"email\":\"business@test.tn\",\"password\":\"Pass123!\",\"first_name\":\"Commerce\",\"last_name\":\"Ltd\",\"business_name\":\"My Business\"}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ]
+    },
+    {
+      "_id": "req_8",
+      "_type": "request",
+      "parentId": "grp_1",
+      "name": "Login",
+      "description": "Demo users: demo_citizen, demo_business, demo_agent, demo_inspector, demo_finance, demo_contentieux, demo_urbanism, demo_admin (MUNICIPAL_ADMIN), ministry_admin - All password: TunaxDemo123!",
+      "method": "POST",
+      "url": "{{ base_url }}/api/v1/auth/login",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\"username\":\"demo_citizen\",\"password\":\"TunaxDemo123!\"}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ]
+    },
+    {
+      "_id": "req_9",
+      "_type": "request",
+      "parentId": "grp_1",
+      "name": "Refresh Token",
+      "method": "POST",
+      "url": "{{ base_url }}/api/v1/auth/refresh",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_10",
+      "_type": "request",
+      "parentId": "grp_1",
+      "name": "Logout",
+      "method": "POST",
+      "url": "{{ base_url }}/api/v1/auth/logout",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_11",
+      "_type": "request",
+      "parentId": "grp_1",
+      "name": "Get Current User",
+      "method": "GET",
+      "url": "{{ base_url }}/api/v1/auth/me",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_12",
+      "_type": "request",
+      "parentId": "grp_1",
+      "name": "Update Profile",
+      "method": "PATCH",
+      "url": "{{ base_url }}/api/v1/auth/profile",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\"first_name\":\"Ahmed\",\"last_name\":\"Updated\"}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_13",
+      "_type": "request",
+      "parentId": "grp_1",
+      "name": "Change Password",
+      "method": "POST",
+      "url": "{{ base_url }}/api/v1/auth/change-password",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\"old_password\":\"TunaxDemo123!\",\"new_password\":\"NewPass123!\"}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_14",
+      "_type": "request",
+      "parentId": "grp_1",
+      "name": "Upload Document",
+      "method": "POST",
+      "url": "{{ base_url }}/api/v1/auth/upload-document",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "grp_2",
+      "_type": "request_group",
+      "parentId": "wrk_tunax_full",
+      "name": "Two-Factor Authentication",
+      "metaSortKey": 250
+    },
+    {
+      "_id": "req_15",
+      "_type": "request",
+      "parentId": "grp_2",
+      "name": "Setup 2FA",
+      "method": "GET",
+      "url": "{{ base_url }}/api/v1/2fa/setup",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_16",
+      "_type": "request",
+      "parentId": "grp_2",
+      "name": "Enable 2FA",
+      "method": "POST",
+      "url": "{{ base_url }}/api/v1/2fa/enable",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\"code\":\"123456\"}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_17",
+      "_type": "request",
+      "parentId": "grp_2",
+      "name": "Disable 2FA",
+      "method": "POST",
+      "url": "{{ base_url }}/api/v1/2fa/disable",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\"password\":\"TunaxDemo123!\"}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_18",
+      "_type": "request",
+      "parentId": "grp_2",
+      "name": "Get 2FA Status",
+      "method": "GET",
+      "url": "{{ base_url }}/api/v1/2fa/status",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_19",
+      "_type": "request",
+      "parentId": "grp_2",
+      "name": "Regenerate Backup Codes",
+      "method": "POST",
+      "url": "{{ base_url }}/api/v1/2fa/backup-codes",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "grp_3",
+      "_type": "request_group",
+      "parentId": "wrk_tunax_full",
+      "name": "TIB - Properties",
+      "metaSortKey": 300
+    },
+    {
+      "_id": "req_20",
+      "_type": "request",
+      "parentId": "grp_3",
+      "name": "Declare Property",
+      "method": "POST",
+      "url": "{{ base_url }}/api/v1/tib/properties",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\"commune_id\":1,\"street_address\":\"Main Street 123\",\"city\":\"Tunis\",\"latitude\":36.8065,\"longitude\":10.1815,\"surface_couverte\":150,\"construction_year\":2015,\"affectation\":\"RESIDENTIAL\",\"urban_zone\":\"haute_densite\",\"reference_price_per_m2\":900}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_21",
+      "_type": "request",
+      "parentId": "grp_3",
+      "name": "List My Properties",
+      "method": "GET",
+      "url": "{{ base_url }}/api/v1/tib/properties",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_22",
+      "_type": "request",
+      "parentId": "grp_3",
+      "name": "Get Property Details",
+      "method": "GET",
+      "url": "{{ base_url }}/api/v1/tib/properties/1",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_23",
+      "_type": "request",
+      "parentId": "grp_3",
+      "name": "Update Property",
+      "method": "PUT",
+      "url": "{{ base_url }}/api/v1/tib/properties/1",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\"surface_couverte\":160,\"affectation\":\"commercial\"}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_24",
+      "_type": "request",
+      "parentId": "grp_3",
+      "name": "Delete Property",
+      "method": "DELETE",
+      "url": "{{ base_url }}/api/v1/tib/properties/1",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_25",
+      "_type": "request",
+      "parentId": "grp_3",
+      "name": "Get Property Taxes",
+      "method": "GET",
+      "url": "{{ base_url }}/api/v1/tib/properties/1/taxes",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_26",
+      "_type": "request",
+      "parentId": "grp_3",
+      "name": "List My TIB Taxes",
+      "method": "GET",
+      "url": "{{ base_url }}/api/v1/tib/my-taxes",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "grp_4",
+      "_type": "request_group",
+      "parentId": "wrk_tunax_full",
+      "name": "TTNB - Lands",
+      "metaSortKey": 400
+    },
+    {
+      "_id": "req_27",
+      "_type": "request",
+      "parentId": "grp_4",
+      "name": "Declare Land",
+      "method": "POST",
+      "url": "{{ base_url }}/api/v1/ttnb/lands",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\"commune_id\":1,\"street_address\":\"Farm Road\",\"city\":\"Sfax\",\"latitude\":34.7406,\"longitude\":10.7603,\"surface\":5000,\"land_type\":\"AGRICULTURAL\",\"urban_zone\":\"faible_densite\"}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_28",
+      "_type": "request",
+      "parentId": "grp_4",
+      "name": "List My Lands",
+      "method": "GET",
+      "url": "{{ base_url }}/api/v1/ttnb/lands",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_29",
+      "_type": "request",
+      "parentId": "grp_4",
+      "name": "Get Land Details",
+      "method": "GET",
+      "url": "{{ base_url }}/api/v1/ttnb/lands/1",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_30",
+      "_type": "request",
+      "parentId": "grp_4",
+      "name": "Update Land",
+      "method": "PUT",
+      "url": "{{ base_url }}/api/v1/ttnb/lands/1",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\"surface\":6000,\"urban_zone\":\"densite_moyenne\"}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_31",
+      "_type": "request",
+      "parentId": "grp_4",
+      "name": "Delete Land",
+      "method": "DELETE",
+      "url": "{{ base_url }}/api/v1/ttnb/lands/1",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_32",
+      "_type": "request",
+      "parentId": "grp_4",
+      "name": "Get Land Taxes",
+      "method": "GET",
+      "url": "{{ base_url }}/api/v1/ttnb/lands/1/taxes",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_33",
+      "_type": "request",
+      "parentId": "grp_4",
+      "name": "List My TTNB Taxes",
+      "method": "GET",
+      "url": "{{ base_url }}/api/v1/ttnb/my-taxes",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "grp_5",
+      "_type": "request_group",
+      "parentId": "wrk_tunax_full",
+      "name": "Payments",
+      "metaSortKey": 500
+    },
+    {
+      "_id": "req_34",
+      "_type": "request",
+      "parentId": "grp_5",
+      "name": "Make Payment",
+      "method": "POST",
+      "url": "{{ base_url }}/api/v1/payments/pay",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\"tax_id\":1,\"amount\":500,\"method\":\"bank_transfer\"}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_35",
+      "_type": "request",
+      "parentId": "grp_5",
+      "name": "Get Payment Attestation",
+      "method": "GET",
+      "url": "{{ base_url }}/api/v1/payments/attestation/1",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_36",
+      "_type": "request",
+      "parentId": "grp_5",
+      "name": "Get My Payments",
+      "method": "GET",
+      "url": "{{ base_url }}/api/v1/payments/my-payments",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_37",
+      "_type": "request",
+      "parentId": "grp_5",
+      "name": "Get Payment Receipt",
+      "method": "GET",
+      "url": "{{ base_url }}/api/v1/payments/receipt/1",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_38",
+      "_type": "request",
+      "parentId": "grp_5",
+      "name": "Check Permit Eligibility",
+      "method": "GET",
+      "url": "{{ base_url }}/api/v1/payments/check-permit-eligibility/1",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "grp_6",
+      "_type": "request_group",
+      "parentId": "wrk_tunax_full",
+      "name": "Payment Plans",
+      "metaSortKey": 550
+    },
+    {
+      "_id": "req_39",
+      "_type": "request",
+      "parentId": "grp_6",
+      "name": "Request Payment Plan",
+      "method": "POST",
+      "url": "{{ base_url }}/api/v1/payment-plans/request",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\"tax_id\":1,\"installments\":6}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_40",
+      "_type": "request",
+      "parentId": "grp_6",
+      "name": "Get Active Plans",
+      "method": "GET",
+      "url": "{{ base_url }}/api/v1/payment-plans/active",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_41",
+      "_type": "request",
+      "parentId": "grp_6",
+      "name": "Pay Installment",
+      "method": "POST",
+      "url": "{{ base_url }}/api/v1/payment-plans/1/pay-installment",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\"amount\":100}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "grp_7",
+      "_type": "request_group",
+      "parentId": "wrk_tunax_full",
+      "name": "Permits",
+      "metaSortKey": 600
+    },
+    {
+      "_id": "req_42",
+      "_type": "request",
+      "parentId": "grp_7",
+      "name": "Request Permit",
+      "method": "POST",
+      "url": "{{ base_url }}/api/v1/permits/request",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\"permit_type\":\"construction\",\"property_id\":1,\"description\":\"home renovation\"}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_43",
+      "_type": "request",
+      "parentId": "grp_7",
+      "name": "List My Permits",
+      "method": "GET",
+      "url": "{{ base_url }}/api/v1/permits/my-requests",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_44",
+      "_type": "request",
+      "parentId": "grp_7",
+      "name": "Get Permit Details",
+      "method": "GET",
+      "url": "{{ base_url }}/api/v1/permits/1",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_45",
+      "_type": "request",
+      "parentId": "grp_7",
+      "name": "Get Pending Permits",
+      "method": "GET",
+      "url": "{{ base_url }}/api/v1/permits/pending",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_46",
+      "_type": "request",
+      "parentId": "grp_7",
+      "name": "Decide Permit",
+      "method": "PATCH",
+      "url": "{{ base_url }}/api/v1/permits/1/decide",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\"status\":\"approved\",\"notes\":\"ok\"}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_permit_history",
+      "_type": "request",
+      "parentId": "grp_7",
+      "name": "Permit History (Approved/Rejected)",
+      "method": "GET",
+      "url": "{{ base_url }}/api/v1/permits/history",
+      "body": {},
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ urbanism_token }}"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": 1,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "req_47",
+      "_type": "request",
+      "parentId": "grp_7",
+      "name": "Get Blocked Permits",
+      "method": "GET",
+      "url": "{{ base_url }}/api/v1/permits/blocked",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "grp_8",
+      "_type": "request_group",
+      "parentId": "wrk_tunax_full",
+      "name": "Exemptions",
+      "metaSortKey": 650
+    },
+    {
+      "_id": "req_48",
+      "_type": "request",
+      "parentId": "grp_8",
+      "name": "Request Exemption",
+      "method": "POST",
+      "url": "{{ base_url }}/api/v1/exemptions/request",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\"property_id\":1,\"reason\":\"disability\"}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_49",
+      "_type": "request",
+      "parentId": "grp_8",
+      "name": "Get My Exemptions",
+      "method": "GET",
+      "url": "{{ base_url }}/api/v1/exemptions/my-exemptions",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_50",
+      "_type": "request",
+      "parentId": "grp_8",
+      "name": "Get Exemption Details",
+      "method": "GET",
+      "url": "{{ base_url }}/api/v1/exemptions/1",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_51",
+      "_type": "request",
+      "parentId": "grp_8",
+      "name": "Decide Exemption",
+      "method": "PATCH",
+      "url": "{{ base_url }}/api/v1/exemptions/1/decide",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\"status\":\"approved\",\"notes\":\"ok\"}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "grp_9",
+      "_type": "request_group",
+      "parentId": "wrk_tunax_full",
+      "name": "Reclamations",
+      "metaSortKey": 700
+    },
+    {
+      "_id": "req_52",
+      "_type": "request",
+      "parentId": "grp_9",
+      "name": "Submit Reclamation",
+      "method": "POST",
+      "url": "{{ base_url }}/api/v1/reclamations",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\"reclamation_type\":\"LIGHTING\",\"street_address\":\"Main Street\",\"city\":\"Tunis\",\"description\":\"Street light not working\"}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_53",
+      "_type": "request",
+      "parentId": "grp_9",
+      "name": "Get My Reclamations",
+      "method": "GET",
+      "url": "{{ base_url }}/api/v1/reclamations/my-reclamations",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_54",
+      "_type": "request",
+      "parentId": "grp_9",
+      "name": "Get Reclamation Details",
+      "method": "GET",
+      "url": "{{ base_url }}/api/v1/reclamations/1",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_55",
+      "_type": "request",
+      "parentId": "grp_9",
+      "name": "Get All Reclamations",
+      "method": "GET",
+      "url": "{{ base_url }}/api/v1/reclamations/all",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_56",
+      "_type": "request",
+      "parentId": "grp_9",
+      "name": "Assign Reclamation",
+      "method": "PATCH",
+      "url": "{{ base_url }}/api/v1/reclamations/1/assign",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_57",
+      "_type": "request",
+      "parentId": "grp_9",
+      "name": "Update Reclamation Progress",
+      "method": "PATCH",
+      "url": "{{ base_url }}/api/v1/reclamations/1/progress",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\"status\":\"in_progress\",\"notes\":\"investigating\"}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "grp_10",
+      "_type": "request_group",
+      "parentId": "wrk_tunax_full",
+      "name": "Disputes - Contentieux",
+      "metaSortKey": 750
+    },
+    {
+      "_id": "req_58",
+      "_type": "request",
+      "parentId": "grp_10",
+      "name": "Submit Dispute",
+      "method": "POST",
+      "url": "{{ base_url }}/api/v1/disputes",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\"dispute_type\":\"tax_calculation\",\"subject\":\"Tax Calculation Error\",\"description\":\"incorrect tax calculation\",\"tax_id\":1}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_59",
+      "_type": "request",
+      "parentId": "grp_10",
+      "name": "Get Disputes",
+      "method": "GET",
+      "url": "{{ base_url }}/api/v1/disputes",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_60",
+      "_type": "request",
+      "parentId": "grp_10",
+      "name": "Get Dispute Details",
+      "method": "GET",
+      "url": "{{ base_url }}/api/v1/disputes/1",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_61",
+      "_type": "request",
+      "parentId": "grp_10",
+      "name": "Assign Dispute",
+      "method": "PATCH",
+      "url": "{{ base_url }}/api/v1/disputes/1/assign",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_62",
+      "_type": "request",
+      "parentId": "grp_10",
+      "name": "Commission Review (Articles 24-26)",
+      "method": "PATCH",
+      "url": "{{ base_url }}/api/v1/disputes/1/commission-review",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\"commission_decision\":\"Submitted for review by Commission de révision\"}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ contentieux_token }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_63",
+      "_type": "request",
+      "parentId": "grp_10",
+      "name": "Make Final Decision",
+      "method": "PATCH",
+      "url": "{{ base_url }}/api/v1/disputes/1/decision",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\"final_decision\":\"Tax calculation approved. Original amount stands.\",\"final_amount\":500.50}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ contentieux_token }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_64",
+      "_type": "request",
+      "parentId": "grp_10",
+      "name": "Appeal Dispute Decision",
+      "method": "POST",
+      "url": "{{ base_url }}/api/v1/disputes/1/appeal",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\"reason\":\"Decision does not consider updated market values and recent property improvements\"}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "grp_11",
+      "_type": "request_group",
+      "parentId": "wrk_tunax_full",
+      "name": "Inspections",
+      "metaSortKey": 800
+    },
+    {
+      "_id": "req_65",
+      "_type": "request",
+      "parentId": "grp_11",
+      "name": "Get Properties To Inspect",
+      "method": "GET",
+      "url": "{{ base_url }}/api/v1/inspector/properties/to-inspect",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_66",
+      "_type": "request",
+      "parentId": "grp_11",
+      "name": "Get Lands To Inspect",
+      "method": "GET",
+      "url": "{{ base_url }}/api/v1/inspector/lands/to-inspect",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_67",
+      "_type": "request",
+      "parentId": "grp_11",
+      "name": "Submit Inspection Report",
+      "method": "POST",
+      "url": "{{ base_url }}/api/v1/inspector/report",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\"property_id\":1,\"satellite_verified\":true,\"notes\":\"Property verified successfully\",\"discrepancies_found\":false}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_68",
+      "_type": "request",
+      "parentId": "grp_11",
+      "name": "Get Inspection Report",
+      "method": "GET",
+      "url": "{{ base_url }}/api/v1/inspector/report/1",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_69",
+      "_type": "request",
+      "parentId": "grp_11",
+      "name": "Get Property Satellite Imagery",
+      "method": "GET",
+      "url": "{{ base_url }}/api/v1/inspector/property/1/satellite-imagery",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_70",
+      "_type": "request",
+      "parentId": "grp_11",
+      "name": "Get Land Satellite Imagery",
+      "method": "GET",
+      "url": "{{ base_url }}/api/v1/inspector/land/1/satellite-imagery",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_71",
+      "_type": "request",
+      "parentId": "grp_11",
+      "name": "Get My Inspection Reports",
+      "method": "GET",
+      "url": "{{ base_url }}/api/v1/inspector/my-reports",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "grp_12",
+      "_type": "request_group",
+      "parentId": "wrk_tunax_full",
+      "name": "Search",
+      "metaSortKey": 850
+    },
+    {
+      "_id": "req_72",
+      "_type": "request",
+      "parentId": "grp_12",
+      "name": "Search Properties (Advanced Filters)",
+      "method": "GET",
+      "url": "{{ base_url }}/api/v1/search/properties?city=tunis&affectation=RESIDENTIAL&surface_min=100&surface_max=200&page=1&per_page=20",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_73",
+      "_type": "request",
+      "parentId": "grp_12",
+      "name": "Search Lands (Advanced Filters)",
+      "method": "GET",
+      "url": "{{ base_url }}/api/v1/search/lands?city=sfax&land_type=agricultural&surface_min=500&is_exempt=false&page=1&per_page=20",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "grp_13",
+      "_type": "request_group",
+      "parentId": "wrk_tunax_full",
+      "name": "Dashboards",
+      "metaSortKey": 900
+    },
+    {
+      "_id": "req_74",
+      "_type": "request",
+      "parentId": "grp_13",
+      "name": "Citizen Dashboard",
+      "method": "GET",
+      "url": "{{ base_url }}/api/v1/dashboard/citizen-summary",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_75",
+      "_type": "request",
+      "parentId": "grp_13",
+      "name": "Inspector Dashboard",
+      "method": "GET",
+      "url": "{{ base_url }}/api/v1/dashboard/inspector-workload",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_76",
+      "_type": "request",
+      "parentId": "grp_13",
+      "name": "Municipal Admin Dashboard Overview",
+      "method": "GET",
+      "url": "{{ base_url }}/api/v1/dashboard/admin-overview",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "grp_14",
+      "_type": "request_group",
+      "parentId": "wrk_tunax_full",
+      "name": "Notifications",
+      "metaSortKey": 950
+    },
+    {
+      "_id": "req_77",
+      "_type": "request",
+      "parentId": "grp_14",
+      "name": "Get Notifications (Paginated)",
+      "method": "GET",
+      "url": "{{ base_url }}/api/v1/notifications?unread=false&page=1&per_page=20",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_77b",
+      "_type": "request",
+      "parentId": "grp_14",
+      "name": "Get Unread Notifications Only",
+      "method": "GET",
+      "url": "{{ base_url }}/api/v1/notifications?unread=true",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_78",
+      "_type": "request",
+      "parentId": "grp_14",
+      "name": "Mark Notification Read",
+      "method": "PATCH",
+      "url": "{{ base_url }}/api/v1/notifications/1/read",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_79",
+      "_type": "request",
+      "parentId": "grp_14",
+      "name": "Update Notification Settings",
+      "method": "PATCH",
+      "url": "{{ base_url }}/api/v1/notifications/settings",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\"email_notifications\":true,\"sms_notifications\":false,\"tax_reminders\":true,\"permit_updates\":true,\"dispute_updates\":true}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_80",
+      "_type": "request",
+      "parentId": "grp_14",
+      "name": "Mark All Read",
+      "method": "PATCH",
+      "url": "{{ base_url }}/api/v1/notifications/mark-all-read",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "grp_15",
+      "_type": "request_group",
+      "parentId": "wrk_tunax_full",
+      "name": "Documents",
+      "metaSortKey": 1000
+    },
+    {
+      "_id": "req_81",
+      "_type": "request",
+      "parentId": "grp_15",
+      "name": "Upload Document",
+      "method": "POST",
+      "url": "{{ base_url }}/api/v1/documents/declarations/{{ declaration_id }}/documents",
+      "body": {
+        "mimeType": "multipart/form-data",
+        "params": [
+          {
+            "name": "document_type",
+            "value": "title_deed"
+          },
+          {
+            "name": "file",
+            "type": "file",
+            "fileName": "sample.pdf"
+          }
+        ]
+      },
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_82",
+      "_type": "request",
+      "parentId": "grp_15",
+      "name": "List Documents",
+      "method": "GET",
+      "url": "{{ base_url }}/api/v1/documents/declarations/{{ declaration_id }}/documents",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_83",
+      "_type": "request",
+      "parentId": "grp_15",
+      "name": "Review Document",
+      "method": "PUT",
+      "url": "{{ base_url }}/api/v1/documents/documents/{{ document_id }}/review",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\"status\":\"approved\",\"review_notes\":\"looks good\"}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_84",
+      "_type": "request",
+      "parentId": "grp_15",
+      "name": "Download Document",
+      "method": "GET",
+      "url": "{{ base_url }}/api/v1/documents/documents/{{ document_id }}/file",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "grp_seed_quick",
+      "_type": "request_group",
+      "parentId": "wrk_tunax_full",
+      "name": "Seeded Data Quick-Tests",
+      "metaSortKey": 1550
+    },
+    {
+      "_id": "req_seed_props",
+      "_type": "request",
+      "parentId": "grp_seed_quick",
+      "name": "Seed: Confirm Properties",
+      "method": "GET",
+      "url": "{{ base_url }}/api/v1/tib/properties",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_seed_lands",
+      "_type": "request",
+      "parentId": "grp_seed_quick",
+      "name": "Seed: Confirm Lands",
+      "method": "GET",
+      "url": "{{ base_url }}/api/v1/ttnb/lands",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_seed_tib",
+      "_type": "request",
+      "parentId": "grp_seed_quick",
+      "name": "Seed: My TIB Taxes",
+      "method": "GET",
+      "url": "{{ base_url }}/api/v1/tib/my-taxes",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_seed_tt_nb",
+      "_type": "request",
+      "parentId": "grp_seed_quick",
+      "name": "Seed: My TTNB Taxes",
+      "method": "GET",
+      "url": "{{ base_url }}/api/v1/ttnb/my-taxes",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_seed_budget",
+      "_type": "request",
+      "parentId": "grp_seed_quick",
+      "name": "Seed: Budget Projects",
+      "method": "GET",
+      "url": "{{ base_url }}/api/v1/budget/projects",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_seed_docs",
+      "_type": "request",
+      "parentId": "grp_seed_quick",
+      "name": "Seed: Declaration Documents",
+      "method": "GET",
+      "url": "{{ base_url }}/api/v1/documents/declarations/{{ declaration_id }}/documents",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    
+    {
+      "_id": "grp_16",
+      "_type": "request_group",
+      "parentId": "wrk_tunax_full",
+      "name": "Municipal Admin",
+      "metaSortKey": 1050
+    },
+    {
+      "_id": "req_85",
+      "_type": "request",
+      "parentId": "grp_16",
+      "name": "Get User Municipality",
+      "method": "GET",
+      "url": "{{ base_url }}/api/v1/municipal/me",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_86",
+      "_type": "request",
+      "parentId": "grp_16",
+      "name": "Municipal Dashboard",
+      "method": "GET",
+      "url": "{{ base_url }}/api/v1/municipal/dashboard",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_87",
+      "_type": "request",
+      "parentId": "grp_16",
+      "name": "Get Reference Prices",
+      "method": "GET",
+      "url": "{{ base_url }}/api/v1/municipal/reference-prices",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_88",
+      "_type": "request",
+      "parentId": "grp_16",
+      "name": "Update Reference Price - Cat 1",
+      "description": "Set exact reference price for Category 1 (≤100 m²). Must be within legal bounds 100-178 TND/m²",
+      "method": "PUT",
+      "url": "{{ base_url }}/api/v1/municipal/reference-prices/1",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\"reference_price_per_m2\":139}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_88b",
+      "_type": "request",
+      "parentId": "grp_16",
+      "name": "Update Reference Price - Cat 2",
+      "description": "Set exact reference price for Category 2 (101-200 m²). Must be within legal bounds 163-238 TND/m²",
+      "method": "PUT",
+      "url": "{{ base_url }}/api/v1/municipal/reference-prices/2",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\"reference_price_per_m2\":200}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_88c",
+      "_type": "request",
+      "parentId": "grp_16",
+      "name": "Update Reference Price - Cat 3",
+      "description": "Set exact reference price for Category 3 (201-400 m²). Must be within legal bounds 217-297 TND/m²",
+      "method": "PUT",
+      "url": "{{ base_url }}/api/v1/municipal/reference-prices/3",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\"reference_price_per_m2\":257}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_88d",
+      "_type": "request",
+      "parentId": "grp_16",
+      "name": "Update Reference Price - Cat 4",
+      "description": "Set exact reference price for Category 4 (>400 m²). Must be within legal bounds 271-356 TND/m²",
+      "method": "PUT",
+      "url": "{{ base_url }}/api/v1/municipal/reference-prices/4",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\"reference_price_per_m2\":313}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_89",
+      "_type": "request",
+      "parentId": "grp_16",
+      "name": "Get Services",
+      "method": "GET",
+      "url": "{{ base_url }}/api/v1/municipal/services",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_90",
+      "_type": "request",
+      "parentId": "grp_16",
+      "name": "Add Service",
+      "method": "POST",
+      "url": "{{ base_url }}/api/v1/municipal/services",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\"service_name\":\"Water\",\"service_code\":\"SVC001\",\"locality_name\":\"Centre Ville\",\"is_available\":true}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_91",
+      "_type": "request",
+      "parentId": "grp_16",
+      "name": "Update Service",
+      "method": "PATCH",
+      "url": "{{ base_url }}/api/v1/municipal/services/1",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\"is_available\":false,\"locality_name\":\"Centre Ville\"}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_92",
+      "_type": "request",
+      "parentId": "grp_16",
+      "name": "Delete Service",
+      "method": "DELETE",
+      "url": "{{ base_url }}/api/v1/municipal/services/1",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_146",
+      "_type": "request",
+      "parentId": "grp_16",
+      "name": "List Document Requirements",
+      "method": "GET",
+      "url": "{{ base_url }}/api/v1/municipal/document-requirements",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_147",
+      "_type": "request",
+      "parentId": "grp_16",
+      "name": "Create Document Requirement",
+      "method": "POST",
+      "url": "{{ base_url }}/api/v1/municipal/document-requirements",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\"declaration_type\":\"property\",\"document_name\":\"Titre de propriété\",\"document_code\":\"title_deed\",\"description\":\"Titre foncier ou acte notarié\",\"is_mandatory\":true,\"display_order\":1}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_148",
+      "_type": "request",
+      "parentId": "grp_16",
+      "name": "Update Document Requirement",
+      "method": "PUT",
+      "url": "{{ base_url }}/api/v1/municipal/document-requirements/1",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\"document_name\":\"Titre foncier (mis à jour)\",\"is_mandatory\":true,\"display_order\":2}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_149",
+      "_type": "request",
+      "parentId": "grp_16",
+      "name": "Delete Document Requirement",
+      "method": "DELETE",
+      "url": "{{ base_url }}/api/v1/municipal/document-requirements/1",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_93",
+      "_type": "request",
+      "parentId": "grp_16",
+      "name": "Get Municipal Properties",
+      "method": "GET",
+      "url": "{{ base_url }}/api/v1/municipal/properties",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_94",
+      "_type": "request",
+      "parentId": "grp_16",
+      "name": "Get Municipal Lands",
+      "method": "GET",
+      "url": "{{ base_url }}/api/v1/municipal/lands",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_95",
+      "_type": "request",
+      "parentId": "grp_16",
+      "name": "Get Municipal Users",
+      "method": "GET",
+      "url": "{{ base_url }}/api/v1/municipal/users",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_96",
+      "_type": "request",
+      "parentId": "grp_16",
+      "name": "Create Staff",
+      "method": "POST",
+      "url": "{{ base_url }}/api/v1/municipal/staff",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\"username\":\"agent1\",\"email\":\"agent@test.tn\",\"password\":\"Pass123!\",\"first_name\":\"Ali\",\"last_name\":\"Agent\",\"role\":\"MUNICIPAL_AGENT\"}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_97",
+      "_type": "request",
+      "parentId": "grp_16",
+      "name": "Update Staff",
+      "method": "PATCH",
+      "url": "{{ base_url }}/api/v1/municipal/staff/1",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\"email\":\"newemail@test.tn\"}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_98",
+      "_type": "request",
+      "parentId": "grp_16",
+      "name": "Delete Staff",
+      "method": "DELETE",
+      "url": "{{ base_url }}/api/v1/municipal/staff/1",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_99",
+      "_type": "request",
+      "parentId": "grp_16",
+      "name": "Get Taxes Summary",
+      "method": "GET",
+      "url": "{{ base_url }}/api/v1/municipal/taxes/summary",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "grp_17",
+      "_type": "request_group",
+      "parentId": "wrk_tunax_full",
+      "name": "Finance",
+      "metaSortKey": 1100
+    },
+    {
+      "_id": "req_100",
+      "_type": "request",
+      "parentId": "grp_17",
+      "name": "Get Debtors",
+      "method": "GET",
+      "url": "{{ base_url }}/api/v1/finance/debtors",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_101",
+      "_type": "request",
+      "parentId": "grp_17",
+      "name": "Issue Attestation",
+      "method": "POST",
+      "url": "{{ base_url }}/api/v1/finance/attestation/1",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_102",
+      "_type": "request",
+      "parentId": "grp_17",
+      "name": "Get Payment Receipts",
+      "method": "GET",
+      "url": "{{ base_url }}/api/v1/finance/payment-receipts/1",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_103",
+      "_type": "request",
+      "parentId": "grp_17",
+      "name": "Get Revenue Report",
+      "method": "GET",
+      "url": "{{ base_url }}/api/v1/finance/revenue-report",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+
+    {
+      "_id": "grp_19",
+      "_type": "request_group",
+      "parentId": "wrk_tunax_full",
+      "name": "Ministry Admin",
+      "metaSortKey": 1200
+    },
+    {
+      "_id": "req_109",
+      "_type": "request",
+      "parentId": "grp_19",
+      "name": "Ministry Dashboard",
+      "method": "GET",
+      "url": "{{ base_url }}/api/v1/ministry/dashboard",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_110",
+      "_type": "request",
+      "parentId": "grp_19",
+      "name": "List Municipalities",
+      "method": "GET",
+      "url": "{{ base_url }}/api/v1/ministry/municipalities",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_111",
+      "_type": "request",
+      "parentId": "grp_19",
+      "name": "Get Municipality",
+      "method": "GET",
+      "url": "{{ base_url }}/api/v1/ministry/municipalities/1",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_112",
+      "_type": "request",
+      "parentId": "grp_19",
+      "name": "Create Municipal Admin",
+      "method": "POST",
+      "url": "{{ base_url }}/api/v1/ministry/municipal-admins",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\"username\":\"admin_tunis\",\"email\":\"admin@tunis.tn\",\"password\":\"Pass123!\",\"first_name\":\"Admin\",\"last_name\":\"Tunis\",\"commune_id\":1}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_113",
+      "_type": "request",
+      "parentId": "grp_19",
+      "name": "List Municipal Admins",
+      "method": "GET",
+      "url": "{{ base_url }}/api/v1/ministry/municipal-admins",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_114",
+      "_type": "request",
+      "parentId": "grp_19",
+      "name": "Update Admin Status",
+      "method": "PATCH",
+      "url": "{{ base_url }}/api/v1/ministry/municipal-admins/1/status",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\"is_active\":true}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_115",
+      "_type": "request",
+      "parentId": "grp_19",
+      "name": "Get Audit Log",
+      "method": "GET",
+      "url": "{{ base_url }}/api/v1/ministry/audit-log",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_116",
+      "_type": "request",
+      "parentId": "grp_19",
+      "name": "Get Reference Prices Report",
+      "method": "GET",
+      "url": "{{ base_url }}/api/v1/ministry/reports/reference-prices",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_117",
+      "_type": "request",
+      "parentId": "grp_19",
+      "name": "Get Revenue Report",
+      "method": "GET",
+      "url": "{{ base_url }}/api/v1/ministry/reports/revenue",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_200",
+      "_type": "request",
+      "parentId": "grp_19",
+      "name": "Get Reference Price Bounds",
+      "description": "Get legal min/max bounds for all 4 TIB categories (≤100, 101-200, 201-400, >400 m²)",
+      "method": "GET",
+      "url": "{{ base_url }}/api/v1/ministry/reference-price-bounds",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_201",
+      "_type": "request",
+      "parentId": "grp_19",
+      "name": "Update Reference Price Bounds - Cat 1",
+      "description": "Update legal bounds for Category 1 (≤100 m²). Existing municipal prices will be clamped to new range.",
+      "method": "PUT",
+      "url": "{{ base_url }}/api/v1/ministry/reference-price-bounds/1",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\"legal_min\":100,\"legal_max\":178}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_202",
+      "_type": "request",
+      "parentId": "grp_19",
+      "name": "Update Reference Price Bounds - Cat 2",
+      "description": "Update legal bounds for Category 2 (101-200 m²)",
+      "method": "PUT",
+      "url": "{{ base_url }}/api/v1/ministry/reference-price-bounds/2",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\"legal_min\":163,\"legal_max\":238}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_203",
+      "_type": "request",
+      "parentId": "grp_19",
+      "name": "Update Reference Price Bounds - Cat 3",
+      "description": "Update legal bounds for Category 3 (201-400 m²)",
+      "method": "PUT",
+      "url": "{{ base_url }}/api/v1/ministry/reference-price-bounds/3",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\"legal_min\":217,\"legal_max\":297}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_204",
+      "_type": "request",
+      "parentId": "grp_19",
+      "name": "Update Reference Price Bounds - Cat 4",
+      "description": "Update legal bounds for Category 4 (>400 m²)",
+      "method": "PUT",
+      "url": "{{ base_url }}/api/v1/ministry/reference-price-bounds/4",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\"legal_min\":271,\"legal_max\":356}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "grp_20",
+      "_type": "request_group",
+      "parentId": "wrk_tunax_full",
+      "name": "Reports & Export",
+      "metaSortKey": 1250
+    },
+    {
+      "_id": "req_118",
+      "_type": "request",
+      "parentId": "grp_20",
+      "name": "Export Properties Report",
+      "method": "GET",
+      "url": "{{ base_url }}/api/v1/reports/export/properties",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_119",
+      "_type": "request",
+      "parentId": "grp_20",
+      "name": "Delinquency Report",
+      "method": "GET",
+      "url": "{{ base_url }}/api/v1/reports/delinquency",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_120",
+      "_type": "request",
+      "parentId": "grp_20",
+      "name": "Bulk Declare Properties",
+      "method": "POST",
+      "url": "{{ base_url }}/api/v1/reports/bulk/properties",
+      "body": {
+        "mimeType": "application/json",
+        "text": "[{\"street_address\":\"St1\",\"surface\":100}]"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_121",
+      "_type": "request",
+      "parentId": "grp_20",
+      "name": "Bulk Payment",
+      "method": "POST",
+      "url": "{{ base_url }}/api/v1/reports/bulk/payment",
+      "body": {
+        "mimeType": "application/json",
+        "text": "[{\"tax_id\":1,\"amount\":500}]"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "grp_21",
+      "_type": "request_group",
+      "parentId": "wrk_tunax_full",
+      "name": "Renewal & Amendment",
+      "metaSortKey": 1300
+    },
+    {
+      "_id": "req_122",
+      "_type": "request",
+      "parentId": "grp_21",
+      "name": "Renew Property Tax",
+      "method": "POST",
+      "url": "{{ base_url }}/api/v1/renewal/property/1",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_123",
+      "_type": "request",
+      "parentId": "grp_21",
+      "name": "Renew Land Tax",
+      "method": "POST",
+      "url": "{{ base_url }}/api/v1/renewal/land/1",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_124",
+      "_type": "request",
+      "parentId": "grp_21",
+      "name": "Update Property Amendment",
+      "method": "POST",
+      "url": "{{ base_url }}/api/v1/amendments/property/1",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\"surface\":200}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_125",
+      "_type": "request",
+      "parentId": "grp_21",
+      "name": "Update Land Amendment",
+      "method": "POST",
+      "url": "{{ base_url }}/api/v1/amendments/land/1",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\"surface\":7000}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "grp_22",
+      "_type": "request_group",
+      "parentId": "wrk_tunax_full",
+      "name": "Agent Verification",
+      "metaSortKey": 1350
+    },
+    {
+      "_id": "req_126",
+      "_type": "request",
+      "parentId": "grp_22",
+      "name": "Verify Address",
+      "method": "POST",
+      "url": "{{ base_url }}/api/v1/agent/verify-address",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\"street\":\"Main\",\"city\":\"Tunis\"}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_127",
+      "_type": "request",
+      "parentId": "grp_22",
+      "name": "Verify Property",
+      "method": "PATCH",
+      "url": "{{ base_url }}/api/v1/agent/property/1/verify",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\"verified\":true}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_128",
+      "_type": "request",
+      "parentId": "grp_22",
+      "name": "Verify Land",
+      "method": "PATCH",
+      "url": "{{ base_url }}/api/v1/agent/land/1/verify",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\"verified\":true}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_129",
+      "_type": "request",
+      "parentId": "grp_22",
+      "name": "Get Assigned Reclamations",
+      "method": "GET",
+      "url": "{{ base_url }}/api/v1/agent/reclamations",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_130",
+      "_type": "request",
+      "parentId": "grp_22",
+      "name": "Assign Reclamation",
+      "method": "PATCH",
+      "url": "{{ base_url }}/api/v1/agent/reclamation/1/assign",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_131",
+      "_type": "request",
+      "parentId": "grp_22",
+      "name": "Update Reclamation",
+      "method": "PATCH",
+      "url": "{{ base_url }}/api/v1/agent/reclamation/1/update",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\"status\":\"resolved\"}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "grp_23",
+      "_type": "request_group",
+      "parentId": "wrk_tunax_full",
+      "name": "Audit & Logging",
+      "metaSortKey": 1400
+    },
+    {
+      "_id": "req_132",
+      "_type": "request",
+      "parentId": "grp_23",
+      "name": "Get Audit Logs",
+      "method": "GET",
+      "url": "{{ base_url }}/api/v1/audit/logs",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_133",
+      "_type": "request",
+      "parentId": "grp_23",
+      "name": "Get Tax History",
+      "method": "GET",
+      "url": "{{ base_url }}/api/v1/audit/tax/1",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "grp_24",
+      "_type": "request_group",
+      "parentId": "wrk_tunax_full",
+      "name": "Budget & Participatory Voting",
+      "metaSortKey": 1450
+    },
+    {
+      "_id": "req_134",
+      "_type": "request",
+      "parentId": "grp_24",
+      "name": "Create Budget Project",
+      "method": "POST",
+      "url": "{{ base_url }}/api/v1/budget/projects",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\"project_name\":\"Park\",\"description\":\"new park\",\"budget\":50000}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_135",
+      "_type": "request",
+      "parentId": "grp_24",
+      "name": "Get Budget Projects",
+      "method": "GET",
+      "url": "{{ base_url }}/api/v1/budget/projects",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_136",
+      "_type": "request",
+      "parentId": "grp_24",
+      "name": "Get Project Details",
+      "method": "GET",
+      "url": "{{ base_url }}/api/v1/budget/projects/1",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_137",
+      "_type": "request",
+      "parentId": "grp_24",
+      "name": "Open Voting",
+      "method": "PATCH",
+      "url": "{{ base_url }}/api/v1/budget/projects/1/open-voting",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_138",
+      "_type": "request",
+      "parentId": "grp_24",
+      "name": "Vote On Project",
+      "method": "POST",
+      "url": "{{ base_url }}/api/v1/budget/projects/1/vote",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\"vote\":true}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_139",
+      "_type": "request",
+      "parentId": "grp_24",
+      "name": "Get Project Votes",
+      "method": "GET",
+      "url": "{{ base_url }}/api/v1/budget/projects/1/votes",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_140",
+      "_type": "request",
+      "parentId": "grp_24",
+      "name": "Close Voting",
+      "method": "PATCH",
+      "url": "{{ base_url }}/api/v1/budget/projects/1/close-voting",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_141",
+      "_type": "request",
+      "parentId": "grp_24",
+      "name": "Approve Project",
+      "method": "PATCH",
+      "url": "{{ base_url }}/api/v1/budget/projects/1/approve",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_142",
+      "_type": "request",
+      "parentId": "grp_24",
+      "name": "Get Voting History",
+      "method": "GET",
+      "url": "{{ base_url }}/api/v1/budget/voting-history",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "grp_25",
+      "_type": "request_group",
+      "parentId": "wrk_tunax_full",
+      "name": "Document Types",
+      "metaSortKey": 1500
+    },
+    {
+      "_id": "req_143",
+      "_type": "request",
+      "parentId": "grp_25",
+      "name": "List Document Types",
+      "method": "GET",
+      "url": "{{ base_url }}/api/v1/document-types",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_144",
+      "_type": "request",
+      "parentId": "grp_25",
+      "name": "Create Document Type",
+      "method": "POST",
+      "url": "{{ base_url }}/api/v1/document-types",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\"name\":\"Certificate\",\"required\":true}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_145",
+      "_type": "request",
+      "parentId": "grp_25",
+      "name": "Update Document Type",
+      "method": "PATCH",
+      "url": "{{ base_url }}/api/v1/document-types/1",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\"required\":false}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_disputes_office",
+      "_type": "request",
+      "parentId": "grp_10",
+      "name": "Contentieux Assigned Disputes (All)",
+      "method": "GET",
+      "url": "{{ base_url }}/api/v1/disputes/office",
+      "body": {},
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ contentieux_token }}"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": 1,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "req_disputes_office_filtered",
+      "_type": "request",
+      "parentId": "grp_10",
+      "name": "Contentieux Disputes (Filtered by Status)",
+      "method": "GET",
+      "url": "{{ base_url }}/api/v1/disputes/office?status=commission_review",
+      "body": {},
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ contentieux_token }}"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": 2,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global"
+    }
+  ]
+}
+

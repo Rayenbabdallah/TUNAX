@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tunisian Municipal Tax System - Login</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            display: flex;
+            width: 100%;
+            max-width: 1200px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+
+        .info-section {
+            flex: 1;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 50px 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .info-section h1 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
+
+        .info-section p {
+            font-size: 1.1em;
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .roles-list {
+            margin-top: 30px;
+            list-style: none;
+        }
+
+        .roles-list li {
+            padding: 8px 0;
+            font-size: 0.95em;
+        }
+
+        .roles-list li:before {
+            content: "✓ ";
+            margin-right: 10px;
+        }
+
+        .login-section {
+            flex: 1;
+            padding: 50px 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .login-section h2 {
+            font-size: 1.8em;
+            margin-bottom: 30px;
+            color: #333;
+        }
+
+        .tab-buttons {
+            display: flex;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #eee;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 15px;
+            border: none;
+            background: none;
+            cursor: pointer;
+            font-size: 1em;
+            color: #999;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .tab-btn.active {
+            color: #667eea;
+            border-bottom-color: #667eea;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 500;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1em;
+            transition: border 0.3s;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s;
+            margin-top: 20px;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .toggle-form {
+            text-align: center;
+            margin-top: 20px;
+            color: #666;
+            font-size: 0.95em;
+        }
+
+        .toggle-form a {
+            color: #667eea;
+            text-decoration: none;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .error {
+            color: #dc3545;
+            margin-top: 10px;
+            padding: 10px;
+            background: #f8d7da;
+            border-radius: 5px;
+            display: none;
+        }
+
+        .success {
+            color: #155724;
+            margin-top: 10px;
+            padding: 10px;
+            background: #d4edda;
+            border-radius: 5px;
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+
+            .info-section {
+                padding: 30px 20px;
+            }
+
+            .login-section {
+                padding: 30px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="info-section">
+            <h1>Tunisian Municipal Tax Management</h1>
+            <p>Code de la Fiscalité Locale 2025</p>
+            <p>Manage your tax obligations efficiently and securely. Access your property declarations, track payments, and resolve disputes online.</p>
+            
+            <h3 style="margin-top: 40px; margin-bottom: 15px;">Supported Roles:</h3>
+            <ul class="roles-list">
+                <li>Citizen (Property Owner)</li>
+                <li>Business Owner</li>
+                <li>Municipal Agent</li>
+                <li>Inspector</li>
+                <li>Finance Officer</li>
+                <li>Contentieux Officer</li>
+                <li>Urbanism Officer</li>
+                <li>Administrator</li>
+            </ul>
+        </div>
+
+        <div class="login-section">
+            <h2>Welcome</h2>
+            
+            <div class="tab-buttons">
+                <button class="tab-btn active" onclick="switchTab('login', this)">Login</button>
+                <button class="tab-btn" onclick="switchTab('register', this)">Register</button>
+            </div>
+
+            <!-- Login Tab -->
+            <div id="login" class="tab-content active">
+                <form onsubmit="handleLogin(event)">
+                    <div class="form-group">
+                        <label for="login-username">Username</label>
+                        <input type="text" id="login-username" placeholder="Enter your username" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="login-password">Password</label>
+                        <input type="password" id="login-password" placeholder="Enter your password" required>
+                    </div>
+                    <button type="submit">Login</button>
+                    <div id="login-error" class="error"></div>
+                </form>
+            </div>
+
+            <!-- Register Tab -->
+            <div id="register" class="tab-content">
+                <div style="margin-bottom: 20px;">
+                    <label style="font-weight: 600;">Register as:</label>
+                    <div style="margin-top: 10px;">
+                        <label>
+                            <input type="radio" name="register-type" value="citizen" checked onchange="updateRegisterForm()"> Citizen
+                        </label>
+                        <label style="margin-left: 20px;">
+                            <input type="radio" name="register-type" value="business" onchange="updateRegisterForm()"> Business Owner
+                        </label>
+                    </div>
+                </div>
+
+                <form onsubmit="handleRegister(event)">
+                    <div class="form-group">
+                        <label for="reg-username">Username</label>
+                        <input type="text" id="reg-username" placeholder="Choose a username" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="reg-email">Email</label>
+                        <input type="email" id="reg-email" placeholder="your@email.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="reg-password">Password (min 8 chars, 1 uppercase, 1 number)</label>
+                        <input type="password" id="reg-password" placeholder="Strong password" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="reg-firstname">First Name</label>
+                        <input type="text" id="reg-firstname" placeholder="First name">
+                    </div>
+                    <div class="form-group">
+                        <label for="reg-lastname">Last Name</label>
+                        <input type="text" id="reg-lastname" placeholder="Last name">
+                    </div>
+                    <div class="form-group">
+                        <label for="reg-phone">Phone</label>
+                        <input type="tel" id="reg-phone" placeholder="+216 XXX XX XXX">
+                    </div>
+
+                    <!-- Citizen-specific -->
+                    <div id="citizen-fields">
+                        <div class="form-group">
+                            <label for="reg-cin">National ID (CIN)</label>
+                            <input type="text" id="reg-cin" placeholder="12345678">
+                        </div>
+                    </div>
+
+                    <!-- Business-specific -->
+                    <div id="business-fields" style="display: none;">
+                        <div class="form-group">
+                            <label for="reg-business-name">Business Name</label>
+                            <input type="text" id="reg-business-name" placeholder="Business name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="reg-registration">Business Registration Number</label>
+                            <input type="text" id="reg-registration" placeholder="Business registration" required>
+                        </div>
+                    </div>
+
+                    <button type="submit">Register</button>
+                    <div id="register-error" class="error"></div>
+                    <div id="register-success" class="success"></div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:5000/api/v1';
+
+        // Map backend roles to actual dashboard routes served by static files
+        const roleRedirect = {
+            'citizen': '/dashboards/citizen/index.html',
+            'business': '/dashboards/business/index.html',
+            'municipal_agent': '/dashboards/agent/index.html',
+            'inspector': '/dashboards/inspector/index.html',
+            'finance_officer': '/dashboards/finance/index.html',
+            'contentieux_officer': '/dashboards/contentieux/index.html',
+            'urbanism_officer': '/dashboards/urbanism/index.html',
+            'municipal_admin': '/dashboards/admin/index.html',
+            'ministry_admin': '/dashboards/ministry/index.html'
+        };
+
+        function switchTab(tab, el) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+
+            // Show selected tab
+            document.getElementById(tab).classList.add('active');
+            if (el) el.classList.add('active');
+        }
+
+        function updateRegisterForm() {
+            const type = document.querySelector('input[name="register-type"]:checked').value;
+            const citizenFields = document.getElementById('citizen-fields');
+            const businessFields = document.getElementById('business-fields');
+
+            if (type === 'citizen') {
+                citizenFields.style.display = 'block';
+                businessFields.style.display = 'none';
+            } else {
+                citizenFields.style.display = 'none';
+                businessFields.style.display = 'block';
+            }
+        }
+
+        async function handleLogin(event) {
+            event.preventDefault();
+            const username = document.getElementById('login-username').value;
+            const password = document.getElementById('login-password').value;
+
+            try {
+                const response = await fetch(`${API_BASE}/auth/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    // Store tokens
+                    if (data.access_token) localStorage.setItem('access_token', data.access_token);
+                    if (data.refresh_token) localStorage.setItem('refresh_token', data.refresh_token);
+
+                    // Normalize role key (handle uppercase or nested user.role)
+                    const rawRole = (data.role || (data.user && data.user.role) || '').toString();
+                    const roleKey = rawRole.toLowerCase();
+                    localStorage.setItem('role', roleKey);
+
+                    const redirectPath = roleRedirect[roleKey] || '/common_login/index.html';
+                    window.location.href = redirectPath;
+                } else {
+                    showError('login-error', data.error || 'Login failed');
+                }
+            } catch (error) {
+                showError('login-error', 'Network error: ' + error.message);
+            }
+        }
+
+        async function handleRegister(event) {
+            event.preventDefault();
+            
+            const type = document.querySelector('input[name="register-type"]:checked').value;
+            const username = document.getElementById('reg-username').value;
+            const email = document.getElementById('reg-email').value;
+            const password = document.getElementById('reg-password').value;
+            const firstName = document.getElementById('reg-firstname').value;
+            const lastName = document.getElementById('reg-lastname').value;
+            const phone = document.getElementById('reg-phone').value;
+
+            const payload = {
+                username, email, password, first_name: firstName, last_name: lastName, phone
+            };
+
+            if (type === 'citizen') {
+                payload.cin = document.getElementById('reg-cin').value;
+            } else {
+                payload.business_name = document.getElementById('reg-business-name').value;
+                payload.business_registration = document.getElementById('reg-registration').value;
+            }
+
+            const endpoint = type === 'citizen' ? '/auth/register-citizen' : '/auth/register-business';
+
+            try {
+                const response = await fetch(`${API_BASE}${endpoint}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    showSuccess('register-success', `Registration successful! Please login with your credentials.`);
+                    setTimeout(() => switchTab('login'), 2000);
+                } else {
+                    showError('register-error', data.error || data.errors || 'Registration failed');
+                }
+            } catch (error) {
+                showError('register-error', 'Network error: ' + error.message);
+            }
+        }
+
+        function showError(elementId, message) {
+            const el = document.getElementById(elementId);
+            el.textContent = message;
+            el.style.display = 'block';
+        }
+
+        function showSuccess(elementId, message) {
+            const el = document.getElementById(elementId);
+            el.textContent = message;
+            el.style.display = 'block';
+        }
+    </script>
+</body>
+</html>

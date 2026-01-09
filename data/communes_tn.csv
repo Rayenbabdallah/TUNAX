@@ -1,0 +1,351 @@
+code_municipalite,nom_municipalite_fr,code_gouvernorat,nom_gouvernorat_fr,type_mun_fr
+1111,Tunis Ville,11,Tunis,Ancienne
+1112,Le Bardo,11,Tunis,Ancienne
+1113,EL kram,11,Tunis,Ancienne
+1114,La Goulette,11,Tunis,Ancienne
+1115,Carthage,11,Tunis,Ancienne
+1116,Sidi Bou Said,11,Tunis,Ancienne
+1117,La Marsa,11,Tunis,Ancienne
+1118,Sidi Hassine,11,Tunis,Ancienne
+1211,Ariana,12,Ariana,Ancienne
+1212,Soukra,12,Ariana,Ancienne
+1213,Raoued,12,Ariana,Extension
+1214,Kalaat El Andalos,12,Ariana,Extension
+1215,Sidi Thabet,12,Ariana,Extension
+1216,Ettadhamen,12,Ariana,Ancienne
+1217,El Mnihla,12,Ariana,Nouvelle
+1311,Ben Arous,13,Ben Arous,Ancienne
+1312,El Mourouj,13,Ben Arous,Ancienne
+1313,Hammam Lif,13,Ben Arous,Ancienne
+1314,Hammam Chott,13,Ben Arous,Ancienne
+1315,Bou Mhel El Bassatine,13,Ben Arous,Ancienne
+1316,Ez-Zahra,13,Ben Arous,Ancienne
+1317,Rades,13,Ben Arous,Ancienne
+1318,Megrine,13,Ben Arous,Ancienne
+1319,Mhamedia,13,Ben Arous,Extension
+1320,Mornag,13,Ben Arous,Extension
+1321,Khelidia,13,Ben Arous,Extension
+1322,Fouchana,13,Ben Arous,Nouvelle
+1323,Naassen,13,Ben Arous,Nouvelle
+1411,Mannouba,14,Manouba,Ancienne
+1412,Denden,14,Manouba,Ancienne
+1413,Douar Hicher,14,Manouba,Extension
+1414,Oued Ellil,14,Manouba,Extension
+1415,Mornaguia,14,Manouba,Extension
+1416,Borj El Amri,14,Manouba,Extension
+1417,Djedaida,14,Manouba,Extension
+1418,Tebourba,14,Manouba,Extension
+1419,El Battan,14,Manouba,Extension
+1420,El Bassatine,14,Manouba,Nouvelle
+1511,Nabeul,15,Nabeul,Extension
+1512,Dar Chaabane El Fehri,15,Nabeul,Extension
+1513,Beni Khiar,15,Nabeul,Extension
+1514,El Mâamoura,15,Nabeul,Extension
+1515,Somaâ,15,Nabeul,Extension
+1516,Korba,15,Nabeul,Extension
+1517,Tazarka,15,Nabeul,Ancienne
+1518,Menzel Temime,15,Nabeul,Extension
+1519,Menzel Horr,15,Nabeul,Extension
+1520,El Mida,15,Nabeul,Extension
+1521,Kelibia,15,Nabeul,Extension
+1522,Azmour,15,Nabeul,Extension
+1523,Hammam El Guezaz,15,Nabeul,Extension
+1524,Dar Allouch,15,Nabeul,Extension
+1525,El Haouaria,15,Nabeul,Extension
+1526,Takelsa,15,Nabeul,Ancienne
+1527,Soliman,15,Nabeul,Ancienne
+1528,Korbous,15,Nabeul,Ancienne
+1529,Menzel Bou Zelfa,15,Nabeul,Extension
+1530,Beni Khalled,15,Nabeul,Extension
+1531,Zaouiet Djedidi,15,Nabeul,Extension
+1532,Grombalia,15,Nabeul,Extension
+1533,Bou Argoub,15,Nabeul,Extension
+1534,Hammamet,15,Nabeul,Extension
+1535,Fondek Ejedid - Es Selten,15,Nabeul,Nouvelle
+1536,Tazegrane Boukrim Zaouiet Mgaiez,15,Nabeul,Nouvelle
+1537,Sidi Jedidi,15,Nabeul,Nouvelle
+1538,Echerifet Boucharray ,15,Nabeul,Nouvelle
+1611,Zaghouan,16,Zaghouan,Extension
+1612,Ez-Zeriba,16,Zaghouan,Extension
+1613,Bir Mchergua,16,Zaghouan,Extension
+1614,Jebel Oust,16,Zaghouan,Extension
+1615,El Fahs,16,Zaghouan,Extension
+1616,En-Nadhour,16,Zaghouan,Extension
+1617,Saouaf,16,Zaghouan,Nouvelle
+1618,El Amaiem,16,Zaghouan,Nouvelle
+1711,Bizerte,17,Bizerte,Extension
+1712,Sedjnane,17,Bizerte,Extension
+1713,Mateur,17,Bizerte,Extension
+1714,Menzel Bourguiba,17,Bizerte,Extension
+1715,Tinja,17,Bizerte,Extension
+1716,Ghar El Meleh,17,Bizerte,Extension
+1717,Ousja,17,Bizerte,Extension
+1718,Menzel Djemil,17,Bizerte,Extension
+1719,Menzel Abderrahmen,17,Bizerte,Ancienne
+1720,El Alia,17,Bizerte,Extension
+1721,Ras El Djebel,17,Bizerte,Extension
+1722,Metline,17,Bizerte,Extension
+1723,Rafraf,17,Bizerte,Extension
+1724,Utique,17,Bizerte,Nouvelle
+1725,Joumine,17,Bizerte,Nouvelle
+1726,Ghzala,17,Bizerte,Nouvelle
+1727,El Hchachna,17,Bizerte,Nouvelle
+2111,Béja,21,Beja,Extension
+2112,El Mâagoula,21,Beja,Extension
+2113,Zahret Medien,21,Beja,Extension
+2114,Nefza,21,Beja,Extension
+2115,Teboursouk,21,Beja,Extension
+2116,Testour,21,Beja,Extension
+2117,Goubellat,21,Beja,Extension
+2118,Medjez El Bab,21,Beja,Extension
+2119,Tibar,21,Beja,Nouvelle
+2120,Ouechtata - El Jamila,21,Beja,Nouvelle
+2121,Sidi Ismail,21,Beja,Nouvelle
+2122,Slouguia,21,Beja,Nouvelle
+2211,Jendouba,22,Jendouba,Extension
+2212,Bou Salem,22,Jendouba,Extension
+2213,Tabarka,22,Jendouba,Extension
+2214,Ain Draham,22,Jendouba,Extension
+2215,Fernana,22,Jendouba,Extension
+2216,Beni Mtir,22,Jendouba,Extension
+2217,Ghardimaou,22,Jendouba,Extension
+2218,Oued Meliz,22,Jendouba,Extension
+2219,Balta -Bouaouene,22,Jendouba,Nouvelle
+2220,Souk Es-Sabet,22,Jendouba,Nouvelle
+2221,El Golaa - El Maaden -Forgassen,22,Jendouba,Nouvelle
+2222,Jaouaouada,22,Jendouba,Nouvelle
+2223,Tabarka Nouvelle,22,Jendouba,Nouvelle
+2224,Hammem Bourguiba,22,Jendouba,Nouvelle
+2311,Le Kef,23,Kef,Extension
+2312,Nebeur,23,Kef,Extension
+2313,Touiref,23,Kef,Extension
+2314,Sakiet Sidi Youssef,23,Kef,Extension
+2315,Tajerouine,23,Kef,Extension
+2316,Menzel Salem,23,Kef,Ancienne
+2317,Kalâat Snan,23,Kef,Extension
+2318,Kalâat Khasba,23,Kef,Extension
+2319,Djerissa,23,Kef,Ancienne
+2320,El Ksour,23,Kef,Extension
+2321,Dahmani,23,Kef,Extension
+2322,Es-Sers,23,Kef,Extension
+2323,Zâafrane - Dyr El Kef,23,Kef,Nouvelle
+2324,Bahra,23,Kef,Nouvelle
+2325,El Marja,23,Kef,Nouvelle
+2411,Siliana,24,Siliana,Extension
+2412,Bou Arada,24,Siliana,Extension
+2413,Gaâfour,24,Siliana,Extension
+2414,El Krib,24,Siliana,Extension
+2415,Sidi Bourouis,24,Siliana,Extension
+2416,Makthar,24,Siliana,Extension
+2417,Er-Rouhia,24,Siliana,Extension
+2418,Kesra,24,Siliana,Extension
+2419,Bargou,24,Siliana,Extension
+2420,El Aroussa,24,Siliana,Extension
+2421,Sidi Morched,24,Siliana,Nouvelle
+2422,El Hababsa,24,Siliana,Nouvelle
+3111,Sousse,31,Sousse,Ancienne
+3112,Ksibet Sousse et Thrayet,31,Sousse,Ancienne
+3113,Ezzouhour,31,Sousse,Ancienne
+3114,Zaouiet Sousse,31,Sousse,Ancienne
+3115,Hammam Sousse,31,Sousse,Ancienne
+3116,Akouda,31,Sousse,Extension
+3117,Kalâa Kébira,31,Sousse,Extension
+3118,Sidi Bou Ali,31,Sousse,Extension
+3119,Hergla,31,Sousse,Extension
+3120,Enfidha,31,Sousse,Extension
+3121,Bouficha,31,Sousse,Extension
+3122,Sidi El Heni,31,Sousse,Extension
+3123,MSaken,31,Sousse,Extension
+3124,Kalâa Seghira,31,Sousse,Extension
+3125,Messâdine,31,Sousse,Ancienne
+3126,Kandar,31,Sousse,Extension
+3127,Gerimet Hicher,31,Sousse,Nouvelle
+3128,Chott Meriam,31,Sousse,Nouvelle
+3211,Monastir,32,Monastir,Ancienne
+3212,Khenis,32,Monastir,Ancienne
+3213,Ouerdanine,32,Monastir,Ancienne
+3214,Sahline Môotmar,32,Monastir,Ancienne
+3215,Sidi Ameur Mesjed Issa,32,Monastir,Ancienne
+3216,Zermadine,32,Monastir,Ancienne
+3217,Beni Hassen,32,Monastir,Ancienne
+3218,Ghnada,32,Monastir,Ancienne
+3219,Djammel,32,Monastir,Ancienne
+3220,Menzel Kamel,32,Monastir,Ancienne
+3221,Zouiet Kontoch,32,Monastir,Ancienne
+3222,Bembla Manara,32,Monastir,Ancienne
+3223,Menzel En-Nour,32,Monastir,Ancienne
+3224,EL Masdour,32,Monastir,Ancienne
+3225,Moknine,32,Monastir,Ancienne
+3226,Sidi Bennour,32,Monastir,Ancienne
+3227,Menzel Farsi,32,Monastir,Ancienne
+3228,Amiret El Fhoul,32,Monastir,Ancienne
+3229,Amiret Touazra,32,Monastir,Ancienne
+3230,Amirat Hojjaj,32,Monastir,Ancienne
+3231,Cherahil,32,Monastir,Ancienne
+3232,Bekalta,32,Monastir,Ancienne
+3233,Teboulba,32,Monastir,Ancienne
+3234,Ksar Helal,32,Monastir,Ancienne
+3235,Ksibt El Mediouni,32,Monastir,Ancienne
+3236,Benen Bodher,32,Monastir,Ancienne
+3237,Touza,32,Monastir,Ancienne
+3238,Sayada,32,Monastir,Ancienne
+3239,Lamta,32,Monastir,Ancienne
+3240,Bou-Hajar,32,Monastir,Ancienne
+3241,Menzel Hayet,32,Monastir,Ancienne
+3311,Mahdia,33,Mahdia,Extension
+3312,Réjiche,33,Mahdia,Ancienne
+3313,Bou Merdes,33,Mahdia,Extension
+3314,Ouled Chamekh,33,Mahdia,Extension
+3315,Chorbane,33,Mahdia,Extension
+3316,Hebira,33,Mahdia,Extension
+3317,Essouassi,33,Mahdia,Extension
+3318,El Djem,33,Mahdia,Extension
+3319,Kerker,33,Mahdia,Extension
+3320,Chebba,33,Mahdia,Extension
+3321,Melloulech,33,Mahdia,Extension
+3322,Sidi Alouane,33,Mahdia,Extension
+3323,Ksour Essef,33,Mahdia,Extension
+3324,El Bradâa,33,Mahdia,Extension
+3325,Sidi Zid-Ouled Moulahem,33,Mahdia,Nouvelle
+3326,El Hekaima,33,Mahdia,Nouvelle
+3327,Talalsa,33,Mahdia,Nouvelle
+3328,Zalba,33,Mahdia,Nouvelle
+3411,Sfax,34,Sfax,Ancienne
+3412,Sakiet Ezzit,34,Sfax,Extension
+3413,Chihia,34,Sfax,Extension
+3414,Sakiet Eddaier,34,Sfax,Extension
+3415,Gremda,34,Sfax,Ancienne
+3416,El ain,34,Sfax,Ancienne
+3417,Tina,34,Sfax,Extension
+3418,Agareb,34,Sfax,Extension
+3419,Djebeniana,34,Sfax,Extension
+3420,El Hencha,34,Sfax,Extension
+3421,Menzel Chaker,34,Sfax,Extension
+3422,El Gheraiba,34,Sfax,Extension
+3423,Bir Ali Ben Khelifa,34,Sfax,Extension
+3424,Skhira,34,Sfax,Extension
+3425,Mahrès,34,Sfax,Extension
+3426,Kerkennah,34,Sfax,Ancienne
+3427,El Amra,34,Sfax,Nouvelle
+3428,El Aouabed-Khazanet,34,Sfax,Nouvelle
+3429,Bir Ali Nord,34,Sfax,Nouvelle
+3430,El Hajeb,34,Sfax,Nouvelle
+3431,Hzag-Ellouza,34,Sfax,Nouvelle
+3432,Ennour - Sfax,34,Sfax,Nouvelle
+3433,En-Nacer,34,Sfax,Nouvelle
+4111,Kairouan,41,Kairouan,Extension
+4112,Echbika,41,Kairouan,Extension
+4113,Sbikha,41,Kairouan,Extension
+4114,El Oueslatia,41,Kairouan,Extension
+4115,Ain Djeloula,41,Kairouan,Extension
+4116,Haffouz,41,Kairouan,Extension
+4117,El Alâa,41,Kairouan,Extension
+4118,Hajeb El Ayoun,41,Kairouan,Extension
+4119,Nasrallah,41,Kairouan,Extension
+4120,Menzel Mehiri,41,Kairouan,Extension
+4121,Echrarda,41,Kairouan,Extension
+4122,Bouhajla,41,Kairouan,Extension
+4123,Sisseb-Ed-Dheriaat,41,Kairouan,Nouvelle
+4124,Jehina,41,Kairouan,Nouvelle
+4125,Rakada,41,Kairouan,Nouvelle
+4126,Abida,41,Kairouan,Nouvelle
+4127,Chwayhia,41,Kairouan,Nouvelle
+4128,El Aîn El Beidha,41,Kairouan,Nouvelle
+4129,Chaouachi,41,Kairouan,Nouvelle
+4211,Kasserine,42,Kasserine,Extension
+4212,Sbeitla,42,Kasserine,Extension
+4213,Sbiba,42,Kasserine,Extension
+4214,Djedeliane,42,Kasserine,Extension
+4215,Thala,42,Kasserine,Extension
+4216,Hidra,42,Kasserine,Extension
+4217,Foussana,42,Kasserine,Extension
+4218,Feriana,42,Kasserine,Extension
+4219,Telept,42,Kasserine,Extension
+4220,Majel Bel Abbes,42,Kasserine,Extension
+4221,El Ayoun,42,Kasserine,Nouvelle
+4222,Hassi El Farid,42,Kasserine,Nouvelle
+4223,Ez-Zouhour,42,Kasserine,Nouvelle
+4224,En-Nour - Kasserine,42,Kasserine,Nouvelle
+4225,Ech-Charayaa- Machrek Ech-Chams,42,Kasserine,Nouvelle
+4226,Er-Rakhmet,42,Kasserine,Nouvelle
+4227,Ain El Khemaissia,42,Kasserine,Nouvelle
+4228,Khmouda,42,Kasserine,Nouvelle
+4229,Bouzguam,42,Kasserine,Nouvelle
+4311,Sidi Bouzid,43,Sidi Bouzid,Extension
+4312,Djelma,43,Sidi Bouzid,Extension
+4313,Cebalet,43,Sidi Bouzid,Extension
+4314,Bir El Hafey,43,Sidi Bouzid,Extension
+4315,Sidi Ali Ben Aoun,43,Sidi Bouzid,Extension
+4316,Menzel Bouzaine,43,Sidi Bouzid,Extension
+4317,Meknassy,43,Sidi Bouzid,Extension
+4318,Mezzouna,43,Sidi Bouzid,Extension
+4319,Regueb,43,Sidi Bouzid,Extension
+4320,Ouled Haffouz,43,Sidi Bouzid,Extension
+4321,Essaaida,43,Sidi Bouzid,Nouvelle
+4322,Souk Jedid,43,Sidi Bouzid,Nouvelle
+4323,EL Assouada,43,Sidi Bouzid,Nouvelle
+4324,Faiedh Bennour,43,Sidi Bouzid,Nouvelle
+4325,Batten  El Ghézel,43,Sidi Bouzid,Nouvelle
+4326,Rahal,43,Sidi Bouzid,Nouvelle
+4327,El Mansoura,43,Sidi Bouzid,Nouvelle
+5111,Gabes,51,Gabes,Ancienne
+5112,Chenini Nahal,51,Gabes,Extension
+5113,Ghanouch,51,Gabes,Ancienne
+5114,El Metouia,51,Gabes,Extension
+5115,Ouedhref,51,Gabes,Extension
+5116,El Hamma,51,Gabes,Extension
+5117,Matmata ,51,Gabes,Extension
+5118,Nouvelle Matmata,51,Gabes,Extension
+5119,Mareth,51,Gabes,Extension
+5120,Ezzarat,51,Gabes,Extension
+5121,Menzel El Habib,51,Gabes,Nouvelle
+5122,Bou-chemma,51,Gabes,Nouvelle
+5123,Teboulbou,51,Gabes,Nouvelle
+5124,Hamma Ouest,51,Gabes,Nouvelle
+5125,Kattana,51,Gabes,Nouvelle
+5126,Dkhilet Toujane,51,Gabes,Nouvelle
+5211,Mednine,52,Mednine,Extension
+5212,Beni Khedache,52,Mednine,Extension
+5213,Ben Guerdane,52,Mednine,Extension
+5214,Zarzis,52,Mednine,Extension
+5215,Djerba Houmet Souk,52,Mednine,Ancienne
+5216,Djerba Midoun,52,Mednine,Ancienne
+5217,Djerba Ajim,52,Mednine,Ancienne
+5218,Sidi Makhlouf,52,Mednine,Nouvelle
+5219,Zarzis Nord,52,Mednine,Nouvelle
+5220,Bou-Ghrara,52,Mednine,Nouvelle
+5311,Tataouine,53,Tataouine,Extension
+5312,Bir Lahmar,53,Tataouine,Extension
+5313,Ghomrassen,53,Tataouine,Extension
+5314,Dhehiba,53,Tataouine,Ancienne
+5315,Remada,53,Tataouine,Extension
+5316,Smar,53,Tataouine,Nouvelle
+5317,Tataouine Sud,53,Tataouine,Nouvelle
+6111,Gafsa,61,Gafsa,Extension
+6112,El Ksar,61,Gafsa,Extension
+6113,Moularès,61,Gafsa,Extension
+6114,Redeyef,61,Gafsa,Extension
+6115,Metlaoui,61,Gafsa,Extension
+6116,Mdhila,61,Gafsa,Extension
+6117,Guetar,61,Gafsa,Extension
+6118,Sned,61,Gafsa,Extension
+6119,Belkhir,61,Gafsa,Nouvelle
+6120,Sidi Aich,61,Gafsa,Nouvelle
+6121,Lala,61,Gafsa,Nouvelle
+6122,Sidi Boubaker,61,Gafsa,Nouvelle
+6123,Zanouch,61,Gafsa,Nouvelle
+6211,Tozeur,62,Tozeur,Extension
+6212,De guech,62,Tozeur,Extension
+6213,Hamet Jerid,62,Tozeur,Extension
+6214,Nefta,62,Tozeur,Extension
+6215,Tameghza,62,Tozeur,Extension
+6216,Hazoua,62,Tozeur,Nouvelle
+6311,Kebili,63,Kebili,Extension
+6312,Jemna,63,Kebili,Extension
+6313,Douz,63,Kebili,Extension
+6314,El Golâa,63,Kebili,Ancienne
+6315,Souk El Ahad,63,Kebili,Extension
+6316,Faouar,63,Kebili,Nouvelle
+6317,Rejim Maatoug,63,Kebili,Nouvelle
+6318,Bechelli-Jersine-El Blidete,63,Kebili,Nouvelle
+6319,Bèchri-Fatnassa ,63,Kebili,Nouvelle

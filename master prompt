@@ -1,0 +1,371 @@
+You must generate a complete, production-ready municipal tax management system for Tunisia, fully aligned with the official Code de la Fiscalité Locale 2025 (Taxe sur les Immeubles Bâtis — TIB, and Taxe sur les Terrains Non Bâtis — TTNB). Follow the law precisely (definitions, obligations, sanctions, rates, authorities, declarations, disputes).
+
+SYSTEM SUMMARY
+
+Build a microservices-inspired modular Flask backend with a unified frontend login page for all user roles. After login, redirect users to dashboards based on their assigned role.
+
+ROLES (8 TOTAL – MUST BE IMPLEMENTED IN FULL)
+
+Citizen (property owner, tenant—declares TIB & TTNB)
+
+Business Owner (commercial establishments—TIB + establishment tax)
+
+Municipal Agent (verifies declarations, validates satellite measurements, controls infractions)
+
+Municipal Inspector (field inspections, satellite verification, notes)
+
+Finance Officer / Receveur des Finances (recovers taxes, issues payment attestations)
+
+Contentieux Officer (handles disputes, oppositions, revision commission workflow)
+
+Urbanism / Technical Service (validates building permits, construction status, classification)
+
+Administrator (manages all accounts except citizens & businesses)
+
+REGISTRATION RULES
+
+Citizens & businesses can register themselves.
+
+All other roles must be created by Admin.
+
+AUTHENTICATION REQUIREMENTS
+
+Use flask-jwt-extended, including:
+
+Access & Refresh tokens
+
+Token blacklist table
+
+Role-based authorization decorators
+
+Endpoint protection based on roles
+
+Automatic logout + token revocation
+
+📌 CORE FUNCTIONALITY (FULL LIST)
+1. TIB Management (Taxe sur les Immeubles Bâtis)
+
+Implement all features aligned with the law, including:
+
+Property declaration (surface couverte, composition, address, affectation)
+
+Automatic tax calculation based on:
+
+Article 4 (2% of reference price × surface category)
+
+Article 5 (rate based on number of services: 8%, 10%, 12%, 14%)
+
+Penalties: Article 19
+
+Recensement process (Articles 7–9)
+
+Notifications (Article 8)
+
+2. TTNB Management (Terrains Non Bâtis)
+
+Apply Article 33 (0.3% value or tariff if no vénale value).
+
+Exemptions per Article 32.
+
+Same recensement, obligations, sanctions.
+
+3. Satellite Imagery Verification (FREE APIs ONLY)
+
+Use:
+
+OpenStreetMap Nominatim (free geocoding)
+
+OpenTopoMap / OSM Tiles
+
+USGS Landsat API (free)
+
+NASA GIBS Tiles (free)
+
+If a street name is not found:
+→ Ask user for nearest known reference point OR fallback to coordinates search.
+→ Allow municipal inspector to override manually.
+
+4. Payment Processing
+
+Simulate payments (no real gateway).
+Finance Officer can:
+
+Issue payment attestation (Article 13)
+
+Verify no outstanding tax before issuing permits
+
+Generate receipts
+
+5. Dispute & Contentieux Workflow
+
+Implement Articles 23–26 and 56:
+
+Citizen submits dispute
+
+Contentieux officer processes
+
+Commission de révision structure
+
+Deadlines, statuses, escalation
+
+Final ruling
+
+6. Service Reclamations
+
+Citizens and businesses can submit service complaints (lighting, road maintenance, drainage, etc.).
+Municipal agent manages & resolves.
+
+7. Participatory Budget Voting
+
+Citizens vote on where municipal funds (from TIB & TTNB) should be spent.
+Admin can create budget projects.
+Anonymous aggregation.
+
+8. Payment Obligations for Permits
+
+Enforce Article 13 permit restrictions:
+
+Construction permit
+
+Lotissement approval
+
+Signature legalization
+
+Occupancy permit
+
+System MUST block permit requests if taxes unpaid.
+
+🌐 EXTERNAL FREE APIS TO USE
+
+All must be cost-free:
+
+Geocoding / Address validation
+
+Nominatim (OpenStreetMap)
+
+Fallback: OSM reverse geocoding
+
+Satellite imagery
+
+NASA GIBS (free, updated daily)
+
+USGS Landsat (free, updated monthly)
+
+OpenTopoMap / Terrain tiles
+
+Maps
+
+OSM static tiles (free, no token required)
+
+🧱 PROJECT STRUCTURE (MANDATORY)
+project/
+│── docker/
+│   ├── Dockerfile
+│   ├── docker-compose.yml
+│
+│── backend/
+│   ├── app.py
+│   ├── extensions/
+│   │   ├── db.py
+│   │   ├── jwt.py
+│   │   ├── api.py
+│   ├── models/
+│   │   ├── user.py
+│   │   ├── property.py
+│   │   ├── land.py
+│   │   ├── tax.py
+│   │   ├── penalty.py
+│   │   ├── dispute.py
+│   │   ├── payment.py
+│   │   ├── permit.py
+│   ├── schemas/
+│   ├── resources/
+│   │   ├── auth.py
+│   │   ├── tib.py
+│   │   ├── ttnb.py
+│   │   ├── dispute.py
+│   │   ├── payment.py
+│   │   ├── permits.py
+│   │   ├── admin.py
+│   │   ├── inspector.py
+│   │   ├── finance.py
+│   │   ├── reclamations.py
+│   │   ├── budget_voting.py
+│   ├── utils/
+│   │   ├── geo.py
+│   │   ├── calculator.py
+│   │   ├── validators.py
+│   │   ├── role_required.py
+│
+│── frontend/
+│   ├── common_login/
+│   ├── dashboards/
+│   │   ├── citizen/
+│   │   ├── business/
+│   │   ├── inspector/
+│   │   ├── agent/
+│   │   ├── finance/
+│   │   ├── admin/
+│   │   ├── contentieux/
+│   │   ├── urbanism/
+│
+│── tests/
+│   ├── insomnia_collection.json
+│
+│── README.md
+
+📡 ENDPOINT LIST (FULL)
+Auth
+
+POST /auth/register-citizen
+
+POST /auth/register-business
+
+POST /auth/login
+
+POST /auth/refresh
+
+POST /auth/logout
+
+Admin
+
+POST /admin/create-user
+
+GET /admin/users
+
+PATCH /admin/user/{id}
+
+DELETE /admin/user/{id}
+
+Citizen / Business
+
+POST /properties
+
+GET /properties
+
+POST /lands
+
+GET /lands
+
+GET /taxes/my
+
+POST /payments/pay
+
+GET /payments/attestation
+
+Municipal Agent
+
+GET /verification/address
+
+POST /verification/property
+
+POST /verification/land
+
+Inspector
+
+POST /inspection/report
+
+GET /inspection/{id}
+
+Finance Officer
+
+GET /finance/debtors
+
+POST /finance/attestation/{user_id}
+
+Contentieux
+
+POST /disputes
+
+GET /disputes
+
+PATCH /disputes/{id}/decision
+
+Urbanism
+
+POST /permits/request
+
+GET /permits/status
+
+Reclamations
+
+POST /reclamations
+
+GET /reclamations
+
+Participatory Budget
+
+POST /budget/projects
+
+GET /budget/projects
+
+POST /budget/projects/{id}/vote
+
+📦 TECHNICAL REQUIREMENTS
+Backend Framework
+
+Flask
+
+flask-smorest (for OpenAPI + blueprints)
+
+flask-jwt-extended
+
+marshmallow
+
+SQLAlchemy
+
+Docker
+
+Backend + frontend must run through Docker Compose.
+Backend image must auto-migrate DB on startup.
+
+Insomnia Collection
+
+Generate a complete insomnia_collection.json with:
+
+Auth flows
+
+Token renewal
+
+Property declaration
+
+Satellite validation
+
+Disputes
+
+Voting
+
+Payments
+
+Permits
+
+Reclamations
+
+⚠️ ERROR HANDLING
+
+If street name not found:
+
+return {
+  "error": "Street not found in external API",
+  "suggestion": "Try the nearest known street or provide GPS coordinates"
+}
+
+🧠 WHAT COPILOT MUST PRODUCE
+
+Full backend code
+
+Frontend templates + role-based dashboards
+
+Dockerized application
+
+JWT system with refresh + blacklist
+
+All endpoints described above
+
+Data models reflecting Tunisian municipal tax law
+
+Automated tax calculator compliant with Articles 1–34, 52–56
+
+Insomnia API collection
+
+Complete documentation via Swagger (flask-smorest)

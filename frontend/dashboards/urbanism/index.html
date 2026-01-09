@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Urbanism Officer Dashboard</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f5f7fa; }
+        .navbar { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; }
+        .container { display: grid; grid-template-columns: 250px 1fr; min-height: calc(100vh - 70px); }
+        .sidebar { background: white; padding: 2rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .sidebar a { display: block; padding: 12px; margin-bottom: 10px; color: #333; text-decoration: none; border-radius: 5px; transition: background 0.3s; }
+        .sidebar a:hover, .sidebar a.active { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; }
+        .content { padding: 2rem; }
+        .card { background: white; border-radius: 8px; padding: 2rem; margin-bottom: 2rem; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2rem; }
+        .stat-box { background: white; padding: 1.5rem; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); border-left: 4px solid #667eea; }
+        .stat-value { font-size: 1.8em; font-weight: bold; color: #333; }
+        table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #ddd; }
+        th { background: #f8f9fa; font-weight: 600; }
+        .button { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; }
+        .approve-btn { background: #28a745; }
+        .approve-btn:hover { background: #218838; }
+        .reject-btn { background: #dc3545; }
+        .reject-btn:hover { background: #c82333; }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <h1>Urbanism Officer Dashboard (Officier d'Urbanisme)</h1>
+        <button style="background: rgba(255,255,255,0.2); color: white; border: 1px solid white; padding: 8px 16px; border-radius: 5px; cursor: pointer;" onclick="logout()">Logout</button>
+    </div>
+
+    <div class="container">
+        <div class="sidebar">
+            <a class="nav-link active" onclick="showSection('overview', this)">Overview</a>
+            <a class="nav-link" onclick="showSection('pending', this)">Pending Permits</a>
+            <a class="nav-link" onclick="showSection('approved', this)">Approved Permits</a>
+            <a class="nav-link" onclick="showSection('article13', this)">Tax Enforcement (Article 13)</a>
+        </div>
+
+        <div class="content">
+            <div id="overview" class="section">
+                <div class="stats">
+                    <div class="stat-box">
+                        <div style="color: #666; font-size: 0.9em; margin-bottom: 8px;">Pending Requests</div>
+                        <div class="stat-value" id="pending-count">0</div>
+                    </div>
+                    <div class="stat-box">
+                        <div style="color: #666; font-size: 0.9em; margin-bottom: 8px;">Approved</div>
+                        <div class="stat-value" id="approved-count">0</div>
+                    </div>
+                    <div class="stat-box">
+                        <div style="color: #666; font-size: 0.9em; margin-bottom: 8px;">Rejected</div>
+                        <div class="stat-value" id="rejected-count">0</div>
+                    </div>
+                    <div class="stat-box">
+                        <div style="color: #666; font-size: 0.9em; margin-bottom: 8px;">Blocked (Unpaid)</div>
+                        <div class="stat-value" id="blocked-count">0</div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h2>Urbanism Officer Functions</h2>
+                    <p>Key responsibilities:</p>
+                    <ul style="margin-left: 2rem; margin-top: 0.5rem;">
+                        <li>Review and approve building permits (Article 13)</li>
+                        <li>Enforce tax payment requirements before issuing permits</li>
+                        <li>Block permits for users with unpaid taxes</li>
+                        <li>Maintain permit registry</li>
+                        <li>Coordinate with Finance for tax verification</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div id="pending" class="section" style="display: none;">
+                <div class="card">
+                    <h2>Pending Permit Requests</h2>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Permit ID</th>
+                                <th>Requestor</th>
+                                <th>Property Address</th>
+                                <th>Tax Status</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="pending-body">
+                            <tr><td colspan="6">Loading...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="approved" class="section" style="display: none;">
+                <div class="card">
+                    <h2>Approved Permits</h2>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Permit ID</th>
+                                <th>Requestor</th>
+                                <th>Property Address</th>
+                                <th>Approved Date</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="approved-body">
+                            <tr><td colspan="5">Loading...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="article13" class="section" style="display: none;">
+                <div class="card">
+                    <h2>Article 13 Tax Enforcement</h2>
+                    <p><strong>Article 13:</strong> No permit shall be issued unless all taxes are paid (TIB and TTNB)</p>
+                    <p style="margin-top: 1rem; color: #666;">Permits are automatically blocked if the requestor has any outstanding taxes. Below are the currently blocked permits:</p>
+
+                    <table style="margin-top: 2rem;">
+                        <thead>
+                            <tr>
+                                <th>Permit ID</th>
+                                <th>Requestor</th>
+                                <th>Outstanding Tax Amount</th>
+                                <th>Block Reason</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="blocked-body">
+                            <tr><td colspan="5">Loading...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../../common/two-factor.js"></script>
+    <script src="enhanced.js"></script>
+</body>
+</html>

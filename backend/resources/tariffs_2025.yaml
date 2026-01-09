@@ -1,0 +1,64 @@
+# Tunisian Local Taxes 2025 – Tariff tables and exemptions
+# Source-of-truth for TIB/TTNB calculator. Adjust values per official decrees.
+
+TIB:
+  # Article 5: Rate by number of municipal services available to the property
+  # Correct thresholds per Code de la Fiscalité Locale 2025
+  service_rates:
+    # 1-2 services: 8%, 3-4: 10%, 5-6: 12%, 7+: 14%
+    - { min_services: 1, rate_percent: 8 }
+    - { min_services: 3, rate_percent: 10 }
+    - { min_services: 5, rate_percent: 12 }
+    - { min_services: 7, rate_percent: 14 }
+
+  rounding:
+    currency_decimals: 3   # TND uses millimes (3 decimals)
+
+  exemptions:
+    # Rules are evaluated in order; first match wins.
+    # type: "full" = exempt, "reduction" applies a reduction_percent to tax.
+    - name: administrative_buildings
+      type: full
+      conditions:
+        affectation_in: [administrative]
+      reason: Administrative/public buildings
+
+    - name: agricultural_buildings
+      type: full
+      conditions:
+        affectation_in: [agricultural]
+      reason: Agricultural buildings
+
+    - name: social_housing_first_5_years
+      type: reduction
+      reduction_percent: 100
+      conditions:
+        exemption_reason_in: [primary_residence_first_5_years]
+        max_age_years: 5
+      reason: Primary residence first 5 years
+
+    - name: disabled_orphanage_education_health
+      type: full
+      conditions:
+        exemption_reason_in: [religious_building, educational_institution, health_facility]
+      reason: Specific social/religious/health institutions
+
+TTNB:
+  # Article 33: 0.3% of vénale value or tariff value if absent
+  base_rate_percent: 0.3
+
+  rounding:
+    currency_decimals: 3
+
+  exemptions:
+    - name: agricultural_land
+      type: full
+      conditions:
+        land_type_in: [agricultural]
+      reason: Agricultural land
+
+    - name: public_utility
+      type: full
+      conditions:
+        exemption_reason_in: [state_property, public_utility]
+      reason: State/public utility

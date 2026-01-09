@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contentieux Officer Dashboard</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f5f7fa; }
+        .navbar { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; }
+        .container { display: grid; grid-template-columns: 250px 1fr; min-height: calc(100vh - 70px); }
+        .sidebar { background: white; padding: 2rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .sidebar a { display: block; padding: 12px; margin-bottom: 10px; color: #333; text-decoration: none; border-radius: 5px; transition: background 0.3s; }
+        .sidebar a:hover, .sidebar a.active { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; }
+        .content { padding: 2rem; }
+        .card { background: white; border-radius: 8px; padding: 2rem; margin-bottom: 2rem; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2rem; }
+        .stat-box { background: white; padding: 1.5rem; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); border-left: 4px solid #667eea; }
+        .stat-value { font-size: 1.8em; font-weight: bold; color: #333; }
+        table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #ddd; }
+        th { background: #f8f9fa; font-weight: 600; }
+        .button { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; margin-bottom: 5px; font-weight: 500; }
+        .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; }
+        textarea { resize: vertical; min-height: 100px; }
+        .status-badge { display: inline-block; padding: 5px 10px; border-radius: 20px; font-size: 0.85em; }
+        .status-pending { background: #fff3cd; color: #856404; }
+        .status-reviewed { background: #e2e3e5; color: #383d41; }
+        .status-decided { background: #d4edda; color: #155724; }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <h1>Contentieux Officer Dashboard (Officier de Contentieux)</h1>
+        <button style="background: rgba(255,255,255,0.2); color: white; border: 1px solid white; padding: 8px 16px; border-radius: 5px; cursor: pointer;" onclick="logout()">Logout</button>
+    </div>
+
+    <div class="container">
+        <div class="sidebar">
+            <a class="nav-link active" onclick="showSection('overview', this)">Overview</a>
+            <a class="nav-link" onclick="showSection('assigned', this)">Assigned Disputes</a>
+            <a class="nav-link" onclick="showSection('commission', this)">Commission Review</a>
+            <a class="nav-link" onclick="showSection('decisions', this)">Final Decisions</a>
+            <a class="nav-link" onclick="showSection('articles', this)">Articles 23-26</a>
+        </div>
+
+        <div class="content">
+            <div id="overview" class="section">
+                <div class="stats">
+                    <div class="stat-box">
+                        <div style="color: #666; font-size: 0.9em; margin-bottom: 8px;">Assigned to Me</div>
+                        <div class="stat-value" id="assigned-count">0</div>
+                    </div>
+                    <div class="stat-box">
+                        <div style="color: #666; font-size: 0.9em; margin-bottom: 8px;">Pending Review</div>
+                        <div class="stat-value" id="pending-count">0</div>
+                    </div>
+                    <div class="stat-box">
+                        <div style="color: #666; font-size: 0.9em; margin-bottom: 8px;">Decided</div>
+                        <div class="stat-value" id="decided-count">0</div>
+                    </div>
+                    <div class="stat-box">
+                        <div style="color: #666; font-size: 0.9em; margin-bottom: 8px;">Appeals Pending</div>
+                        <div class="stat-value" id="appeals-count">0</div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h2>Contentieux Officer (Tax Dispute Resolution)</h2>
+                    <p>Key responsibilities (Articles 23-26 of Code de la Fiscalité Locale):</p>
+                    <ul style="margin-left: 2rem; margin-top: 0.5rem;">
+                        <li><strong>Article 23:</strong> Review tax dispute submissions from citizens/businesses</li>
+                        <li><strong>Articles 24-25:</strong> Submit disputes to Commission de Révision for review</li>
+                        <li><strong>Article 26:</strong> Issue final ruling with tax adjustment or appeal routing</li>
+                        <li>Manage dispute lifecycle and documentation</li>
+                        <li>Track appeal cases</li>
+                        <li>Maintain dispute registry</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div id="assigned" class="section" style="display: none;">
+                <div class="card">
+                    <h2>Disputes Assigned to Me (Article 23 Submissions)</h2>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Dispute ID</th>
+                                <th>Claimant</th>
+                                <th>Tax Type</th>
+                                <th>Claimed Amount</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="assigned-body">
+                            <tr><td colspan="6">Loading...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="commission" class="section" style="display: none;">
+                <div class="card">
+                    <h2>Commission de Révision Review (Articles 24-25)</h2>
+                    <p>Submit disputes to the Commission for formal review:</p>
+
+                    <form onsubmit="handleCommissionReview(event)">
+                        <div class="form-group">
+                            <label>Dispute ID:</label>
+                            <input type="text" id="dispute-id-commission" placeholder="Enter Dispute ID" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Commission Decision Recommendation:</label>
+                            <select id="commission-decision" required>
+                                <option value="">-- Select --</option>
+                                <option value="accept">Accept Claim (Reduce Tax)</option>
+                                <option value="reject">Reject Claim (Maintain Tax)</option>
+                                <option value="partial">Partial Acceptance (Adjust Tax)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Justification:</label>
+                            <textarea id="commission-justification" placeholder="Explain the commission's reasoning..." required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Recommended Adjustment Amount (TND):</label>
+                            <input type="number" id="adjustment-amount" placeholder="0.00" step="0.01">
+                        </div>
+                        <button type="submit" class="button">Submit to Commission</button>
+                        <div id="commission-message" style="margin-top: 15px;"></div>
+                    </form>
+
+                    <h3 style="margin-top: 2rem;">Disputes Under Commission Review:</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Dispute ID</th>
+                                <th>Claimant</th>
+                                <th>Review Status</th>
+                                <th>Submission Date</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="commission-body">
+                            <tr><td colspan="5">Loading...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="decisions" class="section" style="display: none;">
+                <div class="card">
+                    <h2>Final Decisions (Article 26)</h2>
+                    <p>Issue final rulings and tax adjustments:</p>
+
+                    <form onsubmit="handleFinalDecision(event)">
+                        <div class="form-group">
+                            <label>Dispute ID:</label>
+                            <input type="text" id="dispute-id-final" placeholder="Enter Dispute ID" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Final Decision:</label>
+                            <select id="final-decision" required>
+                                <option value="">-- Select --</option>
+                                <option value="approved">Approved - Tax Reduced</option>
+                                <option value="rejected">Rejected - Maintain Original Tax</option>
+                                <option value="appeal">Appeal Allowed - Escalate to Superior Court</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Final Tax Amount (TND):</label>
+                            <input type="number" id="final-amount" placeholder="0.00" step="0.01" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Decision Justification:</label>
+                            <textarea id="final-justification" placeholder="Explain final decision..." required></textarea>
+                        </div>
+                        <button type="submit" class="button">Issue Final Decision</button>
+                        <div id="decision-message" style="margin-top: 15px;"></div>
+                    </form>
+
+                    <h3 style="margin-top: 2rem;">Decisions Issued:</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Dispute ID</th>
+                                <th>Claimant</th>
+                                <th>Original Tax</th>
+                                <th>Final Tax</th>
+                                <th>Decision</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody id="decisions-body">
+                            <tr><td colspan="6">Loading...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="articles" class="section" style="display: none;">
+                <div class="card">
+                    <h2>Dispute Resolution Framework (Articles 23-26)</h2>
+                    
+                    <h3>Article 23: Dispute Submission</h3>
+                    <p>Citizens and businesses may submit disputes regarding tax assessments, penalties, or calculations within the statutory period.</p>
+
+                    <h3 style="margin-top: 2rem;">Article 24: Commission de Révision</h3>
+                    <p>Disputes are submitted to the Commission de Révision for initial review. The Commission evaluates:</p>
+                    <ul style="margin-left: 2rem;">
+                        <li>Validity of the claimed amount</li>
+                        <li>Calculation accuracy</li>
+                        <li>Supporting documentation</li>
+                        <li>Applicable law and regulations</li>
+                    </ul>
+
+                    <h3 style="margin-top: 2rem;">Article 25: Commission Review Process</h3>
+                    <p>The Commission may:</p>
+                    <ul style="margin-left: 2rem;">
+                        <li>Accept the dispute claim (reduce tax)</li>
+                        <li>Reject the claim (maintain original tax)</li>
+                        <li>Partially accept (adjust tax by recommended amount)</li>
+                    </ul>
+
+                    <h3 style="margin-top: 2rem;">Article 26: Final Decision & Appeal</h3>
+                    <p>The Contentieux Officer issues the final decision based on Commission recommendation:</p>
+                    <ul style="margin-left: 2rem;">
+                        <li>Tax is adjusted accordingly</li>
+                        <li>Penalty may be waived or reduced</li>
+                        <li>If disputed, claimant has right to appeal to superior court</li>
+                        <li>All decisions documented for audit trail</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../../common/two-factor.js"></script>
+    <script src="enhanced.js"></script>
+</body>
+</html>

@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Two-Factor Authentication Setup - TUNAX</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 15px 50px rgba(0,0,0,0.3);
+            max-width: 600px;
+            width: 100%;
+            padding: 40px;
+        }
+        h1 {
+            font-size: 2em;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 0.95em;
+        }
+        .alert {
+            padding: 12px 16px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            font-size: 0.9em;
+        }
+        .alert-info {
+            background: #e3f2fd;
+            color: #1565c0;
+            border-left: 4px solid #1565c0;
+        }
+        .alert-success {
+            background: #e8f5e9;
+            color: #2e7d32;
+            border-left: 4px solid #2e7d32;
+        }
+        .alert-error {
+            background: #ffebee;
+            color: #c62828;
+            border-left: 4px solid #c62828;
+        }
+        .alert-warning {
+            background: #fff3e0;
+            color: #e65100;
+            border-left: 4px solid #e65100;
+        }
+        .section {
+            display: none;
+            margin-bottom: 30px;
+        }
+        .section.active {
+            display: block;
+        }
+        .qr-container {
+            text-align: center;
+            padding: 20px;
+            background: #f5f7fa;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        .qr-container img {
+            max-width: 300px;
+            height: auto;
+        }
+        .manual-entry {
+            background: #fafafa;
+            padding: 15px;
+            border-radius: 6px;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            word-break: break-all;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 1em;
+        }
+        .backup-codes {
+            background: #fafafa;
+            padding: 15px;
+            border-radius: 6px;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            max-height: 200px;
+            overflow-y: auto;
+            border: 1px solid #ddd;
+        }
+        .backup-codes code {
+            display: block;
+            padding: 5px 0;
+        }
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 30px;
+        }
+        .button {
+            flex: 1;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        .button-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        .button-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+        }
+        .button-secondary {
+            background: #f0f0f0;
+            color: #333;
+            border: 1px solid #ddd;
+        }
+        .button-secondary:hover {
+            background: #e0e0e0;
+        }
+        .button-danger {
+            background: #f44336;
+            color: white;
+        }
+        .button-danger:hover {
+            background: #d32f2f;
+        }
+        .button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .status-indicator {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+        .status-enabled {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+        .status-disabled {
+            background: #ffebee;
+            color: #c62828;
+        }
+        .loading {
+            display: inline-block;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        .nav-back {
+            color: #667eea;
+            text-decoration: none;
+            margin-bottom: 20px;
+            display: inline-block;
+            font-weight: 600;
+        }
+        .nav-back:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="javascript:window.history.back()" class="nav-back">← Back</a>
+        
+        <h1>Two-Factor Authentication (2FA)</h1>
+        <p class="subtitle">Enhance your account security with authenticator app or backup codes</p>
+        
+        <!-- Status Check Section -->
+        <div id="status-section" class="section active">
+            <div id="status-content"></div>
+        </div>
+        
+        <!-- Setup Section (when 2FA not enabled) -->
+        <div id="setup-section" class="section">
+            <div class="alert alert-info">
+                <strong>Step 1:</strong> Scan the QR code below with your authenticator app (Google Authenticator, Authy, Microsoft Authenticator, etc.)
+            </div>
+            
+            <div class="qr-container">
+                <img id="qr-code" alt="QR Code" style="display: none;">
+                <div id="qr-loading" class="loading">Loading QR code...</div>
+            </div>
+            
+            <div class="alert alert-info">
+                <strong>Step 2:</strong> Can't scan? Enter this code manually:
+            </div>
+            <div class="manual-entry" id="manual-key">
+                [Loading...]
+            </div>
+            
+            <div class="form-group">
+                <label>Step 3: Enter the 6-digit code from your authenticator app</label>
+                <input id="totp-code" type="text" placeholder="000000" maxlength="6" pattern="[0-9]{6}" inputmode="numeric">
+            </div>
+            
+            <div id="setup-status"></div>
+            
+            <div class="button-group">
+                <button class="button button-primary" onclick="verifyAndEnable2FA()">Verify & Enable 2FA</button>
+                <button class="button button-secondary" onclick="goBack()">Cancel</button>
+            </div>
+        </div>
+        
+        <!-- Manage Section (when 2FA is enabled) -->
+        <div id="manage-section" class="section">
+            <div class="alert alert-success">
+                <strong>✓ 2FA is ENABLED</strong><br>
+                Your account is protected with two-factor authentication.
+            </div>
+            
+            <div>
+                <h3 style="margin: 20px 0 10px; color: #333;">Backup Codes</h3>
+                <p style="color: #666; margin-bottom: 15px;">These codes can be used to access your account if you lose access to your authenticator app. Each code can only be used once.</p>
+                
+                <div class="backup-codes" id="remaining-backup-codes">
+                    [Loading...]
+                </div>
+            </div>
+            
+            <div class="button-group">
+                <button class="button button-danger" onclick="disablePrompt()">Disable 2FA</button>
+                <button class="button button-secondary" onclick="goBack()">Back to Dashboard</button>
+            </div>
+        </div>
+        
+        <!-- Disable Confirmation Section -->
+        <div id="disable-section" class="section">
+            <div class="alert alert-warning">
+                <strong>⚠ Warning:</strong> Disabling 2FA will make your account less secure. Anyone with your password could access your account.
+            </div>
+            
+            <div class="form-group">
+                <label>Enter your password to confirm disabling 2FA</label>
+                <input id="disable-password" type="password" placeholder="Your password">
+            </div>
+            
+            <div id="disable-status"></div>
+            
+            <div class="button-group">
+                <button class="button button-danger" onclick="disableConfirm()">Yes, Disable 2FA</button>
+                <button class="button button-secondary" onclick="cancelDisable()">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = '/api/v1';
+        const token = localStorage.getItem('access_token');
+        
+        if (!token) {
+            window.location.href = '/common_login/index.html';
+        }
+        
+        function getAuthHeader() {
+            return {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            };
+        }
+        
+        function showSection(sectionId) {
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.getElementById(sectionId).classList.add('active');
+        }
+        
+        async function loadStatus() {
+            try {
+                const res = await fetch(`${API_BASE}/auth/2fa/status`, {
+                    headers: getAuthHeader()
+                });
+                const data = await res.json();
+                
+                if (!res.ok) {
+                    document.getElementById('status-content').innerHTML = 
+                        `<div class="alert alert-error">Error: ${data.error}</div>`;
+                    return;
+                }
+                
+                if (data.is_enabled) {
+                    showSection('manage-section');
+                    loadBackupCodes();
+                } else {
+                    showSection('setup-section');
+                    initiate2FASetup();
+                }
+            } catch (err) {
+                document.getElementById('status-content').innerHTML = 
+                    `<div class="alert alert-error">Failed to load 2FA status: ${err.message}</div>`;
+            }
+        }
+        
+        async function initiate2FASetup() {
+            try {
+                const res = await fetch(`${API_BASE}/auth/2fa/setup`, {
+                    method: 'POST',
+                    headers: getAuthHeader()
+                });
+                const data = await res.json();
+                
+                if (!res.ok) {
+                    document.getElementById('setup-status').innerHTML = 
+                        `<div class="alert alert-error">Error: ${data.error}</div>`;
+                    return;
+                }
+                
+                // Display QR code
+                document.getElementById('qr-loading').style.display = 'none';
+                const qrImg = document.getElementById('qr-code');
+                qrImg.src = 'data:image/png;base64,' + data.qr_code_base64;
+                qrImg.style.display = 'block';
+                
+                // Display manual key
+                document.getElementById('manual-key').textContent = data.secret_key;
+            } catch (err) {
+                document.getElementById('setup-status').innerHTML = 
+                    `<div class="alert alert-error">Failed to initiate 2FA setup: ${err.message}</div>`;
+            }
+        }
+        
+        async function verifyAndEnable2FA() {
+            const code = document.getElementById('totp-code').value.trim();
+            const status = document.getElementById('setup-status');
+            
+            if (!code || code.length !== 6 || !/^\d{6}$/.test(code)) {
+                status.innerHTML = '<div class="alert alert-error">Please enter a valid 6-digit code.</div>';
+                return;
+            }
+            
+            status.innerHTML = '<div class="alert alert-info">Verifying code...</div>';
+            
+            try {
+                const res = await fetch(`${API_BASE}/auth/2fa/verify-and-enable`, {
+                    method: 'POST',
+                    headers: getAuthHeader(),
+                    body: JSON.stringify({ totp_token: code })
+                });
+                const data = await res.json();
+                
+                if (!res.ok) {
+                    status.innerHTML = `<div class="alert alert-error">Error: ${data.error}</div>`;
+                    return;
+                }
+                
+                // Success! Show backup codes
+                status.innerHTML = '<div class="alert alert-success">✓ 2FA enabled successfully!</div>';
+                
+                // Display backup codes for download
+                const codesHtml = `
+                    <div class="alert alert-warning">
+                        <strong>📝 Save Your Backup Codes</strong><br>
+                        Store these codes in a safe place. You can use each code once if you lose access to your authenticator app.
+                    </div>
+                    <div class="backup-codes">
+                        ${data.backup_codes.map(code => `<code>${code}</code>`).join('')}
+                    </div>
+                `;
+                
+                document.getElementById('setup-section').innerHTML = `
+                    ${codesHtml}
+                    <button class="button button-primary" onclick="loadStatus()" style="width:100%; margin-top:20px;">Done</button>
+                `;
+            } catch (err) {
+                status.innerHTML = `<div class="alert alert-error">Error: ${err.message}</div>`;
+            }
+        }
+        
+        async function loadBackupCodes() {
+            try {
+                const res = await fetch(`${API_BASE}/auth/2fa/status`, {
+                    headers: getAuthHeader()
+                });
+                const data = await res.json();
+                
+                if (res.ok && data.remaining_backup_codes > 0) {
+                    document.getElementById('remaining-backup-codes').innerHTML = 
+                        `<strong>Remaining backup codes: ${data.remaining_backup_codes} of 10</strong>`;
+                }
+            } catch (err) {
+                console.error('Failed to load backup codes:', err);
+            }
+        }
+        
+        function disablePrompt() {
+            showSection('disable-section');
+        }
+        
+        function cancelDisable() {
+            showSection('manage-section');
+        }
+        
+        async function disableConfirm() {
+            const password = document.getElementById('disable-password').value;
+            const status = document.getElementById('disable-status');
+            
+            if (!password) {
+                status.innerHTML = '<div class="alert alert-error">Please enter your password.</div>';
+                return;
+            }
+            
+            status.innerHTML = '<div class="alert alert-info">Disabling 2FA...</div>';
+            
+            try {
+                const res = await fetch(`${API_BASE}/auth/2fa/disable`, {
+                    method: 'POST',
+                    headers: getAuthHeader(),
+                    body: JSON.stringify({ password })
+                });
+                const data = await res.json();
+                
+                if (!res.ok) {
+                    status.innerHTML = `<div class="alert alert-error">Error: ${data.error}</div>`;
+                    return;
+                }
+                
+                status.innerHTML = '<div class="alert alert-success">✓ 2FA has been disabled.</div>';
+                setTimeout(() => window.location.href = '/common_login/index.html', 2000);
+            } catch (err) {
+                status.innerHTML = `<div class="alert alert-error">Error: ${err.message}</div>`;
+            }
+        }
+        
+        function goBack() {
+            window.history.back();
+        }
+        
+        // Load initial status
+        loadStatus();
+    </script>
+</body>
+</html>

@@ -1,0 +1,956 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Citizen Dashboard - Tax Management</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f7fa;
+        }
+        .navbar {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .navbar h1 {
+            font-size: 1.5em;
+        }
+        .navbar-actions {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        .logout-btn, .twofa-btn {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: 1px solid white;
+            padding: 8px 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+            font-size: 14px;
+        }
+        .logout-btn:hover, .twofa-btn:hover {
+            background: rgba(255,255,255,0.3);
+        }
+        .twofa-btn.twofa-enabled {
+            background: rgba(76, 175, 80, 0.3);
+            border-color: #4caf50;
+        }
+        .container {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            min-height: calc(100vh - 70px);
+        }
+        .sidebar {
+            background: white;
+            padding: 2rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .sidebar a {
+            display: block;
+            padding: 12px;
+            margin-bottom: 10px;
+            color: #333;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background 0.3s;
+            cursor: pointer;
+        }
+        .sidebar a:hover, .sidebar a.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        .content {
+            padding: 2rem;
+            max-width: 1400px;
+        }
+        .card {
+            background: white;
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .card h2 {
+            margin-bottom: 1rem;
+            color: #333;
+        }
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        .stat-box {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            border-left: 4px solid #667eea;
+        }
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 8px;
+        }
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background: #f8f9fa;
+            font-weight: 600;
+            color: #333;
+        }
+        .status-badge {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 600;
+        }
+        .status-paid, .status-approved {
+            background: #d4edda;
+            color: #155724;
+        }
+        .status-pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+        .status-rejected {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        .reclamation-form { margin: 1rem 0 0; }
+        .reclamation-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px 16px; align-items: flex-end; }
+        .reclamation-grid label { font-weight: 600; margin-bottom: 6px; display: block; }
+        .reclamation-grid input, .reclamation-grid select, .reclamation-grid textarea { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; font-size: 14px; }
+        .reclamation-grid textarea { min-height: 96px; }
+        .reclamation-grid .full-row { grid-column: 1 / -1; }
+        .reclamation-actions { display: flex; gap: 10px; align-items: center; }
+        .button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: transform 0.2s;
+            font-size: 14px;
+        }
+        .button:hover {
+            transform: translateY(-2px);
+        }
+        .button-secondary {
+            background: #6c757d;
+            margin-left: 10px;
+        }
+        
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            animation: fadeIn 0.3s;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .modal-content {
+            background-color: white;
+            margin: 3% auto;
+            padding: 2rem;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 85vh;
+            overflow-y: auto;
+            animation: slideDown 0.3s;
+        }
+        @keyframes slideDown {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #eee;
+        }
+        .close {
+            color: #aaa;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .close:hover {
+            color: #000;
+        }
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #333;
+            font-weight: 600;
+        }
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+        .alert {
+            padding: 12px;
+            border-radius: 5px;
+            margin-bottom: 1rem;
+        }
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .alert-error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+            /* Modal styling used by enhanced.js */
+            .modal {
+                display: none;
+                position: fixed;
+                z-index: 1000;
+                left: 0;
+                top: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0,0,0,0.5);
+                overflow: auto;
+            }
+            .modal-content {
+                background: #fff;
+                margin: 5% auto;
+                padding: 20px;
+                border-radius: 8px;
+                width: 90%;
+                max-width: 600px;
+                position: relative;
+            }
+            .modal-close {
+                position: absolute;
+                top: 10px;
+                right: 10px;
+                background: none;
+                border: none;
+                font-size: 20px;
+                cursor: pointer;
+            }
+            .modal-actions {
+                display: flex;
+                gap: 10px;
+                justify-content: flex-end;
+                margin-top: 1rem;
+            }
+        .small-text {
+            font-size: 0.85em;
+            color: #666;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <h1>Citizen Dashboard</h1>
+        <div class="navbar-actions">
+            <button class="twofa-btn" id="twoFactorBtn" onclick="openTwoFactorManagement()">🔓 2FA: OFF</button>
+            <button class="logout-btn" onclick="logout()">Logout</button>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="sidebar">
+            <a class="nav-link active" onclick="showSection('overview', this)">Overview</a>
+            <a class="nav-link" onclick="showSection('properties', this)">My Properties (TIB)</a>
+            <a class="nav-link" onclick="showSection('lands', this)">My Lands (TTNB)</a>
+            <a class="nav-link" onclick="showSection('taxes', this)">My Taxes</a>
+            <a class="nav-link" onclick="showSection('payments', this)">Payments</a>
+            <a class="nav-link" onclick="showSection('disputes', this)">Disputes</a>
+            <a class="nav-link" onclick="showSection('permits', this)">Permits</a>
+            <a class="nav-link" onclick="showSection('reclamations', this)">Service Complaints</a>
+            <a class="nav-link" onclick="showSection('budget', this)">Budget Voting</a>
+            <a class="nav-link" onclick="showSection('location-tools', this)">Location & Imagery</a>
+        </div>
+
+        <div class="content">
+            <!-- Overview Section -->
+            <div id="overview" class="section">
+                <div class="stats">
+                    <div class="stat-box">
+                        <div class="stat-label">Properties (TIB)</div>
+                        <div class="stat-value" id="property-count">0</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-label">Lands (TTNB)</div>
+                        <div class="stat-value" id="land-count">0</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-label">Total Tax Due</div>
+                        <div class="stat-value" id="total-due">0 TND</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-label">Paid</div>
+                        <div class="stat-value" id="total-paid">0 TND</div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h2>Welcome to Your Tax Dashboard</h2>
+                    <p>This system manages your municipal tax obligations according to the Code de la Fiscalité Locale 2025.</p>
+                    <p style="margin-top: 1rem;">You can:</p>
+                    <ul style="margin-left: 2rem; margin-top: 0.5rem;">
+                        <li>Declare and manage your properties (TIB)</li>
+                        <li>Declare and manage your lands (TTNB)</li>
+                        <li>View and pay your tax obligations</li>
+                        <li>Submit and track disputes</li>
+                        <li>Request building permits</li>
+                        <li>Submit service complaints</li>
+                        <li>Participate in budget voting</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Properties Section -->
+            <div id="properties" class="section" style="display: none;">
+                <div class="card">
+                    <h2>My Properties (TIB - Taxe sur les Immeubles Bâtis)</h2>
+                    <button class="button" onclick="openPropertyModal()">Declare New Property</button>
+                    <table id="properties-table">
+                        <thead>
+                            <tr>
+                                <th>Address</th>
+                                <th>Surface (m²)</th>
+                                <th>Affectation</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="properties-body">
+                            <tr><td colspan="5">Loading...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Lands Section -->
+            <div id="lands" class="section" style="display: none;">
+                <div class="card">
+                    <h2>My Lands (TTNB - Taxe sur les Terrains Non Bâtis)</h2>
+                    <button class="button" onclick="openLandModal()">Declare New Land</button>
+                    <table id="lands-table">
+                        <thead>
+                            <tr>
+                                <th>Address</th>
+                                <th>Surface (m²)</th>
+                                <th>Type</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="lands-body">
+                            <tr><td colspan="5">Loading...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Taxes Section -->
+            <div id="taxes" class="section" style="display: none;">
+                <div class="card">
+                    <h2>My Taxes</h2>
+                    <table id="taxes-table">
+                        <thead>
+                            <tr>
+                                <th>Type</th>
+                                <th>Year</th>
+                                <th>Amount</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="taxes-body">
+                            <tr><td colspan="5">Loading...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Payments Section -->
+            <div id="payments" class="section" style="display: none;">
+                <div class="card">
+                    <h2>Payment History</h2>
+                    <table id="payments-table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Amount</th>
+                                <th>Reference</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="payments-body">
+                            <tr><td colspan="4">Loading...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Disputes Section -->
+            <div id="disputes" class="section" style="display: none;">
+                <div class="card">
+                    <h2>My Disputes</h2>
+                    <button class="button" onclick="openDisputeModal()">Submit New Dispute</button>
+                    <table id="disputes-table">
+                        <thead>
+                            <tr>
+                                <th>Subject</th>
+                                <th>Type</th>
+                                <th>Status</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody id="disputes-body">
+                            <tr><td colspan="4">Loading...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Permits Section -->
+            <div id="permits" class="section" style="display: none;">
+                <div class="card">
+                    <h2>My Permit Requests</h2>
+                    <button class="button" onclick="openPermitModal()">Request New Permit</button>
+                    <table id="permits-table">
+                        <thead>
+                            <tr>
+                                <th>Type</th>
+                                <th>Status</th>
+                                <th>Submitted</th>
+                                <th>Decision</th>
+                            </tr>
+                        </thead>
+                        <tbody id="permits-body">
+                            <tr><td colspan="4">Loading...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Reclamations Section -->
+            <div id="reclamations" class="section" style="display: none;">
+                <div class="card">
+                    <h2>Service Complaints</h2>
+                    <form id="reclamation-form" class="reclamation-form" onsubmit="submitReclamation(event)">
+                        <div class="reclamation-grid">
+                            <div>
+                                <label>Type</label>
+                                <select id="reclamation_type" required>
+                                    <option value="">Select…</option>
+                                    <option value="lighting">Lighting</option>
+                                    <option value="road_maintenance">Road maintenance</option>
+                                    <option value="drainage">Drainage</option>
+                                    <option value="waste_collection">Waste collection</option>
+                                    <option value="water">Water</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label>Street Address</label>
+                                <input id="reclamation_street" required placeholder="Street and number">
+                            </div>
+                            <div>
+                                <label>City / Municipality</label>
+                                <select id="reclamation_city" required>
+                                    <option value="">Select…</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label>Priority</label>
+                                <select id="reclamation_priority">
+                                    <option value="">(optional)</option>
+                                    <option value="low">Low</option>
+                                    <option value="medium">Medium</option>
+                                    <option value="high">High</option>
+                                </select>
+                            </div>
+                            <div class="full-row">
+                                <label>Description</label>
+                                <textarea id="reclamation_description" rows="3" required placeholder="Describe the issue"></textarea>
+                            </div>
+                            <div class="full-row reclamation-actions">
+                                <button type="submit" class="button">Submit Complaint</button>
+                                <span id="reclamation_status" class="small-text"></span>
+                            </div>
+                        </div>
+                    </form>
+                    <table id="reclamations-table">
+                        <thead>
+                            <tr>
+                                <th>Type</th>
+                                <th>Location</th>
+                                <th>Status</th>
+                                <th>Priority</th>
+                            </tr>
+                        </thead>
+                        <tbody id="reclamations-body">
+                            <tr><td colspan="4">Loading...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Budget Voting Section -->
+            <div id="budget" class="section" style="display: none;">
+                <div class="card">
+                    <h2>Participatory Budget Voting</h2>
+                    <p>Vote on where municipal funds (from TIB & TTNB) should be spent.</p>
+                    <div id="budget-projects"></div>
+                </div>
+            </div>
+
+            <div id="location-tools" class="section" style="display: none;">
+                <div class="card">
+                    <h2>Location Validation (Nominatim)</h2>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Street & City</label>
+                            <input id="geo_address" placeholder="e.g. Avenue Habib Bourguiba, Tunis">
+                        </div>
+                        <div class="form-group" style="display:flex; gap:10px; align-items:flex-end;">
+                            <button class="button" onclick="runGeocodeLookup()">Geocode Address</button>
+                            <button class="button" onclick="runReverseGeocode()" style="background:#6c757d;">Reverse Geocode</button>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Latitude</label>
+                            <input id="geo_lat" placeholder="36.8065">
+                        </div>
+                        <div class="form-group">
+                            <label>Longitude</label>
+                            <input id="geo_lng" placeholder="10.1815">
+                        </div>
+                    </div>
+                    <div id="geocode-results" style="margin-top:10px;"></div>
+                </div>
+
+                <div class="card">
+                    <h2>Satellite Imagery (NASA)</h2>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Search Query</label>
+                            <input id="nasa_query" placeholder="Tunisia earth">
+                        </div>
+                        <div class="form-group" style="display:flex; gap:10px; align-items:flex-end;">
+                            <button class="button" onclick="runNasaImagerySearch()">Search Imagery</button>
+                            <button class="button" style="background:#6c757d;" onclick="loadNasaEvents()">Load Earth Events</button>
+                        </div>
+                    </div>
+                    <div id="nasa-imagery-results" style="margin-top:10px;"></div>
+                    <div id="nasa-events" style="margin-top:20px;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Property Modal -->
+    <div id="propertyModal" class="modal" onclick="if(event.target===this) closeModal('propertyModal')">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('propertyModal')">&times;</button>
+            <h3>Declare Property (TIB)</h3>
+            <div id="propertyAlert"></div>
+            <form id="propertyForm" onsubmit="submitProperty(event)">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Municipality</label>
+                        <select name="commune_id" id="property_commune" required></select>
+                        <input id="property_commune_other" placeholder="Type municipality" style="display:none; margin-top:6px;" />
+                    </div>
+                    <div class="form-group">
+                        <label>Delegation</label>
+                        <select id="property_delegation"></select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Locality</label>
+                        <select id="property_locality"></select>
+                        <input id="property_locality_other" placeholder="Type locality" style="display:none; margin-top:6px;" />
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Address Mode</label>
+                        <select id="property_address_mode">
+                            <option value="villa">Villa</option>
+                            <option value="residence">Residence/Apartment</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Street Name</label>
+                        <input id="property_street_name" placeholder="e.g. Avenue Habib Bourguiba" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group" id="property_villa_group">
+                        <label>Villa Number</label>
+                        <input id="property_villa_number" placeholder="e.g. 12A">
+                    </div>
+                    <div class="form-group" id="property_residence_group" style="display:none;">
+                        <label>Residence Name / Apt No.</label>
+                        <div class="form-row">
+                            <input id="property_residence_name" placeholder="Residence Name">
+                            <input id="property_apartment_number" placeholder="Apt/Unit">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Drop a pin (optional but recommended)</label>
+                    <div id="propertyMap" style="height: 250px; border-radius: 6px; border: 1px solid #ddd;"></div>
+                    <input type="hidden" id="property_lat" name="latitude">
+                    <input type="hidden" id="property_lng" name="longitude">
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Surface Couverte (m²)</label>
+                        <input name="surface_couverte" type="number" step="0.01" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Affectation</label>
+                        <select name="affectation" required>
+                            <option value="residential">Residential</option>
+                            <option value="commercial">Commercial</option>
+                            <option value="industrial">Industrial</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group" style="background: #f8f9ff; border: 1px solid #e0e7ff; padding: 12px; border-radius: 6px; margin-bottom: 12px;">
+                    <label style="font-weight: 600; color: #4b5563;">Required Documents</label>
+                    <div id="property_required_docs" style="margin-top: 8px; color: #374151; font-size: 14px;">
+                        <em>Select a municipality to load required documents.</em>
+                    </div>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="button" onclick="closeModal('propertyModal')">Cancel</button>
+                    <button type="submit" class="button" id="propertySubmitBtn">Submit</button>
+                </div>
+            </form>
+            
+            <!-- Document Upload Section (shown after successful submission) -->
+            <div id="propertyDocUpload" style="display:none; margin-top: 20px; padding: 20px; border: 2px dashed #667eea; border-radius: 8px; background: #f8f9ff;">
+                <h4 style="color: #667eea; margin-bottom: 15px;">📎 Upload Supporting Documents (Optional)</h4>
+                <p style="color: #666; font-size: 14px; margin-bottom: 15px;">
+                    Upload property documents: title deed, tax receipts, cadastral plans, etc. (PDF, JPG, PNG - Max 10MB)
+                </p>
+                <input type="hidden" id="property_declaration_id">
+                <div class="form-group">
+                    <label>Document Type</label>
+                    <select id="property_doc_type">
+                        <option value="title_deed">Title Deed (Acte de propriété)</option>
+                        <option value="tax_receipt">Tax Receipt</option>
+                        <option value="cadastral_plan">Cadastral Plan</option>
+                        <option value="construction_permit">Construction Permit</option>
+                        <option value="id_document">ID Document</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <input type="file" id="property_doc_file" accept=".pdf,.jpg,.jpeg,.png" style="padding: 10px; border: 1px solid #ddd; border-radius: 4px; width: 100%;">
+                </div>
+                <div style="display: flex; gap: 10px;">
+                    <button type="button" class="button" onclick="uploadPropertyDocument()" style="flex: 1;">Upload Document</button>
+                    <button type="button" class="button" onclick="skipPropertyDocuments()" style="flex: 1; background: #95a5a6;">Skip & Close</button>
+                </div>
+                <div id="property_doc_status" style="margin-top: 10px;"></div>
+                <div id="property_doc_list" style="margin-top: 15px; max-height: 200px; overflow-y: auto;"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Land Modal -->
+    <div id="landModal" class="modal" onclick="if(event.target===this) closeModal('landModal')">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('landModal')">&times;</button>
+            <h3>Declare Land (TTNB)</h3>
+            <div id="landAlert"></div>
+            <form id="landForm" onsubmit="submitLand(event)">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Municipality</label>
+                        <select name="commune_id" id="land_commune" required></select>
+                        <input id="land_commune_other" placeholder="Type municipality" style="display:none; margin-top:6px;" />
+                    </div>
+                    <div class="form-group">
+                        <label>Delegation</label>
+                        <select id="land_delegation"></select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Locality</label>
+                        <select id="land_locality"></select>
+                        <input id="land_locality_other" placeholder="Type locality" style="display:none; margin-top:6px;" />
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Address Mode</label>
+                        <select id="land_address_mode">
+                            <option value="villa">Plot/Parcel (number)</option>
+                            <option value="residence">Block/Lot (optional)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Street Name</label>
+                        <input id="land_street_name" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group" id="land_villa_group">
+                        <label>Plot/Parcel Number</label>
+                        <input id="land_villa_number" placeholder="e.g. Parcel 42">
+                    </div>
+                    <div class="form-group" id="land_residence_group" style="display:none;">
+                        <label>Block / Lot</label>
+                        <div class="form-row">
+                            <input id="land_residence_name" placeholder="Block">
+                            <input id="land_apartment_number" placeholder="Lot">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Drop a pin (optional but recommended)</label>
+                    <div id="landMap" style="height: 250px; border-radius: 6px; border: 1px solid #ddd;"></div>
+                    <input type="hidden" id="land_lat" name="latitude">
+                    <input type="hidden" id="land_lng" name="longitude">
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Surface (m²)</label>
+                        <input name="surface" type="number" step="0.01" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Land Type</label>
+                        <select name="land_type" required>
+                            <option value="urban">Urban</option>
+                            <option value="agricultural">Agricultural</option>
+                            <option value="industrial">Industrial</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Urban Zone (Décret 2017-396)</label>
+                        <select name="urban_zone" required>
+                            <option value="haute_densite">Haute densité</option>
+                            <option value="densite_moyenne">Densité moyenne</option>
+                            <option value="faible_densite">Faible densité</option>
+                            <option value="peripherique">Périphérique</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Nature</label>
+                        <select name="nature" required>
+                            <option value="built">Built</option>
+                            <option value="non_built">Non Built</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group" style="background: #f8f9ff; border: 1px solid #e0e7ff; padding: 12px; border-radius: 6px; margin-bottom: 12px;">
+                    <label style="font-weight: 600; color: #4b5563;">Required Documents</label>
+                    <div id="land_required_docs" style="margin-top: 8px; color: #374151; font-size: 14px;">
+                        <em>Select a municipality to load required documents.</em>
+                    </div>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="button" onclick="closeModal('landModal')">Cancel</button>
+                    <button type="submit" class="button" id="landSubmitBtn">Submit</button>
+                </div>
+            </form>
+            
+            <!-- Document Upload Section for Land -->
+            <div id="landDocUpload" style="display:none; margin-top: 20px; padding: 20px; border: 2px dashed #667eea; border-radius: 8px; background: #f8f9ff;">
+                <h4 style="color: #667eea; margin-bottom: 15px;">📎 Upload Supporting Documents (Optional)</h4>
+                <p style="color: #666; font-size: 14px; margin-bottom: 15px;">
+                    Upload land documents: title deed, cadastral plans, survey reports, etc. (PDF, JPG, PNG - Max 10MB)
+                </p>
+                <input type="hidden" id="land_declaration_id">
+                <div class="form-group">
+                    <label>Document Type</label>
+                    <select id="land_doc_type">
+                        <option value="title_deed">Title Deed (Acte de propriété)</option>
+                        <option value="cadastral_plan">Cadastral Plan</option>
+                        <option value="survey_report">Survey Report</option>
+                        <option value="tax_receipt">Tax Receipt</option>
+                        <option value="id_document">ID Document</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <input type="file" id="land_doc_file" accept=".pdf,.jpg,.jpeg,.png" style="padding: 10px; border: 1px solid #ddd; border-radius: 4px; width: 100%;">
+                </div>
+                <div style="display: flex; gap: 10px;">
+                    <button type="button" class="button" onclick="uploadLandDocument()" style="flex: 1;">Upload Document</button>
+                    <button type="button" class="button" onclick="skipLandDocuments()" style="flex: 1; background: #95a5a6;">Skip & Close</button>
+                </div>
+                <div id="land_doc_status" style="margin-top: 10px;"></div>
+                <div id="land_doc_list" style="margin-top: 15px; max-height: 200px; overflow-y: auto;"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Payment Modal -->
+    <div id="paymentModal" class="modal" onclick="if(event.target===this) closeModal('paymentModal')">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('paymentModal')">&times;</button>
+            <h3>Pay Tax</h3>
+            <div id="paymentAlert"></div>
+            <form id="paymentForm" onsubmit="submitPayment(event)">
+                <input type="hidden" id="payment_tax_id" name="tax_id" required>
+                <div class="form-group">
+                    <label>Amount (TND)</label>
+                    <input id="payment_amount" name="amount" type="number" step="0.01" required readonly>
+                </div>
+                <div class="form-group">
+                    <label>Payment Method</label>
+                    <select name="payment_method" required>
+                        <option value="card">Card</option>
+                        <option value="cash">Cash</option>
+                        <option value="bank_transfer">Bank Transfer</option>
+                    </select>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="button" onclick="closeModal('paymentModal')">Cancel</button>
+                    <button type="submit" class="button">Pay</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Dispute Modal -->
+    <div id="disputeModal" class="modal" onclick="if(event.target===this) closeModal('disputeModal')">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('disputeModal')">&times;</button>
+            <h3>Submit Dispute</h3>
+            <div id="disputeAlert"></div>
+            <form id="disputeForm" onsubmit="submitDispute(event)">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Tax ID (optional)</label>
+                        <input name="tax_id" type="number">
+                    </div>
+                    <div class="form-group">
+                        <label>Dispute Type</label>
+                        <select name="dispute_type" required>
+                            <option value="assessment">Assessment</option>
+                            <option value="penalty">Penalty</option>
+                            <option value="payment">Payment</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea name="description" rows="4" required></textarea>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="button" onclick="closeModal('disputeModal')">Cancel</button>
+                    <button type="submit" class="button">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Permit Modal -->
+    <div id="permitModal" class="modal" onclick="if(event.target===this) closeModal('permitModal')">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('permitModal')">&times;</button>
+            <h3>Request Permit</h3>
+            <div id="permitAlert"></div>
+            <form id="permitForm" onsubmit="submitPermit(event)">
+                <div class="form-group">
+                    <label>Permit Type</label>
+                    <select name="permit_type" required>
+                        <option value="construction">Construction</option>
+                        <option value="renovation">Renovation</option>
+                        <option value="demolition">Demolition</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Property Address</label>
+                    <input name="property_address" required>
+                </div>
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea name="description" rows="4" required></textarea>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="button" onclick="closeModal('permitModal')">Cancel</button>
+                    <button type="submit" class="button">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- 2FA Modal is rendered by ../../common/two-factor.js; removed duplicate static markup -->
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script src="../../common/two-factor.js"></script>
+    <script src="enhanced.js"></script>
+</body>
+</html>

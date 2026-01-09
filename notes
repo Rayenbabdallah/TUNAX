@@ -1,0 +1,169 @@
+address retrieving should be stricter for api to work option to drop a pin drom maps
+
+make sure of service count setting ...
+
+INSOMINIA TESTING
+UI TESTING
+
+# Navigate to docker directory
+cd C:\Users\rayen\Desktop\TUNAX\docker
+
+# Start containers
+docker-compose up -d
+
+# Run migrations
+docker-compose exec backend flask db upgrade
+
+# Seed all demo data (communes + users + resources + sample property)
+docker-compose exec backend python seed_all.py
+
+
+
+
+# Check current migration
+docker-compose exec backend flask db current
+
+# Create new migration after model changes
+docker-compose exec backend flask db migrate -m "description"
+
+# Apply pending migrations
+docker-compose exec backend flask db upgrade
+
+# Rollback one migration
+docker-compose exec backend flask db downgrade
+
+# Fresh start (⚠️ deletes all data)
+
+## Docker (Postgres) fresh reset
+
+**Complete fresh start:**
+
+```powershell
+cd C:\Users\rayen\Desktop\TUNAX\docker
+docker-compose down -v
+docker-compose up -d
+docker-compose exec backend flask db upgrade
+docker-compose exec backend python seed_all.py
+```
+
+2) Restart services:
+
+```powershell
+docker-compose up -d
+```
+
+3) Recreate schema and seed essentials:
+
+```powershell
+docker-compose exec backend flask db upgrade
+docker-compose exec backend flask db current
+docker-compose exec backend python seed_communes.py
+docker-compose exec backend python seed_demo.py
+docker-compose exec backend python seed_test_resources.py
+
+# Run all seeds (unified)
+docker-compose exec backend python seed_all.py
+
+### Quick Fresh Start (one block)
+```powershell
+cd C:\Users\rayen\Desktop\TUNAX\docker
+docker-compose down -v
+docker-compose up -d
+docker-compose exec backend flask db upgrade
+docker-compose exec backend flask db current
+docker-compose exec backend python seed_all.py
+```
+```
+
+## Local SQLite fresh reset (if not using Docker DB)
+1) Delete local DB file:
+
+```powershell
+Remove-Item -Force .\backend\tunax.db
+```
+
+2) Recreate schema and seed essentials:
+
+```powershell
+cd .\docker
+docker-compose up -d
+docker-compose exec backend flask db upgrade
+docker-compose exec backend flask db current
+docker-compose exec backend python seed_communes.py
+docker-compose exec backend python seed_demo.py
+docker-compose exec backend python seed_test_resources.py
+```
+
+Notes:
+- Down with `-v` removes volumes; data loss is permanent.
+- Ensure `DATABASE_URL` in environment points to Postgres when using Docker.
+
+
+
+# ✅ IMPLEMENTED (Dec 2025)
+✅ Service count: Auto-calculated from MunicipalServiceConfig (available services per locality)
+✅ TIB Categories: 4 bands by covered area (≤100, 101-200, 201-400, >400 m²)
+✅ Reference prices: Ministry sets legal min/max bounds per category (nation-wide)
+✅ Reference prices: Municipality admin sets exact price within legal bounds (per commune)
+✅ Service rates: Progressive 8%→10%→12%→14% (1-2, 3-4, 5-6, 7+ services)
+✅ Removed outdated surface_categories multipliers from tariffs_2025.yaml
+✅ All ADMIN roles replaced with MUNICIPAL_ADMIN
+✅ Demo users: All password = TunaxDemo123!
+
+# Legal Reference Price Bounds (Code de la Fiscalité Locale 2025)
+- Category 1 (≤100 m²): 100-178 TND/m²
+- Category 2 (101-200 m²): 163-238 TND/m²
+- Category 3 (201-400 m²): 217-297 TND/m²
+- Category 4 (>400 m²): 271-356 TND/m²
+
+# TIB Calculation Formula
+Assiette = 0.02 × (reference_price_per_m2 × covered_surface)
+TIB = Assiette × service_rate
+
+# ✅ DOCUMENT UPLOAD INTEGRATION (Dec 15, 2025)
+✅ Citizen Dashboard: Property Declaration → Document Upload Flow
+  - After successful property submission, user sees document upload UI
+  - Supported doc types: Title Deed, Tax Receipt, Cadastral Plan, Construction Permit, ID Document, Other
+  - Upload optional but recommended
+  - Users can upload multiple documents sequentially
+  - Functions: uploadPropertyDocument(), loadPropertyDocuments(), skipPropertyDocuments()
+
+✅ Citizen Dashboard: Land Declaration → Document Upload Flow
+  - After successful land submission, user sees document upload UI
+  - Supported doc types: Title Deed, Cadastral Plan, Survey Report, Tax Receipt, ID Document, Other
+  - Functions: uploadLandDocument(), loadLandDocuments(), skipLandDocuments()
+
+✅ Agent Dashboard: Declaration Verification + Document Review
+  - Agent enters Property/Land ID to load declaration
+  - "Load Declaration & Documents" button shows:
+    - Declaration details (ID, address, status, surface, etc.)
+    - List of all uploaded supporting documents with download links
+  - Agent can review documents before verification
+  - Verification result + notes recorded
+  - Function: loadDeclarationDocuments()
+
+✅ Inspector Dashboard: Inspection Report + Photo Upload
+  - Inspector submits inspection report (satellite verified, discrepancies, recommendation)
+  - After report submission, "Upload Inspection Photos" section appears
+  - Supported doc types: Site Photo, Satellite Image, Field Notes, Measurement Report, Comparison Analysis, Other
+  - Can upload multiple inspection photos/documents
+  - Functions: showInspectionDocUpload(), uploadInspectionDocument(), loadInspectionDocuments(), completeInspectionUpload()
+
+✅ Business Dashboard: Same pattern as Citizen (ready to implement - same function pattern)
+
+# Document Upload API Endpoints
+POST /api/documents/declarations/{declaration_id}/documents - Upload document (multipart/form-data)
+GET /api/documents/declarations/{declaration_id}/documents - List documents for declaration
+GET /api/documents/documents/{document_id}/file - Download document file
+PUT /api/documents/documents/{document_id}/review - Review/approve document
+
+# File Upload Specifications
+- Max file size: 10MB per file
+- Allowed formats: PDF, JPG, PNG
+- Validation: Client-side check before upload
+- Storage: backend/uploads/ directory
+- Authentication: Required (Bearer token) 
+
+
+enable notif 
+reactivated rate limiter

@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Municipal Agent Dashboard</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f5f7fa; }
+        .navbar { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; }
+        .container { display: grid; grid-template-columns: 250px 1fr; min-height: calc(100vh - 70px); }
+        .sidebar { background: white; padding: 2rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .sidebar a { display: block; padding: 12px; margin-bottom: 10px; color: #333; text-decoration: none; border-radius: 5px; transition: background 0.3s; }
+        .sidebar a:hover, .sidebar a.active { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; }
+        .content { padding: 2rem; }
+        .card { background: white; border-radius: 8px; padding: 2rem; margin-bottom: 2rem; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2rem; }
+        .stat-box { background: white; padding: 1.5rem; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); border-left: 4px solid #667eea; }
+        .stat-value { font-size: 1.8em; font-weight: bold; color: #333; }
+        table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #ddd; }
+        th { background: #f8f9fa; font-weight: 600; }
+        .button { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; margin-bottom: 5px; font-weight: 500; }
+        .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <h1>Municipal Agent Dashboard (Agent Municipal)</h1>
+        <button style="background: rgba(255,255,255,0.2); color: white; border: 1px solid white; padding: 8px 16px; border-radius: 5px; cursor: pointer;" onclick="logout()">Logout</button>
+    </div>
+
+    <div class="container">
+        <div class="sidebar">
+            <a class="nav-link active" onclick="showSection('overview', this)">Overview</a>
+            <a class="nav-link" onclick="showSection('address-verify', this)">Verify Address</a>
+            <a class="nav-link" onclick="showSection('reclamations', this)">Service Complaints</a>
+            <a class="nav-link" onclick="showSection('my-assignments', this)">My Assignments</a>
+            <a class="nav-link" onclick="showSection('verification-status', this)">Verification Status</a>
+        </div>
+
+        <div class="content">
+            <div id="overview" class="section">
+                <div class="stats">
+                    <div class="stat-box">
+                        <div style="color: #666; font-size: 0.9em; margin-bottom: 8px;">Pending Complaints</div>
+                        <div class="stat-value" id="pending-count">0</div>
+                    </div>
+                    <div class="stat-box">
+                        <div style="color: #666; font-size: 0.9em; margin-bottom: 8px;">Assigned to Me</div>
+                        <div class="stat-value" id="assigned-count">0</div>
+                    </div>
+                    <div class="stat-box">
+                        <div style="color: #666; font-size: 0.9em; margin-bottom: 8px;">Resolved</div>
+                        <div class="stat-value" id="resolved-count">0</div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h2>Municipal Agent Functions</h2>
+                    <p>Key responsibilities:</p>
+                    <ul style="margin-left: 2rem; margin-top: 0.5rem;">
+                        <li>Verify citizen/business addresses using Nominatim API</li>
+                        <li>Validate property and land declarations</li>
+                        <li>Manage service complaint assignments</li>
+                        <li>Track complaint resolution status</li>
+                        <li>Maintain public records accuracy</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div id="address-verify" class="section" style="display: none;">
+                <div class="card">
+                    <h2>Verify Address (Using Nominatim)</h2>
+                    <div class="form-group">
+                        <label>Address to Verify:</label>
+                        <input type="text" id="address-input" placeholder="Enter address, e.g., 'Rue de Tunis, Sfax, Tunisia'" required>
+                    </div>
+                    <button onclick="verifyAddress()" class="button">Verify Address</button>
+                    <div id="verify-result" style="margin-top: 20px;"></div>
+                </div>
+            </div>
+
+            <div id="reclamations" class="section" style="display: none;">
+                <div class="card">
+                    <h2>Service Complaints (Réclamations)</h2>
+                    <p>All pending service complaints to manage:</p>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Complaint ID</th>
+                                <th>Type</th>
+                                <th>Submitter</th>
+                                <th>Status</th>
+                                <th>Date</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="reclamations-body">
+                            <tr><td colspan="6">Loading...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="my-assignments" class="section" style="display: none;">
+                <div class="card">
+                    <h2>My Assigned Complaints</h2>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Complaint ID</th>
+                                <th>Type</th>
+                                <th>Location</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="assignments-body">
+                            <tr><td colspan="5">Loading...</td></tr>
+                        </tbody>
+                    </table>
+
+                    <h3 style="margin-top: 2rem;">Update Complaint Status</h3>
+                    <div class="form-group">
+                        <label>Complaint ID:</label>
+                        <input type="text" id="complaint-id-update" placeholder="Enter Complaint ID">
+                    </div>
+                    <div class="form-group">
+                        <label>New Status:</label>
+                        <select id="new-status">
+                            <option value="in-progress">In Progress</option>
+                            <option value="resolved">Resolved</option>
+                            <option value="cancelled">Cancelled</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Resolution Details:</label>
+                        <textarea id="resolution-details" placeholder="Describe actions taken and results..."></textarea>
+                    </div>
+                    <button onclick="updateComplaintStatus()" class="button">Update Status</button>
+                    <div id="update-message" style="margin-top: 15px;"></div>
+                </div>
+            </div>
+
+            <div id="verification-status" class="section" style="display: none;">
+                <div class="card">
+                    <h2>Property & Land Verification Status</h2>
+                    <p>Verify property or land declarations:</p>
+                    <div class="form-group">
+                        <label>Property/Land ID:</label>
+                        <input type="text" id="item-id-verify" placeholder="Enter ID">
+                    </div>
+                    <div class="form-group">
+                        <label>Item Type:</label>
+                        <select id="item-type-verify">
+                            <option value="property">Property (TIB)</option>
+                            <option value="land">Land (TTNB)</option>
+                        </select>
+                    </div>
+                    <button onclick="loadDeclarationDocuments()" class="button">Load Declaration & Documents</button>
+                    
+                    <!-- Document Review Section -->
+                    <div id="document-review-section" style="display:none; margin-top: 30px; padding: 20px; background: #f8f9ff; border-radius: 8px;">
+                        <h3 style="color: #667eea; margin-bottom: 15px;">📋 Declaration Documents</h3>
+                        <div id="declaration-info" style="margin-bottom: 20px; padding: 15px; background: white; border-radius: 6px;">
+                            <!-- Declaration details will be loaded here -->
+                        </div>
+                        
+                        <h4 style="margin-bottom: 10px;">Supporting Documents:</h4>
+                        <div id="documents-list" style="margin-bottom: 20px;">
+                            <!-- Documents will be loaded here -->
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Verification Result:</label>
+                            <select id="verification-result-select">
+                                <option value="verified">Verified - Information Correct</option>
+                                <option value="incorrect">Incorrect - Needs Correction</option>
+                                <option value="partial">Partial - Needs Review</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Notes:</label>
+                            <textarea id="verification-notes" rows="3" placeholder="Add verification notes..."></textarea>
+                        </div>
+                        <button onclick="submitVerification()" class="button">Submit Verification</button>
+                    </div>
+                    
+                    <div id="verification-message" style="margin-top: 15px;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../../common/two-factor.js"></script>
+    <script src="enhanced.js"></script>
+</body>
+</html>

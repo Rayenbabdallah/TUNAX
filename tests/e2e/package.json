@@ -1,0 +1,13 @@
+{
+  "name": "tunax-e2e",
+  "private": true,
+  "version": "0.0.1",
+  "type": "module",
+  "scripts": {
+    "test": "playwright test",
+    "smoke": "playwright test smoke.spec.js --reporter=list"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.42.0"
+  }
+}
