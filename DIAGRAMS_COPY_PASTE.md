@@ -1,12 +1,4 @@
-# TUNAX - Copy-Paste Ready Diagrams
-
-Instructions: Copy each diagram block below (including the ```mermaid tags) and paste into:
-- GitHub/GitLab README.md
-- Mermaid Live Editor (https://mermaid.live/)
-- VS Code with Mermaid Preview extension
-- Any Markdown file
-
----
+# TUNAX -  Diagrams
 
 ## DIAGRAM 1: System Architecture
 
@@ -489,31 +481,4 @@ graph LR
     style PAY_API fill:#27AE60,color:#fff
 ```
 
----
 
-## HOW TO USE:
-
-1. **For GitHub/GitLab README:**
-   - Copy diagram block (including ```mermaid tags)
-   - Paste directly into your .md file
-   - Commit and push - renders automatically
-
-2. **For Mermaid Live Editor:**
-   - Visit https://mermaid.live/
-   - Copy ONLY the code inside ```mermaid``` tags (exclude the markers)
-   - Paste in left panel
-   - Export as PNG/SVG
-
-3. **For VS Code:**
-   - Install "Markdown Preview Mermaid Support" extension
-   - Copy full diagram block with ```mermaid tags
-   - Paste into any .md file
-   - Open preview (Ctrl+Shift+V)
-
-4. **For Documentation:**
-   - Copy full diagram block
-   - Works in: Notion, Confluence, Docusaurus, GitBook, MkDocs
-
----
-
-**All diagrams validated and ready to use!** 🎨
