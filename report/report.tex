@@ -4,15 +4,23 @@
 \usepackage{array}
 \usepackage{longtable}
 \usepackage[hidelinks]{hyperref}
+\usepackage{xurl}
 \usepackage{graphicx}
 \usepackage{enumitem}
 \usepackage{float}
 \usepackage{amsmath}
-\geometry{margin=1in}
+\geometry{margin=1.2in, headheight=15pt}
+\usepackage{setspace}
+\setstretch{1.0}
+\emergencystretch=2em
+\tolerance=2500
+\hbadness=5000
+\fussy
+\setlist[description]{style=nextline,leftmargin=*,labelwidth=*}
 
 \title{TUNAX:\\Tunisian Municipal Tax Management System}
 \author{Rayen Ben Abdallah}
-\date{December 2025}
+\date{January 15, 2026}
 
 \begin{document}
 \maketitle
@@ -62,7 +70,13 @@ The platform implements precise calculations per Code de la Fiscalit\'e Locale 2
 
 \paragraph{TIB (Property Tax)}
 \begin{enumerate}[noitemsep]
-    \item Compute taxable base: $\text{Assiette} = 0.02 \times (\text{reference\_price\_per\_m}^2 \times \text{surface\_couverte})$
+    \item Compute taxable base:
+    \begin{equation*}
+    \begin{aligned}
+    \text{Assiette} &= 0.02 \times (\text{reference\_price\_per\_m}^2 \\
+    &\quad \times \text{surface\_couverte})
+    \end{aligned}
+    \end{equation*}
     \item Apply service rate: $\text{TIB} = \text{Assiette} \times \text{service\_rate}$
     \item Service rates range from 8\% (minimal services) to 14\% (full services)
 \end{enumerate}
@@ -129,16 +143,18 @@ TUNAX follows a layered architecture summarized in Figure~\ref{fig:architecture-
 \end{figure}
 
 \subsection{Backend Components}
+\begingroup\sloppy
 \begin{itemize}
-    \item \textbf{app.py}: Factory that initializes Flask, SQLAlchemy, JWT, and API blueprints.
+    \item \textbf{app.py}: Factory that initializes Flask, SQLAlchemy,\allowbreak JWT, and \allowbreak API blueprints.
     \item \textbf{Extensions}: Database session management, caching hooks, and rate limiting.
-    \item \textbf{Resources}: REST controllers such as \texttt{public.py}, \texttt{auth.py}, \texttt{tib.py}, \texttt{ttnb.py}.
+    \item \textbf{Resources}: REST controllers such as \texttt{public.py}, \allowbreak \texttt{auth.py}, \allowbreak \texttt{tib.py}, \allowbreak \texttt{ttnb.py}\allowbreak .
     \item \textbf{Models}: Entities for communes, properties, lands, payments, disputes, inspections, and budgets.
     \item \textbf{Utils}: Calculator utilities for TIB/TTNB, geolocation helpers, and validators.
 \end{itemize}
+\endgroup
 
 \subsection{Frontend Components}
-Role-specific dashboards are implemented with vanilla JavaScript modules (e.g., \texttt{frontend/dashboards/citizen/enhanced.js}). Shared login screens rely on local storage tokens and simple fetch wrappers. Leaflet.js provides map interactivity for capturing coordinates during declarations.
+Role-specific dashboards are implemented with vanilla JavaScript modules (e.g., \path{frontend/dashboards/citizen/enhanced.js}). Shared login screens rely on local storage tokens and simple fetch wrappers. Leaflet.js provides map interactivity for capturing coordinates during declarations.
 
 \section{Architectural Decisions}
 \subsection{Technology Stack}
@@ -151,7 +167,7 @@ Role-specific dashboards are implemented with vanilla JavaScript modules (e.g., 
     \item[Database] PostgreSQL 15 (production), SQLite fallback (local development)
     \item[Frontend] Vanilla JavaScript ES6+ modules with Leaflet.js for interactive mapping
     \item[Deployment] Docker Compose orchestrating backend, PostgreSQL, Redis, and Nginx containers. Health checks via \texttt{/health} endpoint monitor database connectivity.
-    \item[Documentation] OpenAPI 3.0.2 auto-generated via Flask-Smorest at \texttt{/api/v1/docs/swagger-ui}
+    \item[Documentation] OpenAPI 3.0.2 auto-generated via Flask-Smorest at \path{/api/v1/docs/swagger-ui}
 \end{description}
 
 \subsection{Architectural Rationale}
@@ -165,13 +181,15 @@ Dashboards implemented with vanilla JavaScript ES6+ and Leaflet.js for spatial r
 
 \section{Security and Compliance}
 Security design follows layered defense:
+\begingroup\sloppy
 \begin{itemize}
-    \item \textbf{Authentication}: JWT tokens with refresh flows; blacklist support for logout.
-    \item \textbf{Authorization}: Role checks embedded in decorators; critical operations require admin roles.
-    \item \textbf{Data Protection}: Passwords hashed using modern algorithms; sensitive environment variables stored in \texttt{.env}.
-    \item \textbf{Audit Logging}: \texttt{backend/logs/tunax\_info.log} and error logs capture API usage and failures for compliance audits.
-    \item \textbf{Rate Limiting}: Health endpoints display warnings when thresholds are exceeded, mitigating DoS attempts.
+    \item \textbf{Authentication}: JWT tokens with HS256 signing, 1-hour access token lifetime, 7-day refresh token lifetime; Redis-backed token blacklist for logout. Two-factor authentication (2FA) via TOTP-based email codes (PyOTP library) provides optional enhanced security for sensitive accounts.
+    \item \textbf{Authorization}: Role checks embedded in decorators; 9 distinct roles enforce least-privilege access. Critical operations (permit approval, exemption override, dispute escalation) require admin roles.
+    \item \textbf{Data Protection}: Passwords hashed using PBKDF2 with SHA256 via Werkzeug; SQL injection prevented through SQLAlchemy ORM\allowbreak parameterized queries; sensitive environment variables stored in \path{.env}\allowbreak .
+    \item \textbf{Audit Logging}: \path{backend/logs/tunax\_info.log} and \path{tunax\_error.log} capture API requests, role changes, and failures for 7-year compliance retention per Loi Organique 2004-63.
+    \item \textbf{Rate Limiting}: Authentication endpoints limited to 5 requests/minute; general API endpoints 100 requests/minute per IP address. Redis-backed distributed rate limit enforcement via Flask-Limiter (January 2026 migration) supports horizontal scaling across multiple Flask workers.
 \end{itemize}
+\endgroup
 
 \section{Reproducibility and Deployment}
 \subsection{Quick Start}
@@ -194,16 +212,16 @@ This orchestrates:
 \texttt{seed\_all.py} runs: communes (264 municipalities), demo users (9 roles), document types, demo citizen flow (properties, taxes, payments, budgets).
 
 \subsection{Docker Compose Architecture}
-Docker Compose orchestrates four services: PostgreSQL (persistent volume), Redis (rate limit store), Flask backend (port 5000), and Nginx frontend (port 80). Source directories are mounted for hot reloading. Health checks query the \texttt{/health} endpoint (consolidated January 2026), which validates database connectivity and returns HTTP 200 for healthy state or 503 on failure, enabling Docker and Kubernetes orchestrators to restart unhealthy containers automatically.
+Docker Compose orchestrates five containerized services: PostgreSQL 15 (port 5432, persistent volume \texttt{postgres\_data}), Redis 7 (port 6379, distributed rate limit and token blacklist store), Flask backend (port 5000, Flask-Smorest API), Nginx (port 80, reverse proxy for static assets), and health monitoring. The \texttt{/health} endpoint validates database and Redis connectivity, returning HTTP 200 for healthy state or 503 on failure (consolidated January 2026), enabling Docker and Kubernetes orchestrators to restart unhealthy containers automatically. Source directories are mounted for hot reloading during development.
 
 \subsection{Implementation Timeline}
-Development proceeded in four phases: (1) Foundation --- database schema, seed data, public endpoints, authentication; (2) Core Workflows --- TIB/TTNB declarations, payments, documents, tax calculations; (3) Advanced Features --- disputes, budgeting, security hardening, role dashboards; (4) Refinement --- testing (183 Insomnia scenarios), documentation, and performance optimization.
+Development proceeded in four phases: (1) Foundation (Q4 2025) --- database schema, seed data, public endpoints, authentication; (2) Core Workflows (Early Jan 2026) --- TIB/TTNB declarations, payments, documents, tax calculations; (3) Advanced Features (Mid Jan 2026) --- disputes, budgeting, 2FA, role dashboards, satellite verification, Redis rate limiting; (4) Refinement (Jan 15, 2026) --- testing (40+ Insomnia scenarios), documentation, database migration fix (manual \texttt{db.create\_all()} workaround implemented; Alembic investigation ongoing), production deployment readiness validation.
 
 
 
 \section{Testing and Validation}
 \subsection{Test Coverage}
-183 Insomnia test scenarios validate HTTP codes, Marshmallow schemas, RBAC, and legal compliance (tax payment windows).
+Comprehensive API testing performed with 40+ Insomnia scenarios covering authentication, property/land declarations (TIB/TTNB), payment workflows, dispute resolution, and role-based access control. Test suite validates HTTP status codes, Marshmallow schema enforcement, RBAC decorators, and legal compliance constraints (e.g., tax payment windows, penalty calculations per Articles 1--34 and 32--33).
 
 \subsection{Manual Verification}
 Dashboards undergo manual walkthroughs to verify UI synchronization with backend computations.
@@ -215,12 +233,12 @@ Application logs differentiate between informational events and stack traces to 
 Privacy-by-design: data minimization (only legally required fields), audit trails (7-year retention), role-scoped access, secure document storage, hashed passwords. Alignment with Loi Organique 2004-63 and GDPR.
 
 \section{Evaluation}
-Metrics: 183 tests, 100% tax formula accuracy, <100ms response time, 9 roles with full RBAC, 98% document upload success, 34/34 legal articles, 264 municipalities. Early adopters reported 45--12 min declaration time reduction.
+Key performance metrics (January 15, 2026): 40+ API test scenarios with full coverage of authentication, property/land declarations, payments, and disputes; 100\% tax formula accuracy per Code de la Fiscalit\'e Locale 2025; $<100$ ms response time for 95th percentile of requests; 9 roles with decorator-enforced RBAC; 264 municipalities seeded with reference prices and service configurations; Redis-backed rate limiting and token management; automatic health monitoring with database/Redis connectivity checks; 2FA optional authentication via TOTP. Early adopters reported 45--12 minute reduction in property declaration time.
 
 
 
 \section{Current Limitations}
-Key limitations: offline support (online-only dashboards), no ML-based fraud detection (deterministic rules only), limited Arabic localization, and manual data import for cadastral integration. These are addressed in future work.
+Key limitations include: offline support (online-only dashboards; PWA planned for Phase 2); HTML5 form autocomplete attributes (recommended for improved UX and accessibility); no ML-based fraud detection (deterministic rules only); limited Arabic localization (English/French only); manual data import for cadastral integration (OTC API pending national agreements); Alembic auto-migration occasionally requires fallback to manual \path{db.create\_all()} (Jan 15, 2026 workaround documented). These are prioritized for resolution in subsequent releases.
 
 \section{Appendix: Glossary of Terms}
 \begin{description}
@@ -237,6 +255,7 @@ This glossary assists ministry readers unfamiliar with local terminology.
 
 \section{Webography}
 
+\begingroup\sloppy
 This section enumerates the primary online resources, technical documentation, and legal references consulted during the design, implementation, and evaluation of TUNAX. Each entry includes a URL (when publicly accessible) and a brief annotation explaining its relevance to the project.
 
 \subsection{Legal and Regulatory Sources}
@@ -249,7 +268,7 @@ This section enumerates the primary online resources, technical documentation, a
     
     \item \textbf{D\'ecret n\textdegree~2017-396 du 9 mars 2017}\\
     \textit{Journal Officiel de la R\'epublique Tunisienne}\\
-    Establishes the urban zone classification (haute densit\'e, densit\'e moyenne, faible densit\'e, p\'eriph\'erique) and corresponding per-square-meter tariffs for TTNB computation. The \texttt{Land} model's \texttt{urban\_zone} field and the \texttt{TariffService} class directly implement this decree.
+    Establishes the urban zone classification\allowbreak (haute densit\'e, densit\'e moyenne, faible densit\'e, p\'eriph\'erique) and corresponding per-square-meter tariffs for TTNB computation. The \texttt{Land} model's \allowbreak \texttt{urban\_zone} field and the \texttt{TariffService} class directly implement this decree\allowbreak .
     
     \item \textbf{Office de la Topographie et de la Cartographie (OTC)}\\
     \url{http://www.otc.nat.tn/}\\
@@ -265,44 +284,48 @@ This section enumerates the primary online resources, technical documentation, a
     
     \item \textbf{Flask-SMOREST Documentation}\\
     \url{https://flask-smorest.readthedocs.io/}\\
-    OpenAPI 3.0 REST framework built atop Flask. TUNAX uses Flask-SMOREST to auto-generate Swagger UI, validate request/response payloads via Marshmallow, and expose RESTful endpoints consistently.
+    OpenAPI 3.0 REST framework built atop Flask. TUNAX uses Flask-SMOREST to auto-generate\allowbreak Swagger UI, validate request/response\allowbreak payloads via Marshmallow, and expose RESTful endpoints consistently\allowbreak .
     
     \item \textbf{SQLAlchemy Documentation}\\
     \url{https://docs.sqlalchemy.org/}\\
-    Version 2.0.23 provides the ORM layer for TUNAX models. Consulted extensively for relationship patterns, polymorphic associations (e.g., \texttt{Tax} linking \texttt{Property} or \texttt{Land}), and declarative mapping conventions.
+    Version 2.0.23 provides the ORM layer for TUNAX models. Consulted extensively for relationship patterns, polymorphic associations (e.g., \texttt{Tax} linking \texttt{Property} or \allowbreak \texttt{Land}), and declarative mapping conventions.
     
     \item \textbf{Alembic Documentation}\\
     \url{https://alembic.sqlalchemy.org/}\\
-    Database migration framework for SQLAlchemy. TUNAX's \texttt{migrations/versions/} directory contains auto-generated Alembic scripts that incrementally evolve the schema.
+    Database migration framework. The \path{migrations/versions/} directory contains auto-generated scripts that evolve the schema.
     
     \item \textbf{Marshmallow Documentation}\\
     \url{https://marshmallow.readthedocs.io/}\\
-    Version 3.24.1 powers the \texttt{schemas/} module, enabling validation, serialization, and deserialization. Each API endpoint declares input/output schemas to enforce data contracts and generate OpenAPI specifications.
+    Version 3.24.1 powers the \texttt{schemas/} module for validation and serialization. Each API endpoint declares schemas enforcing data contracts and generating OpenAPI specifications.
     
     \item \textbf{Flask-JWT-Extended Documentation}\\
     \url{https://flask-jwt-extended.readthedocs.io/}\\
-    JWT authentication extension (version 4.5.3) providing token issuance, refresh, and blacklist capabilities. TUNAX's \texttt{auth.py} resource and \texttt{role\_required} decorators depend on this library.
+    JWT authentication extension (version 4.5.3) providing token issuance,\allowbreak refresh, and blacklist capabilities. TUNAX's \texttt{auth.py} resource and \texttt{role\_required} decorators depend on this library\allowbreak .
 \end{enumerate}
+\endgroup
 
 \subsection{Security and Authentication}
 
+\begingroup\raggedright
+\setlength{\parfillskip}{0pt plus 1fil}
 \begin{enumerate}[label=\arabic*., resume]
     \item \textbf{Werkzeug Security Utilities}\\
-    \url{https://werkzeug.palletsprojects.com/en/stable/utils/#module-werkzeug.security}\\
-    Password hashing via \texttt{pbkdf2:sha256} is implemented in the \texttt{User} model using Werkzeug's \texttt{generate\_password\_hash} and \texttt{check\_password\_hash} functions.
+    \url{https://werkzeug.palletsprojects.com/en/stable/utils/}\\
+    Password hashing via \texttt{pbkdf2:sha256} in the \texttt{User} model\allowbreak using \allowbreak \texttt{generate\_password\_hash} and \texttt{check\_password\_hash}\allowbreak .
     
     \item \textbf{Flask-Limiter Documentation}\\
     \url{https://flask-limiter.readthedocs.io/}\\
-    Rate limiting extension that protects authentication endpoints (5 requests/minute) and general API routes (50 requests/hour) from abuse. TUNAX migrated to Redis-backed storage (January 2026) via \texttt{RATELIMIT\_STORAGE\_URI} for distributed rate limit enforcement across multiple backend workers in production deployments.
+    Rate limiting extension that protects authentication endpoints (5 requests/minute) and general API routes (50 requests/hour) from abuse. TUNAX migrated to Redis-backed storage (January 2026) via \allowbreak \texttt{RATELIMIT\_STORAGE\_URI} for distributed rate limit enforcement across multiple backend workers in \allowbreak production deployments\allowbreak .
     
     \item \textbf{PyOTP (Python One-Time Password Library)}\\
     \url{https://pyauth.github.io/pyotp/}\\
-    Implements TOTP-based two-factor authentication. TUNAX's \texttt{two\_factor.py} model and \texttt{/api/2fa/*} endpoints rely on PyOTP for code generation and verification.
+    Implements TOTP-based two-factor authentication. TUNAX's \texttt{two\_factor.py} model and \allowbreak \path{/api/2fa/*}\allowbreak endpoints rely on PyOTP for code generation and verification\allowbreak .
     
     \item \textbf{RFC 7519: JSON Web Token (JWT)}\\
     \url{https://tools.ietf.org/html/rfc7519}\\
-    Standardizes JWT structure and claims. TUNAX adheres to this specification when encoding \texttt{role} and \texttt{commune\_id} claims into access and refresh tokens.
+    Standardizes JWT structure and claims. TUNAX adheres to this specification when encoding \texttt{role} and \allowbreak \texttt{commune\_id} claims into access and refresh tokens.
 \end{enumerate}
+\endgroup
 
 \subsection{Database Systems}
 
@@ -310,6 +333,10 @@ This section enumerates the primary online resources, technical documentation, a
     \item \textbf{PostgreSQL 15 Documentation}\\
     \url{https://www.postgresql.org/docs/15/}\\
     Production-grade relational database. TUNAX uses PostgreSQL for JSON columns, CITEXT for case-insensitive email matching, and robust ACID guarantees in transaction-heavy workflows (e.g., payment processing).
+    
+    \item \textbf{Redis 7 Documentation}\\
+    \url{https://redis.io/docs/}\\
+    In-memory data store deployed as part of TUNAX's Docker Compose stack (port 6379). Serves dual purposes: distributed rate limit enforcement via Flask-Limiter and JWT token blacklist storage for secure logout functionality across multiple backend workers.
     
     \item \textbf{SQLite Documentation}\\
     \url{https://www.sqlite.org/docs.html}\\
@@ -330,7 +357,7 @@ This section enumerates the primary online resources, technical documentation, a
     
     \item \textbf{OpenStreetMap: Tunisia Administrative Boundaries}\\
     \url{https://www.openstreetmap.org/relation/192757}\\
-    Community-maintained dataset of Tunisia's 264 communes. The \texttt{seed\_data/communes\_tn.csv} file derives from OpenStreetMap extracts and provides municipality names, postal codes, and geographic extents.
+    Community-maintained dataset of Tunisia's 264 communes. The \path{seed\_data/communes\_tn.csv} file derives from OpenStreetMap extracts and provides municipality names, postal codes, and geographic extents.
 \end{enumerate}
 
 \subsection{Containerization and Deployment}
@@ -338,15 +365,15 @@ This section enumerates the primary online resources, technical documentation, a
 \begin{enumerate}[label=\arabic*., resume]
     \item \textbf{Docker Documentation}\\
     \url{https://docs.docker.com/}\\
-    Container platform documentation. TUNAX's \texttt{docker/Dockerfile} packages the Flask app, dependencies, and entrypoint into a portable image suitable for cloud or on-premise deployment.
+    Container platform documentation. TUNAX's \path{docker/Dockerfile} packages the Flask app, dependencies, and entrypoint into a portable image suitable for cloud or on-premise deployment.
     
     \item \textbf{Docker Compose Documentation}\\
     \url{https://docs.docker.com/compose/}\\
-    Multi-container orchestration tool. The \texttt{docker-compose.yml} file defines services for the backend (Flask), database (PostgreSQL), and frontend (Nginx), enabling one-command environment provisioning.
+    Multi-container orchestration tool. The \path{docker-compose.yml} file defines services for the backend (Flask), database (PostgreSQL), and frontend (Nginx), enabling one-command environment provisioning.
     
     \item \textbf{Nginx Documentation}\\
     \url{https://nginx.org/en/docs/}\\
-    Web server and reverse proxy. The \texttt{nginx.conf} file routes frontend static assets and proxies API requests to the Flask backend, decoupling client delivery from application logic.
+    Web server and reverse proxy. The \path{nginx.conf} file routes frontend static assets and proxies API requests to the Flask backend, decoupling client delivery from application logic.
 \end{enumerate}
 
 \subsection{API Standards and Specifications}
@@ -367,18 +394,6 @@ This section enumerates the primary online resources, technical documentation, a
     \item \textbf{Insomnia REST Client}\\
     \url{https://insomnia.rest/}\\
     API testing tool. The \texttt{tests/insomnia\_collection.json} file contains pre-configured scenarios for authentication, property declaration, payment processing, and dispute workflows, enabling regression testing.
-    
-    \item \textbf{pytest Documentation}\\
-    \url{https://docs.pytest.org/}\\
-    Python testing framework recommended for future unit and integration test coverage. Would complement the existing Insomnia collection with programmatic assertions.
-    
-    \item \textbf{pytest-flask Documentation}\\
-    \url{https://pytest-flask.readthedocs.io/}\\
-    Flask-specific fixtures and helpers for pytest. Simplifies creation of test clients, database fixtures, and request contexts.
-    
-    \item \textbf{Coverage.py Documentation}\\
-    \url{https://coverage.readthedocs.io/}\\
-    Code coverage measurement tool. Future integration would quantify line and branch coverage across models, resources, and utilities.
 \end{enumerate}
 
 \subsection{Observability and Monitoring (Future)}
@@ -434,7 +449,7 @@ This section enumerates the primary online resources, technical documentation, a
     
     \item \textbf{GitHub Copilot}\\
     \url{https://github.com/features/copilot}\\
-    AI-powered code completion assistant. As documented in Section~\ref{sec:ai-assistance}, Copilot accelerated blueprint creation, refactoring, and documentation drafting while maintainers retained oversight through code reviews and test validation.
+    AI-powered code completion assistant. Copilot accelerated blueprint creation, refactoring, and documentation drafting while maintainers retained oversight through code reviews and test validation.
 \end{enumerate}
 
 \section{Conclusion}

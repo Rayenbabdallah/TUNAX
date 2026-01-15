@@ -165,5 +165,3 @@ PUT /api/documents/documents/{document_id}/review - Review/approve document
 - Authentication: Required (Bearer token) 
 
 
-enable notif 
-reactivated rate limiter

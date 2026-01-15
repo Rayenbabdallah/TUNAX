@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (MiKTeX 25.4) (preloaded format=pdflatex 2025.12.4)  9 JAN 2026 02:34
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (MiKTeX 25.4) (preloaded format=pdflatex 2025.12.4)  15 JAN 2026 18:48
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -174,6 +174,8 @@ Package: uniquecounter 2019/12/15 v1.4 Provide unlimited unique counter (HO)
 Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 284.
 )
 \Hy@SectionHShift=\skip57
+) (C:\Users\rayen\AppData\Local\Programs\MiKTeX\tex/latex/xurl\xurl.sty
+Package: xurl 2022/01/09 v 0.10 modify URL breaks
 ) (C:\Users\rayen\AppData\Local\Programs\MiKTeX\tex/latex/graphics\graphicx.sty
 Package: graphicx 2024/12/31 v1.2e Enhanced LaTeX Graphics (DPC,SPQR)
  (C:\Users\rayen\AppData\Local\Programs\MiKTeX\tex/latex/graphics\graphics.sty
@@ -268,30 +270,32 @@ LaTeX Info: Redefining \Relbar on input line 970.
 \mathdisplay@stack=\toks30
 LaTeX Info: Redefining \[ on input line 2950.
 LaTeX Info: Redefining \] on input line 2951.
+) (C:\Users\rayen\AppData\Local\Programs\MiKTeX\tex/latex/setspace\setspace.sty
+Package: setspace 2022/12/04 v6.7b set line spacing
 ) (C:\Users\rayen\AppData\Local\Programs\MiKTeX\tex/latex/l3backend\l3backend-pdftex.def
 File: l3backend-pdftex.def 2025-10-09 L3 backend support: PDF output (pdfTeX)
 \l__color_backend_stack_int=\count318
 ) (report.aux)
 \openout1 = `report.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 17.
-LaTeX Font Info:    ... okay on input line 17.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 17.
-LaTeX Font Info:    ... okay on input line 17.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 17.
-LaTeX Font Info:    ... okay on input line 17.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 17.
-LaTeX Font Info:    ... okay on input line 17.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 17.
-LaTeX Font Info:    ... okay on input line 17.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 17.
-LaTeX Font Info:    ... okay on input line 17.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 17.
-LaTeX Font Info:    ... okay on input line 17.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 17.
-LaTeX Font Info:    ... okay on input line 17.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 17.
-LaTeX Font Info:    ... okay on input line 17.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 25.
+LaTeX Font Info:    ... okay on input line 25.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 25.
+LaTeX Font Info:    ... okay on input line 25.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 25.
+LaTeX Font Info:    ... okay on input line 25.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 25.
+LaTeX Font Info:    ... okay on input line 25.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 25.
+LaTeX Font Info:    ... okay on input line 25.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 25.
+LaTeX Font Info:    ... okay on input line 25.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 25.
+LaTeX Font Info:    ... okay on input line 25.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 25.
+LaTeX Font Info:    ... okay on input line 25.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 25.
+LaTeX Font Info:    ... okay on input line 25.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
@@ -301,16 +305,16 @@ LaTeX Font Info:    ... okay on input line 17.
 * layout: <same size as paper>
 * layoutoffset:(h,v)=(0.0pt,0.0pt)
 * modes: 
-* h-part:(L,W,R)=(72.26999pt, 452.9679pt, 72.26999pt)
-* v-part:(T,H,B)=(72.26999pt, 700.50687pt, 72.26999pt)
+* h-part:(L,W,R)=(86.72377pt, 424.06033pt, 86.72377pt)
+* v-part:(T,H,B)=(86.72377pt, 671.5993pt, 86.72377pt)
 * \paperwidth=597.50787pt
 * \paperheight=845.04684pt
-* \textwidth=452.9679pt
-* \textheight=700.50687pt
-* \oddsidemargin=0.0pt
-* \evensidemargin=0.0pt
-* \topmargin=-37.0pt
-* \headheight=12.0pt
+* \textwidth=424.06033pt
+* \textheight=671.5993pt
+* \oddsidemargin=14.45378pt
+* \evensidemargin=14.45378pt
+* \topmargin=-25.54622pt
+* \headheight=15.0pt
 * \headsep=25.0pt
 * \topskip=12.0pt
 * \footskip=30.0pt
@@ -327,7 +331,7 @@ LaTeX Font Info:    ... okay on input line 17.
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-Package hyperref Info: Link coloring OFF on input line 17.
+Package hyperref Info: Link coloring OFF on input line 25.
 (report.out) (report.out)
 \@outlinefile=\write3
 \openout3 = `report.out'.
@@ -347,13 +351,7 @@ Package hyperref Info: Link coloring OFF on input line 17.
 \everyMPtoPDFconversion=\toks32
 ) (C:\Users\rayen\AppData\Local\Programs\MiKTeX\tex/latex/epstopdf-pkg\epstopdf-base.sty
 Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
- (C:\Users\rayen\AppData\Local\Programs\MiKTeX\tex/latex/grfext\grfext.sty
-Package: grfext 2019/12/03 v1.3 Manage graphics extensions (HO)
-)
 Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 485.
-Package grfext Info: Graphics extension search list:
-(grfext)             [.pdf,.png,.jpg,.mps,.jpeg,.jbig2,.jb2,.PDF,.PNG,.JPG,.JPEG,.JBIG2,.JB2,.eps]
-(grfext)             \AppendGraphicsExtensions on input line 504.
  (C:\Users\rayen\AppData\Local\Programs\MiKTeX\tex/latex/00miktex\epstopdf-sys.cfg
 File: epstopdf-sys.cfg 2021/03/18 v2.0 Configuration of epstopdf for MiKTeX
 )) (report.toc [1
@@ -362,116 +360,33 @@ File: epstopdf-sys.cfg 2021/03/18 v2.0 Configuration of epstopdf for MiKTeX
 \tf@toc=\write4
 \openout4 = `report.toc'.
 
- [2]
-Overfull \hbox (0.77322pt too wide) in paragraph at lines 35--36
-[]\OT1/cmr/m/n/12 Offer multi-role dash-boards (cit-i-zen, busi-ness, agent, in-spec-tor, fi-nance, con-tentieux,
- []
+ [2] [3
 
-
-Overfull \hbox (17.10442pt too wide) in paragraph at lines 45--46
-[]\OT1/cmr/bx/n/12 RQ2: Ar-chi-tec-tural Main-tain-abil-ity \OT1/cmr/m/n/12 --- Which mod-u-lar pat-terns (Flask blueprints,
- []
-
-[3
-
-]
-Overfull \hbox (5.92467pt too wide) in paragraph at lines 88--89
-[]\OT1/cmr/m/n/12 submit dec-la-ra-tions, fol-low re-quired doc-u-men-ta-tion, and mon-
- []
-
-[4]
-Overfull \hbox (1.07343pt too wide) in paragraph at lines 94--95
-[]\OT1/cmr/m/n/12 oversee na-tional pol-icy, mon-i-tor ag-gre-gate per-for-mance met-
- []
-
-[5]
-Overfull \hbox (199.9474pt too wide) in paragraph at lines 141--142
-\OT1/cmr/m/n/12 Role-specific dash-boards are im-ple-mented with vanilla JavaScript mod-ules (e.g., \OT1/cmtt/m/n/12 frontend/dashboards/citizen/enhanced.js\OT1/cmr/m/n/12 ).
- []
-
-
-Overfull \hbox (2.70099pt too wide) in paragraph at lines 146--147
-[]\OT1/cmr/m/n/12 Flask 2.x with Flask-Smorest for Ope-nAPI 3.0.2-compliant REST
- []
-
-[6
+] [4] [5] [6
 pdfTeX warning (ext4): destination with the same identifier (name{figure.1}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.153     \item[Deployment]
-                            Docker Compose orchestrating backend, PostgreSQL...]
-Overfull \hbox (49.01143pt too wide) in paragraph at lines 154--155
-[]\OT1/cmr/m/n/12 OpenAPI 3.0.2 auto-generated via Flask-Smorest at \OT1/cmtt/m/n/12 /api/v1/docs/swagger-ui 
- []
-
-
-Overfull \hbox (14.53291pt too wide) in paragraph at lines 158--159
-\OT1/cmr/m/n/12 Flask was cho-sen for lightweight, blueprint-driven mod-u-lar-ity and Ope-nAPI auto-generation.
- []
-
-[7]
-Overfull \hbox (45.38538pt too wide) in paragraph at lines 212--213
-\OT1/cmr/m/n/12 just mon-i-tor-ing in-ter-vals or in-crease rate lim-its. Logs are stored in \OT1/cmtt/m/n/12 backend/logs/tunax[]info.log
- []
-
-[8] [9]
-Overfull \hbox (4.09492pt too wide) in paragraph at lines 274--277
-\OT1/cmr/m/n/12 Database mi-gra-tion frame-work for SQLAlchemy. TU-NAX's \OT1/cmtt/m/n/12 migrations/versions/
- []
-
-[10]
-Overfull \hbox (9.15701pt too wide) in paragraph at lines 290--293
-[]$\OT1/cmtt/m/n/12 https : / / werkzeug . palletsprojects . com / en / stable / utils / #module-[]werkzeug .
- []
-
-
-Overfull \hbox (1.2189pt too wide) in paragraph at lines 310--313
-\OT1/cmr/m/n/12 Production-grade re-la-tional database. TU-NAX uses Post-greSQL for JSON columns,
- []
-
-
-Overfull \hbox (26.79538pt too wide) in paragraph at lines 310--313
-\OT1/cmr/m/n/12 CI-TEXT for case-insensitive email match-ing, and ro-bust ACID guar-an-tees in transaction-
- []
-
-[11]
-Overfull \hbox (55.81999pt too wide) in paragraph at lines 331--334
-\OT1/cmr/m/n/12 Community-maintained dataset of Tunisia's 264 com-munes. The \OT1/cmtt/m/n/12 seed[]data/communes[]tn.csv
- []
-
-[12]
-Overfull \hbox (9.78604pt too wide) in paragraph at lines 367--370
-\OT1/cmr/m/n/12 API test-ing tool. The \OT1/cmtt/m/n/12 tests/insomnia[]collection.json \OT1/cmr/m/n/12 file con-tains pre-configured
- []
-
-[13]
-
-LaTeX Warning: Reference `sec:ai-assistance' on page 14 undefined on input line 437.
-
-[14] [15] (report.aux)
+l.158 
+      ] [7] [8] [9] [10] [11] [12] [13] [14] [15] [16] [17] (report.aux)
  ***********
 LaTeX2e <2025-11-01>
 L3 programming layer <2025-11-06>
  ***********
-
-
-LaTeX Warning: There were undefined references.
-
 Package rerunfilecheck Info: File `report.out' has not changed.
 (rerunfilecheck)             Checksum: 4927C04317CDC313A1D6D1E5CCAA3605;7799.
  ) 
 Here is how much of TeX's memory you used:
- 10427 strings out of 467871
- 161731 string characters out of 5418376
- 586712 words of memory out of 5000000
- 39075 multiletter control sequences out of 15000+600000
+ 10464 strings out of 467871
+ 162504 string characters out of 5418376
+ 586766 words of memory out of 5000000
+ 39108 multiletter control sequences out of 15000+600000
  635816 words of font info for 68 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 75i,6n,79p,802b,599s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 75i,10n,79p,802b,648s stack positions out of 10000i,1000n,20000p,200000b,200000s
  <C:\Users\rayen\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcbx1200.pk> <C:\Users\rayen\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcrm1200.pk><C:/Users/rayen/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx10.pfb><C:/Users/rayen/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Users/rayen/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi12.pfb><C:/Users/rayen/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/rayen/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Users/rayen/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr17.pfb><C:/Users/rayen/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Users/rayen/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/rayen/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmti12.pfb><C:/Users/rayen/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmtt12.pfb>
-Output written on report.pdf (15 pages, 228451 bytes).
+Output written on report.pdf (17 pages, 230304 bytes).
 PDF statistics:
- 474 PDF objects out of 1000 (max. 8388607)
+ 477 PDF objects out of 1000 (max. 8388607)
  113 named destinations out of 1000 (max. 500000)
  369 words of extra memory for PDF output out of 10000 (max. 10000000)
 
