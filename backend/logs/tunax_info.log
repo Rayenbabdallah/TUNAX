@@ -16964,3 +16964,15 @@ AttributeError: 'NoneType' object has no attribute 'nom_municipalite_fr'
 2026-01-16 13:20:04,659 INFO: TUNAX application startup
 2026-01-16 13:20:18,033 INFO: TUNAX application startup
 2026-01-16 13:33:15,282 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 13:33:45,516 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 13:34:15,662 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 13:34:45,846 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 13:35:16,036 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 13:35:46,189 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 13:36:16,583 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 13:36:46,767 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 13:37:16,943 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 13:37:47,199 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 13:38:17,353 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 13:38:47,562 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 13:39:17,778 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
