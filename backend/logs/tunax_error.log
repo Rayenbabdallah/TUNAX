@@ -6042,3 +6042,221 @@ WHERE users.username = %(username_1)s OR users.email = %(email_1)s
  LIMIT %(param_1)s]
 [parameters: {'username_1': 'demo_citizen', 'email_1': 'demo_citizen', 'param_1': 1}]
 (Background on this error at: https://sqlalche.me/e/20/f405)
+2026-01-16 12:27:15,078 ERROR: Database Error: (psycopg2.errors.InvalidTextRepresentation) invalid input value for enum paymentmethod: "card"
+LINE 1: ...date, created_at, updated_at) VALUES (2, 2, 72.0, 'card', 'C...
+                                                             ^
+
+[SQL: INSERT INTO payments (user_id, tax_id, amount, method, status, reference_number, attestation_issued, attestation_date, attestation_number, payment_date, created_at, updated_at) VALUES (%(user_id)s, %(tax_id)s, %(amount)s, %(method)s, %(status)s, %(reference_number)s, %(attestation_issued)s, %(attestation_date)s, %(attestation_number)s, %(payment_date)s, %(created_at)s, %(updated_at)s) RETURNING payments.id]
+[parameters: {'user_id': 2, 'tax_id': 2, 'amount': 72.0, 'method': 'card', 'status': 'COMPLETED', 'reference_number': 'REF-259ECF2BAE08DA1E', 'attestation_issued': False, 'attestation_date': None, 'attestation_number': None, 'payment_date': datetime.datetime(2026, 1, 16, 12, 27, 15, 77121), 'created_at': datetime.datetime(2026, 1, 16, 12, 27, 15, 77122), 'updated_at': datetime.datetime(2026, 1, 16, 12, 27, 15, 77123)}]
+(Background on this error at: https://sqlalche.me/e/20/9h9h) [in /app/app.py:309]
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 1969, in _exec_single_context
+    self.dialect.do_execute(
+  File "/usr/local/lib/python3.11/site-packages/sqlalchemy/engine/default.py", line 922, in do_execute
+    cursor.execute(statement, parameters)
+psycopg2.errors.InvalidTextRepresentation: invalid input value for enum paymentmethod: "card"
+LINE 1: ...date, created_at, updated_at) VALUES (2, 2, 72.0, 'card', 'C...
+                                                             ^
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/flask/app.py", line 870, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/flask/app.py", line 855, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/flask_jwt_extended/view_decorators.py", line 170, in decorator
+    return current_app.ensure_sync(fn)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/app/utils/role_required.py", line 28, in wrapper
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/webargs/core.py", line 652, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/flask_smorest/arguments.py", line 85, in wrapper
+    return current_app.ensure_sync(func)(*f_args, **f_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/flask_smorest/response.py", line 89, in wrapper
+    current_app.ensure_sync(func)(*args, **kwargs)
+  File "/app/resources/payment.py", line 120, in make_payment
+    db.session.add(payment)
+    ^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/sqlalchemy/orm/scoping.py", line 598, in commit
+    return self._proxied.commit()
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/sqlalchemy/orm/session.py", line 1969, in commit
+    trans.commit(_to_root=True)
+  File "<string>", line 2, in commit
+  File "/usr/local/lib/python3.11/site-packages/sqlalchemy/orm/state_changes.py", line 139, in _go
+    ret_value = fn(self, *arg, **kw)
+                ^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/sqlalchemy/orm/session.py", line 1256, in commit
+    self._prepare_impl()
+  File "<string>", line 2, in _prepare_impl
+  File "/usr/local/lib/python3.11/site-packages/sqlalchemy/orm/state_changes.py", line 139, in _go
+    ret_value = fn(self, *arg, **kw)
+                ^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/sqlalchemy/orm/session.py", line 1231, in _prepare_impl
+    self.session.flush()
+  File "/usr/local/lib/python3.11/site-packages/sqlalchemy/orm/session.py", line 4312, in flush
+    self._flush(objects)
+  File "/usr/local/lib/python3.11/site-packages/sqlalchemy/orm/session.py", line 4447, in _flush
+    with util.safe_reraise():
+  File "/usr/local/lib/python3.11/site-packages/sqlalchemy/util/langhelpers.py", line 146, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "/usr/local/lib/python3.11/site-packages/sqlalchemy/orm/session.py", line 4408, in _flush
+    flush_context.execute()
+  File "/usr/local/lib/python3.11/site-packages/sqlalchemy/orm/unitofwork.py", line 466, in execute
+    rec.execute(self)
+  File "/usr/local/lib/python3.11/site-packages/sqlalchemy/orm/unitofwork.py", line 642, in execute
+    util.preloaded.orm_persistence.save_obj(
+  File "/usr/local/lib/python3.11/site-packages/sqlalchemy/orm/persistence.py", line 93, in save_obj
+    _emit_insert_statements(
+  File "/usr/local/lib/python3.11/site-packages/sqlalchemy/orm/persistence.py", line 1226, in _emit_insert_statements
+    result = connection.execute(
+             ^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 1416, in execute
+    return meth(
+           ^^^^^
+  File "/usr/local/lib/python3.11/site-packages/sqlalchemy/sql/elements.py", line 516, in _execute_on_connection
+    return connection._execute_clauseelement(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 1639, in _execute_clauseelement
+    ret = self._execute_context(
+          ^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 1848, in _execute_context
+    return self._exec_single_context(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 1988, in _exec_single_context
+    self._handle_dbapi_exception(
+  File "/usr/local/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 2343, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "/usr/local/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 1969, in _exec_single_context
+    self.dialect.do_execute(
+  File "/usr/local/lib/python3.11/site-packages/sqlalchemy/engine/default.py", line 922, in do_execute
+    cursor.execute(statement, parameters)
+sqlalchemy.exc.DataError: (psycopg2.errors.InvalidTextRepresentation) invalid input value for enum paymentmethod: "card"
+LINE 1: ...date, created_at, updated_at) VALUES (2, 2, 72.0, 'card', 'C...
+                                                             ^
+
+[SQL: INSERT INTO payments (user_id, tax_id, amount, method, status, reference_number, attestation_issued, attestation_date, attestation_number, payment_date, created_at, updated_at) VALUES (%(user_id)s, %(tax_id)s, %(amount)s, %(method)s, %(status)s, %(reference_number)s, %(attestation_issued)s, %(attestation_date)s, %(attestation_number)s, %(payment_date)s, %(created_at)s, %(updated_at)s) RETURNING payments.id]
+[parameters: {'user_id': 2, 'tax_id': 2, 'amount': 72.0, 'method': 'card', 'status': 'COMPLETED', 'reference_number': 'REF-259ECF2BAE08DA1E', 'attestation_issued': False, 'attestation_date': None, 'attestation_number': None, 'payment_date': datetime.datetime(2026, 1, 16, 12, 27, 15, 77121), 'created_at': datetime.datetime(2026, 1, 16, 12, 27, 15, 77122), 'updated_at': datetime.datetime(2026, 1, 16, 12, 27, 15, 77123)}]
+(Background on this error at: https://sqlalche.me/e/20/9h9h)
+2026-01-16 12:27:17,140 ERROR: Database Error: (psycopg2.errors.InvalidTextRepresentation) invalid input value for enum disputetype: "calculation"
+LINE 1: ...decision_date, created_at, updated_at) VALUES (2, 'calculati...
+                                                             ^
+
+[SQL: INSERT INTO disputes (claimant_id, dispute_type, subject, description, tax_id, property_id, claimed_amount, status, assigned_to, submission_date, commission_reviewed, commission_review_date, commission_decision, final_decision, final_amount, decision_date, created_at, updated_at) VALUES (%(claimant_id)s, %(dispute_type)s, %(subject)s, %(description)s, %(tax_id)s, %(property_id)s, %(claimed_amount)s, %(status)s, %(assigned_to)s, %(submission_date)s, %(commission_reviewed)s, %(commission_review_date)s, %(commission_decision)s, %(final_decision)s, %(final_amount)s, %(decision_date)s, %(created_at)s, %(updated_at)s) RETURNING disputes.id]
+[parameters: {'claimant_id': 2, 'dispute_type': 'calculation', 'subject': 'Tax calculation appears incorrect', 'description': 'The tax amount seems too high compared to similar properties', 'tax_id': 1, 'property_id': None, 'claimed_amount': 200.0, 'status': 'SUBMITTED', 'assigned_to': None, 'submission_date': datetime.datetime(2026, 1, 16, 12, 27, 17, 137162), 'commission_reviewed': False, 'commission_review_date': None, 'commission_decision': None, 'final_decision': None, 'final_amount': None, 'decision_date': None, 'created_at': datetime.datetime(2026, 1, 16, 12, 27, 17, 138421), 'updated_at': datetime.datetime(2026, 1, 16, 12, 27, 17, 138423)}]
+(Background on this error at: https://sqlalche.me/e/20/9h9h) [in /app/app.py:309]
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 1969, in _exec_single_context
+    self.dialect.do_execute(
+  File "/usr/local/lib/python3.11/site-packages/sqlalchemy/engine/default.py", line 922, in do_execute
+    cursor.execute(statement, parameters)
+psycopg2.errors.InvalidTextRepresentation: invalid input value for enum disputetype: "calculation"
+LINE 1: ...decision_date, created_at, updated_at) VALUES (2, 'calculati...
+                                                             ^
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/flask/app.py", line 870, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/flask/app.py", line 855, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/flask_jwt_extended/view_decorators.py", line 170, in decorator
+    return current_app.ensure_sync(fn)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/app/utils/role_required.py", line 28, in wrapper
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/app/resources/dispute.py", line 43, in submit_dispute
+    db.session.add(dispute)
+    ^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/sqlalchemy/orm/scoping.py", line 598, in commit
+    return self._proxied.commit()
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/sqlalchemy/orm/session.py", line 1969, in commit
+    trans.commit(_to_root=True)
+  File "<string>", line 2, in commit
+  File "/usr/local/lib/python3.11/site-packages/sqlalchemy/orm/state_changes.py", line 139, in _go
+    ret_value = fn(self, *arg, **kw)
+                ^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/sqlalchemy/orm/session.py", line 1256, in commit
+    self._prepare_impl()
+  File "<string>", line 2, in _prepare_impl
+  File "/usr/local/lib/python3.11/site-packages/sqlalchemy/orm/state_changes.py", line 139, in _go
+    ret_value = fn(self, *arg, **kw)
+                ^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/sqlalchemy/orm/session.py", line 1231, in _prepare_impl
+    self.session.flush()
+  File "/usr/local/lib/python3.11/site-packages/sqlalchemy/orm/session.py", line 4312, in flush
+    self._flush(objects)
+  File "/usr/local/lib/python3.11/site-packages/sqlalchemy/orm/session.py", line 4447, in _flush
+    with util.safe_reraise():
+  File "/usr/local/lib/python3.11/site-packages/sqlalchemy/util/langhelpers.py", line 146, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "/usr/local/lib/python3.11/site-packages/sqlalchemy/orm/session.py", line 4408, in _flush
+    flush_context.execute()
+  File "/usr/local/lib/python3.11/site-packages/sqlalchemy/orm/unitofwork.py", line 466, in execute
+    rec.execute(self)
+  File "/usr/local/lib/python3.11/site-packages/sqlalchemy/orm/unitofwork.py", line 642, in execute
+    util.preloaded.orm_persistence.save_obj(
+  File "/usr/local/lib/python3.11/site-packages/sqlalchemy/orm/persistence.py", line 93, in save_obj
+    _emit_insert_statements(
+  File "/usr/local/lib/python3.11/site-packages/sqlalchemy/orm/persistence.py", line 1226, in _emit_insert_statements
+    result = connection.execute(
+             ^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 1416, in execute
+    return meth(
+           ^^^^^
+  File "/usr/local/lib/python3.11/site-packages/sqlalchemy/sql/elements.py", line 516, in _execute_on_connection
+    return connection._execute_clauseelement(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 1639, in _execute_clauseelement
+    ret = self._execute_context(
+          ^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 1848, in _execute_context
+    return self._exec_single_context(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 1988, in _exec_single_context
+    self._handle_dbapi_exception(
+  File "/usr/local/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 2343, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "/usr/local/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 1969, in _exec_single_context
+    self.dialect.do_execute(
+  File "/usr/local/lib/python3.11/site-packages/sqlalchemy/engine/default.py", line 922, in do_execute
+    cursor.execute(statement, parameters)
+sqlalchemy.exc.DataError: (psycopg2.errors.InvalidTextRepresentation) invalid input value for enum disputetype: "calculation"
+LINE 1: ...decision_date, created_at, updated_at) VALUES (2, 'calculati...
+                                                             ^
+
+[SQL: INSERT INTO disputes (claimant_id, dispute_type, subject, description, tax_id, property_id, claimed_amount, status, assigned_to, submission_date, commission_reviewed, commission_review_date, commission_decision, final_decision, final_amount, decision_date, created_at, updated_at) VALUES (%(claimant_id)s, %(dispute_type)s, %(subject)s, %(description)s, %(tax_id)s, %(property_id)s, %(claimed_amount)s, %(status)s, %(assigned_to)s, %(submission_date)s, %(commission_reviewed)s, %(commission_review_date)s, %(commission_decision)s, %(final_decision)s, %(final_amount)s, %(decision_date)s, %(created_at)s, %(updated_at)s) RETURNING disputes.id]
+[parameters: {'claimant_id': 2, 'dispute_type': 'calculation', 'subject': 'Tax calculation appears incorrect', 'description': 'The tax amount seems too high compared to similar properties', 'tax_id': 1, 'property_id': None, 'claimed_amount': 200.0, 'status': 'SUBMITTED', 'assigned_to': None, 'submission_date': datetime.datetime(2026, 1, 16, 12, 27, 17, 137162), 'commission_reviewed': False, 'commission_review_date': None, 'commission_decision': None, 'final_decision': None, 'final_amount': None, 'decision_date': None, 'created_at': datetime.datetime(2026, 1, 16, 12, 27, 17, 138421), 'updated_at': datetime.datetime(2026, 1, 16, 12, 27, 17, 138423)}]
+(Background on this error at: https://sqlalche.me/e/20/9h9h)
+2026-01-16 13:10:42,741 CRITICAL: Unexpected Error: 'NoneType' object has no attribute 'nom_municipalite_fr' [in /app/app.py:357]
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/flask/app.py", line 870, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/flask/app.py", line 855, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/flask_jwt_extended/view_decorators.py", line 170, in decorator
+    return current_app.ensure_sync(fn)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/app/utils/role_required.py", line 136, in decorator
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/app/resources/municipal.py", line 92, in get_dashboard
+    'name': Commune.query.get(user.commune_id).nom_municipalite_fr
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'nom_municipalite_fr'

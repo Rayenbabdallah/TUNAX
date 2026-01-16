@@ -86,6 +86,7 @@ docker-compose down -v
 docker-compose up -d
 docker-compose exec backend flask db upgrade
 docker-compose exec backend python seed_all.py
+docker-compose exec backend python seed_advanced_features.py
 ```
 
 **Services Available:**

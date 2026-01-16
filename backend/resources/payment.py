@@ -12,6 +12,7 @@ from schemas.tax_permit import PaymentCreateSchema, PaymentSchema, AttestationSc
 from utils.role_required import citizen_or_business_required, finance_required, municipality_required
 from utils.validators import ErrorMessages
 from utils.calculator import TaxCalculator
+from utils.email_notifier import send_payment_confirmation
 from datetime import datetime, date
 import secrets
 
@@ -118,6 +119,19 @@ def make_payment(data):
     
     db.session.add(payment)
     db.session.commit()
+    
+    # Send payment confirmation email
+    user = User.query.get(user_id)
+    if user and user.email:
+        tax_type = 'TIB' if hasattr(tax, 'property') and tax.property else 'TTNB'
+        send_payment_confirmation(
+            user_email=user.email,
+            user_name=user.first_name or user.username,
+            payment_id=str(payment.id),
+            amount=payment.amount,
+            tax_id=str(tax.id),
+            reference_number=payment.reference_number
+        )
     
     from utils.hateoas import HATEOASBuilder
     
@@ -332,7 +346,7 @@ def get_payment_receipt(payment_id):
     
     try:
         # Generate PDF
-        from utils.pdf_generator import receipt_generator
+        from utils.pdf_generator import generate_payment_receipt
         
         # Prepare payment data for PDF
         payment_data = {
@@ -348,7 +362,7 @@ def get_payment_receipt(payment_id):
             'commune_name': asset.commune.nom_municipalite_fr
         }
         
-        pdf_buffer = receipt_generator.generate_payment_receipt(payment_data)
+        pdf_buffer = generate_payment_receipt(payment_data)
         
         return send_file(
             pdf_buffer,

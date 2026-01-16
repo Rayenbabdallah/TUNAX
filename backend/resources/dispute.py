@@ -9,6 +9,7 @@ from models.dispute import Dispute, DisputeStatus, DisputeType
 from schemas import DisputeSchema, DisputeDecisionSchema
 from utils.role_required import citizen_or_business_required, contentieux_required
 from utils.validators import ErrorMessages
+from utils.email_notifier import send_dispute_resolution_notification
 from datetime import datetime
 from marshmallow import ValidationError
 
@@ -27,9 +28,15 @@ def submit_dispute():
     except ValidationError as err:
         return jsonify({'errors': err.messages}), 400
     
+    # Convert dispute_type string to enum
+    try:
+        dispute_type_enum = DisputeType[data['dispute_type'].upper()]
+    except (KeyError, ValueError):
+        return jsonify({'errors': {'dispute_type': f"Invalid dispute type: {data['dispute_type']}. Must be one of: evaluation, calculation, exemption, penalty"}}), 400
+    
     dispute = Dispute(
         claimant_id=user_id,
-        dispute_type=data['dispute_type'],
+        dispute_type=dispute_type_enum,
         subject=data['subject'],
         description=data['description'],
         tax_id=data.get('tax_id'),
@@ -358,6 +365,17 @@ def make_decision(dispute_id):
     dispute.status = DisputeStatus.RESOLVED
     
     db.session.commit()
+    
+    # Send dispute resolution notification email
+    claimant = User.query.get(dispute.claimant_id)
+    if claimant and claimant.email:
+        send_dispute_resolution_notification(
+            user_email=claimant.email,
+            user_name=claimant.first_name or claimant.username,
+            dispute_id=str(dispute.id),
+            resolution_status=data['final_decision'],
+            notes=data.get('notes')
+        )
     
     return jsonify({
         'message': 'Final decision recorded',

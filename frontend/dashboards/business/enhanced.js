@@ -171,9 +171,12 @@ async function ensureCommunes() {
 async function fetchDelegations(communeId) {
     if (!communeId) return [];
     try {
-        const res = await fetch(`${API_BASE}/public/delegations?commune_id=${communeId}`);
+        const res = await fetch(`${API_BASE}/public/localities?commune_id=${communeId}`);
         const data = await res.json();
-        return data.delegations || [];
+        const localities = data.localities || [];
+        // Extract unique delegations from localities
+        const delegations = [...new Set(localities.map(loc => loc.delegation).filter(d => d))];
+        return delegations.map(name => ({ name }));
     } catch {
         return [];
     }

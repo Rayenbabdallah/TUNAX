@@ -7,11 +7,12 @@ import os
 import logging
 from logging.handlers import RotatingFileHandler
 import secrets
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, g
 from flask_cors import CORS
-from flask_jwt_extended import JWTManager
+from flask_jwt_extended import JWTManager, verify_jwt_in_request, get_jwt_identity
 from flask_migrate import Migrate
 from flask_limiter.util import get_remote_address
+from flask_mail import Mail
 from datetime import timedelta
 from werkzeug.exceptions import HTTPException
 from sqlalchemy.exc import SQLAlchemyError
@@ -68,6 +69,26 @@ def create_app(config_name='development'):
     jwt.init_app(app)
     api.init_app(app)
     
+    # Mail configuration (uses environment variables)
+    app.config['MAIL_SERVER'] = os.getenv('MAIL_SERVER', 'smtp.gmail.com')
+    app.config['MAIL_PORT'] = int(os.getenv('MAIL_PORT', 587))
+    app.config['MAIL_USE_TLS'] = os.getenv('MAIL_USE_TLS', 'True').lower() == 'true'
+    app.config['MAIL_USERNAME'] = os.getenv('MAIL_USERNAME', '')
+    app.config['MAIL_PASSWORD'] = os.getenv('MAIL_PASSWORD', '')
+    app.config['MAIL_DEFAULT_SENDER'] = os.getenv('MAIL_DEFAULT_SENDER', 'noreply@tunax.gov.tn')
+    
+    mail = Mail(app)
+    
+    # Store mail instance for use in utilities
+    app.mail = mail
+
+    # Register audit hooks after extensions are ready
+    try:
+        from utils.audit_hooks import register_audit_listeners
+        register_audit_listeners()
+    except Exception as e:
+        app.logger.warning(f"Skipping audit hook registration: {e}")
+    
     # Initialize Flask-Migrate
     migrate = Migrate(app, db, directory='migrations')
     
@@ -81,6 +102,16 @@ def create_app(config_name='development'):
     def check_if_token_revoked(jwt_header, jwt_payload):
         jti = jwt_payload['jti']
         return is_token_blacklisted(jti)
+
+    @app.before_request
+    def attach_current_user():
+        """Cache current user id for audit logging without forcing auth on public routes."""
+        g.current_user_id = None
+        try:
+            verify_jwt_in_request(optional=True)
+            g.current_user_id = get_jwt_identity()
+        except Exception:
+            g.current_user_id = None
     
     # Health check endpoint for Docker container health monitoring
     @app.route('/health', methods=['GET'])

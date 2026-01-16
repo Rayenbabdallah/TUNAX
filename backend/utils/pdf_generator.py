@@ -228,3 +228,31 @@ class ReceiptGenerator:
 
 # Global instance
 receipt_generator = ReceiptGenerator()
+
+# Convenience functions for direct import
+def generate_payment_receipt(payment_data):
+    """Generate payment receipt PDF (convenience function)
+    
+    Args:
+        payment_data: dict with keys: receipt_number, payment_id, payer_name, 
+                     payer_cin, payment_date, amount, method, tax_year, 
+                     property_address, commune_name
+    
+    Returns:
+        BytesIO buffer with PDF data
+    """
+    return receipt_generator.generate_payment_receipt(payment_data)
+
+
+def generate_attestation(attestation_data):
+    """Generate tax attestation PDF (convenience function)
+    
+    Args:
+        attestation_data: dict with keys: attestation_number, issue_date, 
+                         taxpayer_name, taxpayer_cin, property_address, 
+                         commune_name, tax_years, total_paid
+    
+    Returns:
+        BytesIO buffer with PDF data
+    """
+    return receipt_generator.generate_attestation(attestation_data)

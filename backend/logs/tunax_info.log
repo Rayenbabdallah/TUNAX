@@ -16378,3 +16378,588 @@ WHERE users.username = %(username_1)s OR users.email = %(email_1)s
 2026-01-15 18:44:09,660 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
 2026-01-15 18:44:39,863 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
 2026-01-15 18:45:10,045 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-15 18:45:40,275 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-15 18:46:10,488 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-15 18:46:40,831 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-15 18:47:11,030 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-15 18:47:41,211 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-15 18:48:11,379 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-15 18:48:41,562 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-15 18:49:11,741 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-15 18:49:41,932 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-15 18:50:12,099 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-15 18:50:42,335 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-15 18:51:12,507 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-15 18:51:42,673 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-15 18:52:12,935 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-15 18:52:43,125 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-15 18:53:13,293 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-15 18:53:43,471 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-15 18:54:13,652 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-15 18:54:43,810 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-15 18:55:13,979 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-15 18:55:44,174 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-15 18:56:14,331 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-15 18:56:44,505 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-15 18:57:14,708 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-15 18:57:44,922 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-15 18:58:15,105 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-15 18:58:45,290 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-15 18:59:15,509 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-15 18:59:45,658 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-15 19:00:15,853 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-15 19:00:46,040 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-15 19:01:16,233 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-15 19:01:46,471 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-15 19:02:16,640 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-15 19:02:46,823 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-15 19:03:17,175 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-15 19:03:47,360 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-15 19:04:17,543 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-15 19:04:47,741 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-15 19:05:17,903 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-15 19:05:48,097 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-15 19:06:18,270 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-15 19:06:48,473 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-15 19:07:18,680 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-15 19:07:48,860 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-15 19:08:19,038 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-15 19:08:49,427 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-15 19:09:19,629 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-15 19:09:49,801 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-15 19:10:19,972 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-15 19:10:50,172 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-15 19:36:30,316 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-15 19:37:00,481 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-15 19:37:30,700 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-15 19:38:01,154 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-15 19:38:31,382 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-15 19:39:01,531 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-15 19:39:31,695 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-15 19:40:01,864 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-15 19:40:32,028 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-15 19:41:02,240 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-15 19:41:32,422 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-15 19:42:02,598 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-15 19:42:32,822 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-15 19:43:03,043 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-15 19:43:33,208 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-15 19:44:03,382 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-15 19:44:33,571 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-15 19:45:03,737 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-15 19:45:33,894 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-15 19:46:04,084 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-15 19:46:34,265 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-15 19:47:04,581 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-15 19:47:34,744 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-15 19:48:04,926 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-15 19:48:35,111 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-15 19:49:05,300 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-15 19:49:35,502 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-15 19:50:05,697 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-15 19:50:35,880 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-15 19:51:06,053 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-15 19:51:36,284 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-15 19:52:06,465 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-15 19:52:36,675 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-15 19:53:06,843 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-15 19:53:37,011 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-15 19:54:07,181 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-15 19:54:37,438 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-15 19:55:07,601 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-15 19:55:37,802 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-15 19:56:08,136 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-15 19:56:38,327 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 10:41:13,779 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 10:41:44,026 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 10:42:14,251 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 10:42:44,473 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 10:43:14,773 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 10:43:45,052 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 10:44:15,354 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 10:44:45,571 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 10:45:15,810 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 10:45:46,031 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 10:46:16,280 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 10:46:46,520 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 10:47:16,872 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 10:47:47,103 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 10:48:17,364 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 10:48:47,627 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 10:49:17,837 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 10:49:48,124 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 10:50:18,446 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 10:50:48,718 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 10:51:18,968 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 10:51:49,345 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 10:52:19,582 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 10:52:49,792 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 10:53:20,042 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 10:53:50,311 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 10:54:20,592 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 10:54:50,851 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 10:55:21,083 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 10:55:51,335 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 10:56:11,008 WARNING: Bad Request: 400 Bad Request: The browser (or proxy) sent a request that this server could not understand. - http://localhost:5000/api/v1/auth/login
+2026-01-16 10:56:21,623 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 10:56:22,878 WARNING: Bad Request: 400 Bad Request: The browser (or proxy) sent a request that this server could not understand. - http://localhost:5000/api/v1/auth/login
+2026-01-16 10:56:51,906 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 10:57:22,208 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 10:57:52,437 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 10:58:22,676 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 10:58:52,891 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 10:59:22,301 WARNING: HTTP Exception: 422 - The request was well-formed but was unable to be followed due to semantic errors.
+2026-01-16 10:59:23,147 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 10:59:53,405 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 11:00:19,967 WARNING: HTTP Exception: 422 - The request was well-formed but was unable to be followed due to semantic errors.
+2026-01-16 11:00:23,663 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 11:00:33,410 WARNING: HTTP Exception: 422 - The request was well-formed but was unable to be followed due to semantic errors.
+2026-01-16 11:00:46,212 INFO: TUNAX application startup
+2026-01-16 11:00:48,754 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 11:01:19,024 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 11:01:49,503 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 11:02:19,762 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 11:02:49,957 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 11:03:20,172 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 11:03:50,380 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 11:04:20,645 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 11:04:50,858 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 11:05:21,112 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 11:05:51,380 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 11:06:21,806 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 11:06:52,117 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 11:07:22,365 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 11:07:52,632 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 11:08:22,872 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 11:08:53,150 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 11:09:23,332 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 11:33:48,067 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 11:34:18,215 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 11:34:48,357 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 11:35:18,596 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 11:35:48,828 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 11:36:19,209 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 11:36:49,646 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 11:37:19,964 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 11:37:50,162 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 11:38:20,345 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 11:38:50,609 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 11:39:20,775 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 11:39:50,949 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 11:40:21,127 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 11:40:51,285 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 11:41:21,464 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 11:41:51,650 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 11:42:21,906 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 11:42:52,091 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 11:43:22,241 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 11:43:52,391 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 11:44:22,549 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 11:44:52,725 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 11:45:22,912 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 11:45:53,098 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 11:46:23,275 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 11:46:53,610 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 11:47:23,810 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 11:47:54,007 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 11:48:24,198 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 11:48:54,372 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 11:49:24,556 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 11:49:54,737 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 11:50:24,915 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 11:50:55,110 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 11:51:25,279 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 11:51:55,459 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 11:52:25,701 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 11:52:55,847 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 11:53:26,170 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 11:53:56,349 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 11:54:26,518 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 11:54:56,783 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 11:55:26,954 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 11:55:57,119 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 11:56:27,270 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 11:56:57,510 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 11:57:27,691 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 11:57:57,859 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 11:58:28,058 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 11:58:58,236 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 11:59:28,399 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 11:59:58,586 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 12:00:28,760 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 12:00:58,932 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 12:01:29,271 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 12:01:59,421 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 12:02:29,638 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 12:02:59,829 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 12:03:30,013 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 12:04:00,182 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 12:04:30,355 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 12:05:00,526 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 12:05:30,684 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 12:06:00,856 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 12:06:31,061 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 12:07:01,381 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 12:07:31,580 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 12:08:01,759 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 12:08:31,964 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 12:09:02,152 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 12:09:32,345 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 12:10:02,509 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 12:10:32,710 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 12:11:02,907 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 12:11:33,120 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 12:12:03,339 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 12:12:33,508 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 12:13:03,674 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 12:13:33,826 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 12:14:03,999 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 12:14:34,195 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 12:15:04,370 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 12:15:34,530 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 12:16:04,774 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 12:16:34,941 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 12:17:05,100 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 12:17:35,273 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 12:18:05,475 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 12:18:35,676 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 12:19:06,104 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 12:19:36,260 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 12:20:06,409 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 12:20:36,620 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 12:21:06,794 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 12:21:37,215 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 12:22:07,410 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 12:22:37,591 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 12:23:07,751 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 12:23:37,930 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 12:24:08,109 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 12:24:38,306 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 12:25:08,499 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 12:25:38,854 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 12:26:09,268 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 12:26:39,473 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 12:27:09,659 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 12:27:15,078 ERROR: Database Error: (psycopg2.errors.InvalidTextRepresentation) invalid input value for enum paymentmethod: "card"
+LINE 1: ...date, created_at, updated_at) VALUES (2, 2, 72.0, 'card', 'C...
+                                                             ^
+
+[SQL: INSERT INTO payments (user_id, tax_id, amount, method, status, reference_number, attestation_issued, attestation_date, attestation_number, payment_date, created_at, updated_at) VALUES (%(user_id)s, %(tax_id)s, %(amount)s, %(method)s, %(status)s, %(reference_number)s, %(attestation_issued)s, %(attestation_date)s, %(attestation_number)s, %(payment_date)s, %(created_at)s, %(updated_at)s) RETURNING payments.id]
+[parameters: {'user_id': 2, 'tax_id': 2, 'amount': 72.0, 'method': 'card', 'status': 'COMPLETED', 'reference_number': 'REF-259ECF2BAE08DA1E', 'attestation_issued': False, 'attestation_date': None, 'attestation_number': None, 'payment_date': datetime.datetime(2026, 1, 16, 12, 27, 15, 77121), 'created_at': datetime.datetime(2026, 1, 16, 12, 27, 15, 77122), 'updated_at': datetime.datetime(2026, 1, 16, 12, 27, 15, 77123)}]
+(Background on this error at: https://sqlalche.me/e/20/9h9h)
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 1969, in _exec_single_context
+    self.dialect.do_execute(
+  File "/usr/local/lib/python3.11/site-packages/sqlalchemy/engine/default.py", line 922, in do_execute
+    cursor.execute(statement, parameters)
+psycopg2.errors.InvalidTextRepresentation: invalid input value for enum paymentmethod: "card"
+LINE 1: ...date, created_at, updated_at) VALUES (2, 2, 72.0, 'card', 'C...
+                                                             ^
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/flask/app.py", line 870, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/flask/app.py", line 855, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/flask_jwt_extended/view_decorators.py", line 170, in decorator
+    return current_app.ensure_sync(fn)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/app/utils/role_required.py", line 28, in wrapper
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/webargs/core.py", line 652, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/flask_smorest/arguments.py", line 85, in wrapper
+    return current_app.ensure_sync(func)(*f_args, **f_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/flask_smorest/response.py", line 89, in wrapper
+    current_app.ensure_sync(func)(*args, **kwargs)
+  File "/app/resources/payment.py", line 120, in make_payment
+    db.session.add(payment)
+    ^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/sqlalchemy/orm/scoping.py", line 598, in commit
+    return self._proxied.commit()
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/sqlalchemy/orm/session.py", line 1969, in commit
+    trans.commit(_to_root=True)
+  File "<string>", line 2, in commit
+  File "/usr/local/lib/python3.11/site-packages/sqlalchemy/orm/state_changes.py", line 139, in _go
+    ret_value = fn(self, *arg, **kw)
+                ^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/sqlalchemy/orm/session.py", line 1256, in commit
+    self._prepare_impl()
+  File "<string>", line 2, in _prepare_impl
+  File "/usr/local/lib/python3.11/site-packages/sqlalchemy/orm/state_changes.py", line 139, in _go
+    ret_value = fn(self, *arg, **kw)
+                ^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/sqlalchemy/orm/session.py", line 1231, in _prepare_impl
+    self.session.flush()
+  File "/usr/local/lib/python3.11/site-packages/sqlalchemy/orm/session.py", line 4312, in flush
+    self._flush(objects)
+  File "/usr/local/lib/python3.11/site-packages/sqlalchemy/orm/session.py", line 4447, in _flush
+    with util.safe_reraise():
+  File "/usr/local/lib/python3.11/site-packages/sqlalchemy/util/langhelpers.py", line 146, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "/usr/local/lib/python3.11/site-packages/sqlalchemy/orm/session.py", line 4408, in _flush
+    flush_context.execute()
+  File "/usr/local/lib/python3.11/site-packages/sqlalchemy/orm/unitofwork.py", line 466, in execute
+    rec.execute(self)
+  File "/usr/local/lib/python3.11/site-packages/sqlalchemy/orm/unitofwork.py", line 642, in execute
+    util.preloaded.orm_persistence.save_obj(
+  File "/usr/local/lib/python3.11/site-packages/sqlalchemy/orm/persistence.py", line 93, in save_obj
+    _emit_insert_statements(
+  File "/usr/local/lib/python3.11/site-packages/sqlalchemy/orm/persistence.py", line 1226, in _emit_insert_statements
+    result = connection.execute(
+             ^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 1416, in execute
+    return meth(
+           ^^^^^
+  File "/usr/local/lib/python3.11/site-packages/sqlalchemy/sql/elements.py", line 516, in _execute_on_connection
+    return connection._execute_clauseelement(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 1639, in _execute_clauseelement
+    ret = self._execute_context(
+          ^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 1848, in _execute_context
+    return self._exec_single_context(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 1988, in _exec_single_context
+    self._handle_dbapi_exception(
+  File "/usr/local/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 2343, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "/usr/local/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 1969, in _exec_single_context
+    self.dialect.do_execute(
+  File "/usr/local/lib/python3.11/site-packages/sqlalchemy/engine/default.py", line 922, in do_execute
+    cursor.execute(statement, parameters)
+sqlalchemy.exc.DataError: (psycopg2.errors.InvalidTextRepresentation) invalid input value for enum paymentmethod: "card"
+LINE 1: ...date, created_at, updated_at) VALUES (2, 2, 72.0, 'card', 'C...
+                                                             ^
+
+[SQL: INSERT INTO payments (user_id, tax_id, amount, method, status, reference_number, attestation_issued, attestation_date, attestation_number, payment_date, created_at, updated_at) VALUES (%(user_id)s, %(tax_id)s, %(amount)s, %(method)s, %(status)s, %(reference_number)s, %(attestation_issued)s, %(attestation_date)s, %(attestation_number)s, %(payment_date)s, %(created_at)s, %(updated_at)s) RETURNING payments.id]
+[parameters: {'user_id': 2, 'tax_id': 2, 'amount': 72.0, 'method': 'card', 'status': 'COMPLETED', 'reference_number': 'REF-259ECF2BAE08DA1E', 'attestation_issued': False, 'attestation_date': None, 'attestation_number': None, 'payment_date': datetime.datetime(2026, 1, 16, 12, 27, 15, 77121), 'created_at': datetime.datetime(2026, 1, 16, 12, 27, 15, 77122), 'updated_at': datetime.datetime(2026, 1, 16, 12, 27, 15, 77123)}]
+(Background on this error at: https://sqlalche.me/e/20/9h9h)
+2026-01-16 12:27:17,140 ERROR: Database Error: (psycopg2.errors.InvalidTextRepresentation) invalid input value for enum disputetype: "calculation"
+LINE 1: ...decision_date, created_at, updated_at) VALUES (2, 'calculati...
+                                                             ^
+
+[SQL: INSERT INTO disputes (claimant_id, dispute_type, subject, description, tax_id, property_id, claimed_amount, status, assigned_to, submission_date, commission_reviewed, commission_review_date, commission_decision, final_decision, final_amount, decision_date, created_at, updated_at) VALUES (%(claimant_id)s, %(dispute_type)s, %(subject)s, %(description)s, %(tax_id)s, %(property_id)s, %(claimed_amount)s, %(status)s, %(assigned_to)s, %(submission_date)s, %(commission_reviewed)s, %(commission_review_date)s, %(commission_decision)s, %(final_decision)s, %(final_amount)s, %(decision_date)s, %(created_at)s, %(updated_at)s) RETURNING disputes.id]
+[parameters: {'claimant_id': 2, 'dispute_type': 'calculation', 'subject': 'Tax calculation appears incorrect', 'description': 'The tax amount seems too high compared to similar properties', 'tax_id': 1, 'property_id': None, 'claimed_amount': 200.0, 'status': 'SUBMITTED', 'assigned_to': None, 'submission_date': datetime.datetime(2026, 1, 16, 12, 27, 17, 137162), 'commission_reviewed': False, 'commission_review_date': None, 'commission_decision': None, 'final_decision': None, 'final_amount': None, 'decision_date': None, 'created_at': datetime.datetime(2026, 1, 16, 12, 27, 17, 138421), 'updated_at': datetime.datetime(2026, 1, 16, 12, 27, 17, 138423)}]
+(Background on this error at: https://sqlalche.me/e/20/9h9h)
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 1969, in _exec_single_context
+    self.dialect.do_execute(
+  File "/usr/local/lib/python3.11/site-packages/sqlalchemy/engine/default.py", line 922, in do_execute
+    cursor.execute(statement, parameters)
+psycopg2.errors.InvalidTextRepresentation: invalid input value for enum disputetype: "calculation"
+LINE 1: ...decision_date, created_at, updated_at) VALUES (2, 'calculati...
+                                                             ^
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/flask/app.py", line 870, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/flask/app.py", line 855, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/flask_jwt_extended/view_decorators.py", line 170, in decorator
+    return current_app.ensure_sync(fn)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/app/utils/role_required.py", line 28, in wrapper
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/app/resources/dispute.py", line 43, in submit_dispute
+    db.session.add(dispute)
+    ^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/sqlalchemy/orm/scoping.py", line 598, in commit
+    return self._proxied.commit()
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/sqlalchemy/orm/session.py", line 1969, in commit
+    trans.commit(_to_root=True)
+  File "<string>", line 2, in commit
+  File "/usr/local/lib/python3.11/site-packages/sqlalchemy/orm/state_changes.py", line 139, in _go
+    ret_value = fn(self, *arg, **kw)
+                ^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/sqlalchemy/orm/session.py", line 1256, in commit
+    self._prepare_impl()
+  File "<string>", line 2, in _prepare_impl
+  File "/usr/local/lib/python3.11/site-packages/sqlalchemy/orm/state_changes.py", line 139, in _go
+    ret_value = fn(self, *arg, **kw)
+                ^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/sqlalchemy/orm/session.py", line 1231, in _prepare_impl
+    self.session.flush()
+  File "/usr/local/lib/python3.11/site-packages/sqlalchemy/orm/session.py", line 4312, in flush
+    self._flush(objects)
+  File "/usr/local/lib/python3.11/site-packages/sqlalchemy/orm/session.py", line 4447, in _flush
+    with util.safe_reraise():
+  File "/usr/local/lib/python3.11/site-packages/sqlalchemy/util/langhelpers.py", line 146, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "/usr/local/lib/python3.11/site-packages/sqlalchemy/orm/session.py", line 4408, in _flush
+    flush_context.execute()
+  File "/usr/local/lib/python3.11/site-packages/sqlalchemy/orm/unitofwork.py", line 466, in execute
+    rec.execute(self)
+  File "/usr/local/lib/python3.11/site-packages/sqlalchemy/orm/unitofwork.py", line 642, in execute
+    util.preloaded.orm_persistence.save_obj(
+  File "/usr/local/lib/python3.11/site-packages/sqlalchemy/orm/persistence.py", line 93, in save_obj
+    _emit_insert_statements(
+  File "/usr/local/lib/python3.11/site-packages/sqlalchemy/orm/persistence.py", line 1226, in _emit_insert_statements
+    result = connection.execute(
+             ^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 1416, in execute
+    return meth(
+           ^^^^^
+  File "/usr/local/lib/python3.11/site-packages/sqlalchemy/sql/elements.py", line 516, in _execute_on_connection
+    return connection._execute_clauseelement(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 1639, in _execute_clauseelement
+    ret = self._execute_context(
+          ^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 1848, in _execute_context
+    return self._exec_single_context(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 1988, in _exec_single_context
+    self._handle_dbapi_exception(
+  File "/usr/local/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 2343, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "/usr/local/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 1969, in _exec_single_context
+    self.dialect.do_execute(
+  File "/usr/local/lib/python3.11/site-packages/sqlalchemy/engine/default.py", line 922, in do_execute
+    cursor.execute(statement, parameters)
+sqlalchemy.exc.DataError: (psycopg2.errors.InvalidTextRepresentation) invalid input value for enum disputetype: "calculation"
+LINE 1: ...decision_date, created_at, updated_at) VALUES (2, 'calculati...
+                                                             ^
+
+[SQL: INSERT INTO disputes (claimant_id, dispute_type, subject, description, tax_id, property_id, claimed_amount, status, assigned_to, submission_date, commission_reviewed, commission_review_date, commission_decision, final_decision, final_amount, decision_date, created_at, updated_at) VALUES (%(claimant_id)s, %(dispute_type)s, %(subject)s, %(description)s, %(tax_id)s, %(property_id)s, %(claimed_amount)s, %(status)s, %(assigned_to)s, %(submission_date)s, %(commission_reviewed)s, %(commission_review_date)s, %(commission_decision)s, %(final_decision)s, %(final_amount)s, %(decision_date)s, %(created_at)s, %(updated_at)s) RETURNING disputes.id]
+[parameters: {'claimant_id': 2, 'dispute_type': 'calculation', 'subject': 'Tax calculation appears incorrect', 'description': 'The tax amount seems too high compared to similar properties', 'tax_id': 1, 'property_id': None, 'claimed_amount': 200.0, 'status': 'SUBMITTED', 'assigned_to': None, 'submission_date': datetime.datetime(2026, 1, 16, 12, 27, 17, 137162), 'commission_reviewed': False, 'commission_review_date': None, 'commission_decision': None, 'final_decision': None, 'final_amount': None, 'decision_date': None, 'created_at': datetime.datetime(2026, 1, 16, 12, 27, 17, 138421), 'updated_at': datetime.datetime(2026, 1, 16, 12, 27, 17, 138423)}]
+(Background on this error at: https://sqlalche.me/e/20/9h9h)
+2026-01-16 12:27:39,818 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 12:28:09,963 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 12:28:40,167 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 12:29:10,337 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 12:29:40,514 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 12:30:10,715 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 12:30:40,994 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 12:31:11,180 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 12:31:41,356 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 12:32:11,506 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 12:32:41,659 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 12:33:11,852 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 12:33:42,014 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 12:34:12,183 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 12:34:18,207 INFO: TUNAX application startup
+2026-01-16 12:34:21,529 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 12:34:51,696 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 12:35:21,846 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 12:35:51,992 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 12:36:22,224 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 12:36:52,413 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 12:37:22,593 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 12:37:52,782 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 12:38:22,976 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 12:38:53,136 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 12:39:23,322 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 12:39:53,468 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 12:40:23,670 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 12:40:54,069 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 12:41:24,269 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 12:41:54,467 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 12:42:24,698 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 12:42:54,871 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 12:43:25,040 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 12:43:55,214 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 12:44:25,412 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 12:44:55,599 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 12:45:25,779 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 12:45:55,972 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 12:46:26,304 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 12:46:56,498 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 12:47:26,708 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 12:47:56,894 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 12:48:27,065 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 12:48:57,236 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 12:49:27,415 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 12:49:57,615 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 12:50:27,807 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 12:50:57,996 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 12:51:28,198 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 12:51:58,371 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 12:52:28,521 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 12:52:58,677 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 12:53:28,872 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 12:53:59,046 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 12:54:29,226 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 12:54:59,401 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 12:55:29,776 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 12:55:59,924 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 12:56:30,124 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 12:57:00,311 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 12:57:30,502 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 12:58:00,693 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 12:58:30,859 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 12:59:01,046 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 12:59:31,215 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 13:00:01,650 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 13:00:31,823 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
+2026-01-16 13:08:01,673 INFO: TUNAX application startup
+2026-01-16 13:08:16,995 INFO: TUNAX application startup
+2026-01-16 13:08:28,986 INFO: TUNAX application startup
+2026-01-16 13:08:37,632 INFO: TUNAX application startup
+2026-01-16 13:08:39,604 WARNING: Skipping test_cadastral module registration: No module named 'resources.test_cadastral'
+2026-01-16 13:08:39,668 INFO: TUNAX application startup
+2026-01-16 13:08:39,668 INFO: TUNAX application startup
+2026-01-16 13:08:40,354 WARNING: Skipping test_cadastral module registration: No module named 'resources.test_cadastral'
+2026-01-16 13:08:40,354 WARNING: Skipping test_cadastral module registration: No module named 'resources.test_cadastral'
+2026-01-16 13:08:40,395 INFO: TUNAX application startup
+2026-01-16 13:08:40,395 INFO: TUNAX application startup
+2026-01-16 13:08:40,395 INFO: TUNAX application startup
+2026-01-16 13:08:40,490 WARNING: Skipping test_cadastral module registration: No module named 'resources.test_cadastral'
+2026-01-16 13:08:40,490 WARNING: Skipping test_cadastral module registration: No module named 'resources.test_cadastral'
+2026-01-16 13:08:40,490 WARNING: Skipping test_cadastral module registration: No module named 'resources.test_cadastral'
+2026-01-16 13:08:40,550 INFO: TUNAX application startup
+2026-01-16 13:08:40,550 INFO: TUNAX application startup
+2026-01-16 13:08:40,550 INFO: TUNAX application startup
+2026-01-16 13:08:40,550 INFO: TUNAX application startup
+2026-01-16 13:08:40,703 WARNING: Skipping test_cadastral module registration: No module named 'resources.test_cadastral'
+2026-01-16 13:08:40,703 WARNING: Skipping test_cadastral module registration: No module named 'resources.test_cadastral'
+2026-01-16 13:08:40,703 WARNING: Skipping test_cadastral module registration: No module named 'resources.test_cadastral'
+2026-01-16 13:08:40,703 WARNING: Skipping test_cadastral module registration: No module named 'resources.test_cadastral'
+2026-01-16 13:08:40,757 INFO: TUNAX application startup
+2026-01-16 13:08:40,757 INFO: TUNAX application startup
+2026-01-16 13:08:40,757 INFO: TUNAX application startup
+2026-01-16 13:08:40,757 INFO: TUNAX application startup
+2026-01-16 13:08:40,757 INFO: TUNAX application startup
+2026-01-16 13:10:42,741 CRITICAL: Unexpected Error: 'NoneType' object has no attribute 'nom_municipalite_fr'
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/flask/app.py", line 870, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/flask/app.py", line 855, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/flask_jwt_extended/view_decorators.py", line 170, in decorator
+    return current_app.ensure_sync(fn)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/app/utils/role_required.py", line 136, in decorator
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/app/resources/municipal.py", line 92, in get_dashboard
+    'name': Commune.query.get(user.commune_id).nom_municipalite_fr
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'nom_municipalite_fr'
+2026-01-16 13:15:19,139 INFO: TUNAX application startup
+2026-01-16 13:15:48,124 INFO: TUNAX application startup
+2026-01-16 13:16:54,325 INFO: TUNAX application startup
+2026-01-16 13:17:36,656 INFO: TUNAX application startup
+2026-01-16 13:18:38,001 INFO: TUNAX application startup
+2026-01-16 13:19:00,914 INFO: TUNAX application startup
+2026-01-16 13:19:47,279 INFO: TUNAX application startup
+2026-01-16 13:20:04,659 INFO: TUNAX application startup
+2026-01-16 13:20:18,033 INFO: TUNAX application startup

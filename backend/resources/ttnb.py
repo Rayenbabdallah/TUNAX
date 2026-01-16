@@ -14,6 +14,7 @@ from models import Declaration, DeclarationType
 from schemas.tax_permit import LandCreateSchema, LandSchema, TaxResultSchema
 from utils.calculator import TaxCalculator
 from utils.geo import GeoLocator
+from utils.email_notifier import send_tax_declaration_confirmation
 from utils.role_required import citizen_or_business_required, municipality_required
 from utils.validators import Validators, ErrorMessages
 from datetime import datetime
@@ -176,6 +177,16 @@ def declare_land(data):
     
     db.session.add(tax)
     db.session.commit()
+    
+    # Send tax declaration confirmation email
+    if user and user.email:
+        send_tax_declaration_confirmation(
+            user_email=user.email,
+            user_name=user.first_name or user.username,
+            tax_id=str(tax.id),
+            property_address=f"{data['street_address']}, {data['city']}",
+            tax_amount=calc_result['tax_amount']
+        )
     
     return jsonify({
         'message': 'Land declared successfully with legally-correct TTNB calculation (Décret 2017-396)',

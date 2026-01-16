@@ -12,6 +12,7 @@ from marshmallow import ValidationError
 from utils.role_required import citizen_or_business_required, urbanism_required
 from utils.validators import ErrorMessages
 from utils.calculator import TaxCalculator
+from utils.email_notifier import send_permit_decision_notification
 from datetime import datetime
 
 blp = Blueprint('permits', 'permits', url_prefix='/api/v1/permits')
@@ -195,6 +196,17 @@ def make_permit_decision(permit_id):
     permit.notes = data.get('notes')
     
     db.session.commit()
+    
+    # Send permit decision notification email
+    permit_user = User.query.get(permit.user_id)
+    if permit_user and permit_user.email:
+        send_permit_decision_notification(
+            user_email=permit_user.email,
+            user_name=permit_user.first_name or permit_user.username,
+            permit_id=str(permit.id),
+            status=data['status'],
+            reason=data.get('notes')
+        )
     
     return jsonify({
         'message': 'Permit decision recorded',

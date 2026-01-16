@@ -1125,11 +1125,13 @@ async function setupAddressUI(prefix) {
         }
 
         try {
-            const res = await fetch(`${API_BASE}/public/delegations?commune_id=${val}`);
+            const res = await fetch(`${API_BASE}/public/localities?commune_id=${val}`);
             const data = await res.json();
-            const list = data.delegations || [];
-            if (list.length) {
-                delegationSelect.innerHTML = '<option value="">Select delegation…</option>' + list.map(d => `<option value="${d.name}">${d.name}</option>`).join('');
+            const localities = data.localities || [];
+            // Extract unique delegations from localities
+            const delegations = [...new Set(localities.map(loc => loc.delegation).filter(d => d))];
+            if (delegations.length) {
+                delegationSelect.innerHTML = '<option value="">Select delegation…</option>' + delegations.map(d => `<option value="${d}">${d}</option>`).join('');
             } else {
                 delegationSelect.innerHTML = '<option value="">No delegations found</option>';
             }

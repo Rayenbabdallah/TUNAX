@@ -56,11 +56,10 @@ def _validate_upload_file(file_obj, max_mb):
 
 
 @blp.post("/declarations/<int:declaration_id>/documents")
-@blp.arguments(DocumentUploadSchema, location="json")
 @blp.response(201)
 @jwt_required()
 @role_required(UserRole.CITIZEN, UserRole.BUSINESS)
-def upload_document(data, declaration_id):
+def upload_document(declaration_id):
     """Upload a supporting document for a declaration (citizen/business only)."""
 
     uploader_id = get_current_user_id()
