@@ -16963,3 +16963,4 @@ AttributeError: 'NoneType' object has no attribute 'nom_municipalite_fr'
 2026-01-16 13:19:47,279 INFO: TUNAX application startup
 2026-01-16 13:20:04,659 INFO: TUNAX application startup
 2026-01-16 13:20:18,033 INFO: TUNAX application startup
+2026-01-16 13:33:15,282 WARNING: Rate limit exceeded: http://localhost:5000/health from 127.0.0.1
